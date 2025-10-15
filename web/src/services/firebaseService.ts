@@ -445,7 +445,8 @@ export const nftOwnershipService = {
       );
       const querySnapshot = await getDocs(q);
       
-      const deletePromises = querySnapshot.docs.map(doc => doc.ref.delete());
+      const { deleteDoc } = await import('firebase/firestore');
+      const deletePromises = querySnapshot.docs.map(d => deleteDoc(d.ref));
       await Promise.all(deletePromises);
       
       return true;

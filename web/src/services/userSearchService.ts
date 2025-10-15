@@ -20,11 +20,12 @@ export const userSearchService = {
   async searchUsers(query: string, limit: number = 10): Promise<UserSearchResult> {
     try {
       // Try to get real users from AuthContext (if available)
-      let realUsers: User[] = [];
+      // Intentionally not used; kept for future real-time context integration
+      // let realUsers: User[] = [];
       
       try {
         // This will work if we're in a React component context
-        const { useAuth } = await import('../contexts/AuthContext');
+        await import('../contexts/AuthContext');
         // Note: This is a workaround - in a real app, you'd pass the auth context
         // For now, we'll use the Firebase service directly
       } catch (error) {

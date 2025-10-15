@@ -8,13 +8,10 @@ import {
   Eye,
   Calendar,
   User,
-  Building,
   Hash,
   CheckCircle,
   Clock,
-  Mail,
-  ExternalLink,
-  QrCode
+  Mail
 } from 'lucide-react';
 
 interface StudentCertificate {

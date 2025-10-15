@@ -5,7 +5,6 @@ import { certificateService, type Certificate } from '../services/firebaseServic
 import {
   Bell,
   Search,
-  Filter,
   Download,
   Eye,
   Mail,

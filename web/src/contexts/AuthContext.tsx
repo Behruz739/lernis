@@ -235,7 +235,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const users = usersSnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
-      })) as UserData[];
+      })) as unknown as UserData[];
       
       return users;
     } catch (error) {

@@ -268,11 +268,11 @@ export default function MyCertificates() {
                       </div>
                       <h4 className="font-medium text-gray-900 mb-1">{cert.name}</h4>
                       <p className="text-sm text-gray-600 mb-1">{cert.issuer}</p>
-                      {cert.studentName && (
-                        <p className="text-xs text-gray-500 mb-2">Student: {cert.studentName}</p>
+                      {(cert as any).studentName && (
+                        <p className="text-xs text-gray-500 mb-2">Student: {(cert as any).studentName}</p>
                       )}
-                      {cert.certificateId && (
-                        <p className="text-xs text-gray-500 mb-2">ID: {cert.certificateId}</p>
+                      {(cert as any).certificateId && (
+                        <p className="text-xs text-gray-500 mb-2">ID: {(cert as any).certificateId}</p>
                       )}
                       <div className="flex items-center justify-between mb-3">
                         <span className="text-xs text-gray-500">{cert.date}</span>
@@ -281,16 +281,16 @@ export default function MyCertificates() {
                           {cert.verified ? 'Verified' : 'Pending'}
                         </span>
                       </div>
-                      {cert.badge && (
+                      {(cert as any).badge && (
                         <div className="mb-3">
                           <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                            {cert.badge}
+                            {(cert as any).badge}
                           </span>
                         </div>
                       )}
-                      {cert.grade && (
+                      {(cert as any).grade && (
                         <div className="mb-3">
-                          <span className="text-xs text-gray-600">Grade: <span className="font-medium">{cert.grade}</span></span>
+                          <span className="text-xs text-gray-600">Grade: <span className="font-medium">{(cert as any).grade}</span></span>
                         </div>
                       )}
                       <div className="flex items-center space-x-2">

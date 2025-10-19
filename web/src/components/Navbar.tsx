@@ -36,7 +36,7 @@ export default function Navbar() {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled 
-        ? 'bg-white/70 backdrop-blur-lg border-b border-gray-200/50 shadow-lg mx-16 mt-4 rounded-2xl' 
+        ? 'bg-white/70 backdrop-blur-lg border-b border-gray-200/50 shadow-lg mx-30 mt-4 rounded-2xl' 
         : 'bg-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -119,7 +119,7 @@ export default function Navbar() {
                   : 'text-gray-900 hover:text-blue-600'
               }`}
             >
-              KSS
+              FAQ
             </a>
             <a 
               href="#contact" 

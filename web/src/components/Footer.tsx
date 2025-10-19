@@ -152,13 +152,13 @@ export default function Footer() {
                 <div className="w-8 h-8 bg-blue-600/20 rounded-lg flex items-center justify-center">
                   <Mail className="h-4 w-4" />
                 </div>
-                <span className="text-sm">support@lernis.com</span>
+                <span className="text-sm">yuldoshev.dsgn@gmail.com</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-300 hover:text-white transition-colors duration-200">
                 <div className="w-8 h-8 bg-green-600/20 rounded-lg flex items-center justify-center">
                   <Phone className="h-4 w-4" />
                 </div>
-                <span className="text-sm">+1 (555) 123-4567</span>
+                <span className="text-sm">+998 93 009 37 85</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-300 hover:text-white transition-colors duration-200">
                 <div className="w-8 h-8 bg-purple-600/20 rounded-lg flex items-center justify-center">

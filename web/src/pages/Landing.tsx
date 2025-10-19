@@ -90,12 +90,12 @@ export default function HomePage() {
         {/* Main gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-50/60 via-transparent to-purple-50/60" />
         
-        {/* Floating orbs with optimized animation */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-400/20 to-cyan-300/20 rounded-full blur-3xl animate-pulse-optimized" />
-        <div className="absolute top-40 right-20 w-96 h-96 bg-gradient-to-br from-purple-400/15 to-pink-300/15 rounded-full blur-3xl animate-pulse-optimized" style={{animationDelay: '2s'}} />
-        <div className="absolute bottom-32 left-1/3 w-80 h-80 bg-gradient-to-br from-indigo-400/18 to-blue-300/18 rounded-full blur-3xl animate-pulse-optimized" style={{animationDelay: '4s'}} />
-        <div className="absolute bottom-40 right-1/4 w-32 h-32 bg-gradient-to-br from-emerald-400/6 to-teal-300/6 rounded-full blur-3xl animate-pulse-optimized" style={{animationDelay: '1s'}} />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-56 h-56 bg-gradient-to-br from-amber-400/10 to-orange-300/10 rounded-full blur-3xl animate-pulse-optimized" style={{animationDelay: '3s'}} />
+        {/* Floating orbs with enhanced animation */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-400/25 to-cyan-300/25 rounded-full blur-3xl animate-bounce-slow" />
+        <div className="absolute top-40 right-20 w-96 h-96 bg-gradient-to-br from-purple-400/20 to-pink-300/20 rounded-full blur-3xl animate-float-gentle" style={{animationDelay: '2s'}} />
+        <div className="absolute bottom-32 left-1/3 w-80 h-80 bg-gradient-to-br from-indigo-400/22 to-blue-300/22 rounded-full blur-3xl animate-pulse-slow" style={{animationDelay: '4s'}} />
+        <div className="absolute bottom-40 right-1/4 w-32 h-32 bg-gradient-to-br from-emerald-400/15 to-teal-300/15 rounded-full blur-3xl animate-spin-slow" style={{animationDelay: '1s'}} />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-56 h-56 bg-gradient-to-br from-amber-400/18 to-orange-300/18 rounded-full blur-3xl animate-wiggle" style={{animationDelay: '3s'}} />
         
         {/* Subtle grid pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.03)_1px,transparent_1px)] bg-[size:50px_50px]" />
@@ -116,35 +116,37 @@ export default function HomePage() {
       </Suspense>
 
       {/* Split hero */}
-      <section className="relative pt-8 sm:pt-12 lg:pt-16">
+      <section className="relative pt-16 sm:pt-20 lg:pt-24">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
               {/* Left copy */}
               <div>
-                <div className="inline-flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-blue-600/10 text-blue-600 mb-3 sm:mb-5">
-                  <GraduationCap className="h-4 w-4 sm:h-5 sm:w-5" />
+                <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                  <div className="inline-flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-blue-600/10 text-blue-600">
+                    <GraduationCap className="h-4 w-4 sm:h-5 sm:w-5" />
+                  </div>
+                  <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-purple-600">RAQAMLI SERTIFIKATLAR</p>
                 </div>
-                <p className="mb-2 text-xs sm:text-sm font-semibold uppercase tracking-widest text-purple-600">RAQAMLI SERTIFIKATLAR</p>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight font-extrabold tracking-tight text-gray-900">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight font-extrabold tracking-tight text-gray-900">
                   Barcha <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">diplom</span> va
                   <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> sertifikatlar</span> uchun bitta joy
                 </h1>
-                <p className="mt-3 max-w-xl text-gray-600 text-sm sm:text-base md:text-lg">
+                <p className="mt-2 max-w-xl text-gray-600 text-sm sm:text-base">
                   LERNIS — universitetlar beradigan diplom va sertifikatlarni raqamli, xavfsiz va doimiy saqlaydi. Talabalar ularni istalgan joyda onlayn ko‘rsatishi va ulashishi mumkin — qog‘oz olib yurish shart emas.
                 </p>
 
                 <div className="mt-3 sm:mt-4 flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
-                  <Link to="/auth/register" className="inline-flex items-center gap-2 rounded-full px-4 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-white bg-gray-900 hover:bg-black transition">
+                  <Link to="/auth/register" className="inline-flex items-center gap-2 rounded-full px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 hover:shadow-lg hover:scale-105 transition-all duration-300 transform">
                     Boshlash
-                    <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 group-hover:translate-x-1 transition-transform duration-300" />
                   </Link>
-                  <button type="button" className="inline-flex items-center gap-2 rounded-full px-4 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold bg-white text-gray-900 border border-gray-200 hover:bg-gray-50 transition" aria-label="Mahsulot demosini ko‘rish">
-                    <Play className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" /> Demoni ko‘rish
+                  <button type="button" className="inline-flex items-center gap-2 rounded-full px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold bg-white text-gray-900 border border-gray-200 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 hover:shadow-lg hover:scale-105 hover:border-gray-300 transition-all duration-300 transform" aria-label="Mahsulot demosini ko'rish">
+                    <Play className="h-3 w-3 sm:h-4 sm:w-4 group-hover:scale-110 transition-transform duration-300" aria-hidden="true" /> Demoni ko'rish
                   </button>
                 </div>
 
-                <form onSubmit={handleSearch} className="mt-3 sm:mt-4 flex max-w-md rounded-3xl border-2 border-gray-200 bg-white/90 backdrop-blur-sm p-1 shadow-lg focus-within:border-blue-500 focus-within:shadow-blue-100">
-                  <div className="flex-1 flex items-center px-3 sm:px-4 py-2.5 sm:py-3">
+                <form onSubmit={handleSearch} className="mt-3 sm:mt-4 flex max-w-md rounded-3xl border-2 border-gray-200 bg-white/95 backdrop-blur-md p-1 shadow-lg hover:shadow-xl focus-within:border-blue-500 focus-within:shadow-blue-200 focus-within:scale-105 transition-all duration-300 transform">
+                  <div className="flex-1 flex items-center px-2 sm:px-3 py-2 sm:py-2.5">
                     <Search className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 mr-2 sm:mr-3" />
                     <input 
                       type="text" 
@@ -157,7 +159,7 @@ export default function HomePage() {
                   </div>
                   <button 
                     type="submit" 
-                    className="inline-flex items-center gap-2 rounded-3xl bg-gradient-to-r from-blue-600 to-purple-600 px-4 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-white shadow-md"
+                    className="inline-flex items-center gap-2 rounded-3xl bg-gradient-to-r from-blue-600 to-purple-600 px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-white shadow-md hover:shadow-lg hover:scale-105 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform"
                   >
                     <Search className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" /> 
                     Tekshirish
@@ -184,16 +186,16 @@ export default function HomePage() {
                      decoding="async"
                      fetchPriority="high"
                    />
-                   {/* Floating elements around the main image */}
-                   <div className="absolute -top-4 -right-4 w-6 h-6 lg:w-8 lg:h-8 bg-blue-500 rounded-full animate-pulse-optimized"></div>
-                   <div className="absolute -bottom-4 -left-4 w-4 h-4 lg:w-6 lg:h-6 bg-purple-500 rounded-full animate-pulse-optimized" style={{animationDelay: '1s'}}></div>
-                   <div className="absolute top-1/2 -left-6 lg:-left-8 w-3 h-3 lg:w-4 lg:h-4 bg-green-500 rounded-full animate-pulse-optimized" style={{animationDelay: '2s'}}></div>
+                   {/* Enhanced floating elements around the main image */}
+                   <div className="absolute -top-4 -right-4 w-6 h-6 lg:w-8 lg:h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full animate-bounce-slow shadow-lg"></div>
+                   <div className="absolute -bottom-4 -left-4 w-4 h-4 lg:w-6 lg:h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-float-gentle shadow-lg" style={{animationDelay: '1s'}}></div>
+                   <div className="absolute top-1/2 -left-6 lg:-left-8 w-3 h-3 lg:w-4 lg:h-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full animate-wiggle shadow-lg" style={{animationDelay: '2s'}}></div>
                  </div>
                </div>
             </div>
 
             {/* Space before next sections */}
-            <div className="h-6 sm:h-8 lg:h-10" />
+            <div className="h-4 sm:h-6 lg:h-8" />
           </div>
         </section>
 
@@ -885,25 +887,25 @@ export default function HomePage() {
               {
                 icon: <Mail className="h-5 w-5" />,
                 title: "Email",
-                description: "support@edunft.com",
-                link: "mailto:support@edunft.com"
+                description: "yuldoshev.dsgn@gmail.com",
+                link: "mailto:yuldoshev.dsgn@gmail.com"
               },
               {
                 icon: <Phone className="h-5 w-5" />,
                 title: "Phone",
-                description: "+1 (555) 123-4567",
-                link: "tel:+15551234567"
+                description: "+998 93 009 3785",
+                link: "tel:+930093785"
               },
               {
                 icon: <MapPin className="h-5 w-5" />,
                 title: "Address",
-                description: "123 Blockchain St, Tech City, TC 12345",
+                description: "Tashkent, Uzbekistan",
                 link: "#"
               },
               {
                 icon: <Clock className="h-5 w-5" />,
                 title: "Business Hours",
-                description: "Mon-Fri: 9AM-6PM EST",
+                description: "24/7",
                 link: "#"
               }
             ].map((info, index) => (
@@ -943,7 +945,7 @@ export default function HomePage() {
                   className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold border-2 border-white text-white hover:bg-white hover:text-gray-900 transition"
                 >
                   <Play className="h-3 w-3" />
-                  Demoslotni belgilash
+                  Demo uchun
                 </Link>
               </div>
             </div>

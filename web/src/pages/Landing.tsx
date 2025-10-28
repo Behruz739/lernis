@@ -19,13 +19,88 @@ import {
   Clock, 
   Phone, 
   Mail, 
-  AlertCircle 
+  AlertCircle,
+  Hammer
 } from 'lucide-react';
 // Lazy load components for better performance
 const Navbar = lazy(() => import('../components/Navbar'));
 const Footer = lazy(() => import('../components/Footer'));
 
+// Coming Soon Mode - Set to true to show coming soon page
+const COMING_SOON_MODE = true;
+
+// Coming Soon Component
+function ComingSoonPage() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-100/40 relative overflow-hidden flex items-center justify-center">
+      {/* Animated background elements */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-400/25 to-cyan-300/25 rounded-full blur-3xl animate-bounce-slow" />
+        <div className="absolute bottom-32 left-1/3 w-80 h-80 bg-gradient-to-br from-purple-400/22 to-pink-300/22 rounded-full blur-3xl animate-float-gentle" />
+        <div className="absolute top-1/2 right-1/4 w-56 h-56 bg-gradient-to-br from-amber-400/18 to-orange-300/18 rounded-full blur-3xl animate-pulse-slow" />
+      </div>
+
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        {/* Icon */}
+        <div className="mb-8 inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-blue-600 to-purple-600 rounded-3xl shadow-2xl">
+          <Hammer className="h-12 w-12 text-white animate-pulse" />
+        </div>
+
+        {/* Title */}
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-6">
+          Biz hozir bu loyihani{' '}
+          <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            qurayabmiz
+          </span>
+        </h1>
+
+        {/* Description */}
+        <p className="text-lg sm:text-xl text-gray-600 mb-4 max-w-2xl mx-auto">
+          Tez orada maxsus yangiliklar bilan qaytamiz!
+        </p>
+
+        {/* Date Info */}
+        <div className="inline-flex items-center gap-2 px-6 py-3 bg-blue-50 border-2 border-blue-200 rounded-full text-blue-700 font-semibold mb-8">
+          <Clock className="h-5 w-5" />
+          <span>Yanvar 2026 yilda ochiladi</span>
+        </div>
+
+        {/* Contact Info */}
+        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-8 border border-gray-200/50">
+          <h2 className="text-xl font-bold text-gray-900 mb-6">Biz bilan bog'lanish</h2>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <a 
+              href="mailto:yuldoshev.dsgn@gmail.com" 
+              className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors"
+            >
+              <Mail className="h-5 w-5" />
+              <span>yuldoshev.dsgn@gmail.com</span>
+            </a>
+            <a 
+              href="tel:+998930093785" 
+              className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors"
+            >
+              <Phone className="h-5 w-5" />
+              <span>+998 93 009 37 85</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Small text */}
+        <p className="mt-8 text-sm text-gray-500">
+          © 2025 Lernis. Barcha huquqlar himoyalangan.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function HomePage() {
+  // Show coming soon page if enabled
+  if (COMING_SOON_MODE) {
+    return <ComingSoonPage />;
+  }
+
   const [searchId, setSearchId] = useState('');
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [waitlistEmail, setWaitlistEmail] = useState('');

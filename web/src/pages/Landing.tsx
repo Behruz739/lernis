@@ -355,14 +355,14 @@ export default function HomePage() {
                   <div className="inline-flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-blue-600/10 text-blue-600">
                     <GraduationCap className="h-4 w-4 sm:h-5 sm:w-5" />
                   </div>
-                  <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-purple-600">RAQAMLI SERTIFIKATLAR</p>
+                  <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-purple-600">RAQAMLI TA'LIM PLATFORMASI</p>
                 </div>
                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight font-extrabold tracking-tight text-gray-900">
-                  Barcha <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">diplom</span> va
-                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> sertifikatlar</span> uchun bitta joy
+                  Ta'lim <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">yutuqlaringiz</span> uchun
+                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> yagona platforma</span>
                 </h1>
                 <p className="mt-2 max-w-xl text-gray-600 text-sm sm:text-base">
-                  LERNIS — universitetlar beradigan diplom va sertifikatlarni raqamli, xavfsiz va doimiy saqlaydi. Talabalar ularni istalgan joyda onlayn ko‘rsatishi va ulashishi mumkin — qog‘oz olib yurish shart emas.
+                  LERNIS — hujjatlar, badge'lar, ilmiy ishlar va hamjamiyatni birlashtiruvchi raqamli ta'lim ekotizimi. Har bir talaba, o'qituvchi va universitet uchun to'liq portfolio, reyting va yutuqlar yarating.
                 </p>
 
                 <div className="mt-3 sm:mt-4 flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
@@ -434,10 +434,10 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
-              Dunyo bo‘ylab ta’lim muassasalari ishonadi
+              Ta'lim hamjamiyatining markazi
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Lernis’dan foydalanayotgan minglab muassasalarga qo‘shiling
+              Talabalar, o'qituvchilar va universitetlar bir platformada
             </p>
           </div>
           
@@ -445,34 +445,49 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { 
-                number: "10,000+", 
-                label: "Berilgan sertifikatlar",
-                icon: "📜",
-                color: "from-blue-500 to-cyan-500"
+                number: "200+", 
+                label: "Foydalanuvchilar",
+                icon: <Users className="h-12 w-12" />,
+                color: "from-blue-500 to-cyan-500",
+                bgGradient: "from-blue-50 to-cyan-50",
+                shadowColor: "shadow-blue-500/20"
               },
               { 
-                number: "500+", 
-                label: "Muassasalar",
-                icon: "🏫",
-                color: "from-green-500 to-emerald-500"
+                number: "200+", 
+                label: "Hujjatlar",
+                icon: <FileText className="h-12 w-12" />,
+                color: "from-green-500 to-emerald-500",
+                bgGradient: "from-green-50 to-emerald-50",
+                shadowColor: "shadow-green-500/20"
               },
               { 
-                number: "50+", 
-                label: "Mamlakatlar",
-                icon: "🌍",
-                color: "from-purple-500 to-pink-500"
+                number: "10+", 
+                label: "Badge'lar",
+                icon: <Award className="h-12 w-12" />,
+                color: "from-purple-500 to-pink-500",
+                bgGradient: "from-purple-50 to-pink-50",
+                shadowColor: "shadow-purple-500/20"
               },
               { 
-                number: "99.9%", 
-                label: "Ishlash vaqti",
-                icon: "⚡",
-                color: "from-orange-500 to-red-500"
+                number: "5+", 
+                label: "Ilmiy ishlar",
+                icon: <Database className="h-12 w-12" />,
+                color: "from-orange-500 to-red-500",
+                bgGradient: "from-orange-50 to-red-50",
+                shadowColor: "shadow-orange-500/20"
               }
             ].map((stat, index) => (
               <div key={index} className="text-center group">
                 <div className="mb-4">
-                  <div className="text-4xl mb-2 group-hover:scale-110 transition-transform duration-300">
-                    {stat.icon}
+                  {/* Simple and clean icon container */}
+                  <div className="inline-flex items-center justify-center mb-6">
+                    <div className={`relative bg-gradient-to-br ${stat.color} rounded-2xl p-4 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105`}>
+                      <div className="text-white">
+                        {React.cloneElement(stat.icon, {
+                          className: "h-8 w-8"
+                        })}
+                      </div>
+                    </div>
                   </div>
                   <div className={`text-3xl md:text-4xl font-extrabold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2`}>
                     {stat.number}
@@ -495,8 +510,8 @@ export default function HomePage() {
               <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
               Qanday ishlaydi
             </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Uchta oddiy qadam</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">Yaratishdan ulashishgacha bir necha daqiqada</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Platforma qanday ishlaydi</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">Hujjatlar, badge'lar, ilmiy ishlar va hamjamiyat — barchasi bir joyda</p>
           </div>
 
           {/* Timeline Style */}
@@ -504,31 +519,40 @@ export default function HomePage() {
             {/* Timeline Line */}
             <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-200 via-purple-200 to-green-200 transform -translate-y-1/2"></div>
             
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-4">
               {[
                 {
                   step: "01",
-                  title: "Yaratish & Yuklash",
+                  title: "Ro'yxatdan o'tish",
                   description: "Muassasalar sertifikat ma’lumotlarini yuklaydi va brendlashadi",
-                  icon: <FileText className="h-6 w-6" />,
+                  icon: <Users className="h-6 w-6" />,
                   color: "from-blue-500 to-blue-600",
                   bgColor: "bg-blue-50",
                   borderColor: "border-blue-200"
                 },
                 {
                   step: "02", 
-                  title: "Xavfsiz Saqlash",
-                  description: "Sertifikatlar markaziy platformada ishonchli va yo‘qolmaydigan tarzda saqlanadi",
-                  icon: <Shield className="h-6 w-6" />,
+                  title: "Kontent yaratish",
+                  description: "Hujjatlar yuklang, badge berish yoki ilmiy ish joylashtiring",
+                  icon: <FileText className="h-6 w-6" />,
                   color: "from-purple-500 to-purple-600",
                   bgColor: "bg-purple-50",
                   borderColor: "border-purple-200"
                 },
                 {
                   step: "03",
-                  title: "Darhol Ulashish", 
-                  description: "Talabalar havola yoki QR orqali istalgan joyda ko‘rsatadi",
-                  icon: <CheckCircle className="h-6 w-6" />,
+                  title: "Faollik va reyting", 
+                  description: "Badge oling, ilmiy ishlar yuklang va hamjamiyatda qatnashing",
+                  icon: <Award className="h-6 w-6" />,
+                  color: "from-pink-500 to-pink-600",
+                  bgColor: "bg-pink-50",
+                  borderColor: "border-pink-200"
+                },
+                {
+                  step: "04",
+                  title: "Portfolio yaratish", 
+                  description: "Barcha yutuqlaringizni bir joyda to'plang va ulashing",
+                  icon: <Globe className="h-6 w-6" />,
                   color: "from-green-500 to-green-600",
                   bgColor: "bg-green-50",
                   borderColor: "border-green-200"
@@ -584,53 +608,74 @@ export default function HomePage() {
               Kuchli imkoniyatlar
             </div>
             <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Platforma imkoniyatlari</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">Lernis — sertifikatlarni raqamli, xavfsiz va yo‘qolmaydigan tarzda saqlash hamda ulashish uchun mo‘ljallangan platforma.</p>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">Lernis — hujjatlar, badge'lar, ilmiy ishlar va hamjamiyatni birlashtiruvchi to'liq raqamli ta'lim ekotizimi.</p>
           </div>
 
           {/* Features Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
               {
-                icon: <Shield className="h-5 w-5" />,
-                title: "Kuchli xavfsizlik",
-                description: "Huquqlar bilan boshqariladigan, o‘zgartirib bo‘lmaydigan audit izi va zaxira.",
+                icon: <FileText className="h-5 w-5" />,
+                title: "Raqamli hujjatlar",
+                description: "Diplom, sertifikat va boshqa hujjatlarni xavfsiz saqlash va QR orqali tekshirish.",
                 gradient: "from-blue-500 to-cyan-500",
                 bgGradient: "from-blue-50 to-cyan-50"
               },
               {
-                icon: <Zap className="h-5 w-5" />,
-                title: "Tezkor tekshiruv",
-                description: "Sertifikat haqiqiyligini soniyalarda tekshirishingiz mumkin.",
-                gradient: "from-green-500 to-emerald-500",
-                bgGradient: "from-green-50 to-emerald-50"
+                icon: <Award className="h-5 w-5" />,
+                title: "Badge & Reward",
+                description: "O'qituvchilar talabalarga badge beradi, reyting va motivatsiya tizimi.",
+                gradient: "from-yellow-500 to-orange-500",
+                bgGradient: "from-yellow-50 to-orange-50"
               },
               {
-                icon: <Globe className="h-5 w-5" />,
-                title: "Global kirish",
-                description: "24/7, istalgan joydan xavfsiz kirish va ulashish.",
+                icon: <Database className="h-5 w-5" />,
+                title: "Ilmiy ishlar",
+                description: "Ilmiy ishlarni yuklash, review jarayoni va approval tracking.",
                 gradient: "from-purple-500 to-pink-500",
                 bgGradient: "from-purple-50 to-pink-50"
               },
               {
-                icon: <FileText className="h-5 w-5" />,
-                title: "Moslashuvchan maydonlar",
-                description: "Turli credential turlariga mos moslashuvchan shakllar",
-                gradient: "from-orange-500 to-red-500",
-                bgGradient: "from-orange-50 to-red-50"
+                icon: <Users className="h-5 w-5" />,
+                title: "Community & Forum",
+                description: "Universitetlar uchun yopiq guruhlar, blog, feed va muloqot.",
+                gradient: "from-green-500 to-emerald-500",
+                bgGradient: "from-green-50 to-emerald-50"
               },
               {
-                icon: <GraduationCap className="h-5 w-5" />,
-                title: "Muassasa brendi",
-                description: "Rasmiy logotip va brending bilan sertifikatlar",
+                icon: <Target className="h-5 w-5" />,
+                title: "Reyting tizimi",
+                description: "GPA, badge, ilmiy ishlar va faollik asosida reyting va leaderboard.",
                 gradient: "from-indigo-500 to-blue-500",
                 bgGradient: "from-indigo-50 to-blue-50"
               },
               {
-                icon: <Users className="h-5 w-5" />,
-                title: "Ommaviy import",
-                description: "CSV orqali ko‘plab sertifikatlarni bir yo‘la yuklash",
-                gradient: "from-teal-500 to-green-500",
-                bgGradient: "from-teal-50 to-green-50"
+                icon: <Shield className="h-5 w-5" />,
+                title: "Zero-Knowledge xavfsizlik",
+                description: "Client-side shifrlash, privacy levels va one-time sharing linklar.",
+                gradient: "from-red-500 to-pink-500",
+                bgGradient: "from-red-50 to-pink-50"
+              },
+              {
+                icon: <QrCode className="h-5 w-5" />,
+                title: "QR tekshiruv",
+                description: "Har bir hujjat uchun unikal QR kod va tezkor verification.",
+                gradient: "from-teal-500 to-cyan-500",
+                bgGradient: "from-teal-50 to-cyan-50"
+              },
+              {
+                icon: <Globe className="h-5 w-5" />,
+                title: "Portfolio profili",
+                description: "Har bir foydalanuvchi uchun public portfolio va custom bio.",
+                gradient: "from-violet-500 to-purple-500",
+                bgGradient: "from-violet-50 to-purple-50"
+              },
+              {
+                icon: <Zap className="h-5 w-5" />,
+                title: "Real-time bildirishnomalar",
+                description: "Badge, sertifikat, ilmiy ish holati o'zgarishlari haqida xabarlar.",
+                gradient: "from-amber-500 to-yellow-500",
+                bgGradient: "from-amber-50 to-yellow-50"
               }
             ].map((feature, index) => (
               <div key={index} className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${feature.bgGradient} p-6 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}>
@@ -654,6 +699,102 @@ export default function HomePage() {
                 
                 {/* Hover Effect */}
                 <div className={`absolute inset-0 bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* User Roles Section */}
+      <section id="user-roles" className="py-16 relative bg-gradient-to-br from-gray-50 to-blue-50/30">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-full text-blue-700 text-sm font-semibold mb-6">
+              <Users className="h-4 w-4" />
+              Foydalanuvchi rollari
+            </div>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Har bir rol uchun maxsus imkoniyatlar</h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">Talaba, o'qituvchi, universitet va HR — barcha uchun yagona platforma</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                role: "Talaba / O'quvchi",
+                icon: <GraduationCap className="h-8 w-8" />,
+                description: "Hujjatlarini saqlaydi, badge oladi, ilmiy ish joylaydi",
+                features: [
+                  "Profil va portfolio",
+                  "Hujjatlar saqlash",
+                  "Badge olish",
+                  "Ilmiy ish yuklash",
+                  "Community qatnashish",
+                  "Reyting ko'rish"
+                ],
+                gradient: "from-blue-500 to-cyan-500",
+                bgGradient: "from-blue-50 to-cyan-50"
+              },
+              {
+                role: "O'qituvchi",
+                icon: <Users className="h-8 w-8" />,
+                description: "Talabalarni rag'batlantiradi, badge beradi, sertifikat yaratadi",
+                features: [
+                  "Badge yaratish",
+                  "Talabalarga badge berish",
+                  "Sertifikat yaratish",
+                  "Feedback berish",
+                  "Portfolio ko'rish",
+                  "Statistika"
+                ],
+                gradient: "from-purple-500 to-pink-500",
+                bgGradient: "from-purple-50 to-pink-50"
+              },
+              {
+                role: "Universitet / O'quv markaz",
+                icon: <Award className="h-8 w-8" />,
+                description: "O'quvchilar uchun sertifikat yaratadi, statistikani ko'radi",
+                features: [
+                  "Admin panel",
+                  "Bulk sertifikat yuklash",
+                  "Analytics va statistika",
+                  "Talabalar boshqaruvi",
+                  "Export funksiyalari",
+                  "Verification requests"
+                ],
+                gradient: "from-green-500 to-emerald-500",
+                bgGradient: "from-green-50 to-emerald-50"
+              },
+              {
+                role: "Ish beruvchi / HR",
+                icon: <Shield className="h-8 w-8" />,
+                description: "Diplom va sertifikatni tekshiradi",
+                features: [
+                  "QR verification",
+                  "API orqali tekshirish",
+                  "Hujjat haqiqiyligi",
+                  "Tezkor tekshiruv",
+                  "Bulk verification",
+                  "Report generatsiya"
+                ],
+                gradient: "from-orange-500 to-red-500",
+                bgGradient: "from-orange-50 to-red-50"
+              }
+            ].map((role, index) => (
+              <div key={index} className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${role.bgGradient} p-6 border border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2`}>
+                <div className={`relative z-10 inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${role.gradient} text-white mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                  {role.icon}
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{role.role}</h3>
+                <p className="text-sm text-gray-600 mb-4 leading-relaxed">{role.description}</p>
+                <ul className="space-y-2">
+                  {role.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-start gap-2 text-sm text-gray-700">
+                      <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className={`absolute inset-0 bg-gradient-to-r ${role.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
               </div>
             ))}
           </div>
@@ -727,7 +868,7 @@ export default function HomePage() {
               </div>
                 <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-3">Lernis haqida</h2>
                 <p className="text-base text-gray-600 leading-relaxed">
-                  LERNIS — diplom va sertifikatlarni bir joyda raqamli saqlash va ulashish imkonini beruvchi, ishonchli va qulay platforma.
+                  LERNIS — ta'lim tizimidagi barcha hujjatlarni (diplom, sertifikat, ilmiy ish, badge) raqamli, xavfsiz va tekshiriladigan shaklda saqlaydigan, talabalar, o'qituvchilar va universitetlarni birlashtiruvchi ijtimoiy o'quv platformasi.
                 </p>
             </div>
             <div className="hidden lg:block">
@@ -754,7 +895,7 @@ export default function HomePage() {
                   Missiyamiz
                 </h3>
                 <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
-                  Sertifikatlarni tekshirish jarayonini tez, xavfsiz va hamma uchun qulay qilish, ta’lim yutuqlarini ishonchli raqamli ko‘rinishda saqlash va ulashishni ta’minlash.
+                  Har bir foydalanuvchining ta'limdagi to'liq portfolioga aylantirish: uning bilimlari, hujjatlari, yutuqlari va faolligi raqamli portfolioga aylanadi. Ta'lim yutuqlarini ishonchli, xavfsiz va global darajada tan olinadigan shaklda saqlash va ulashish.
                 </p>
               </div>
               
@@ -777,7 +918,7 @@ export default function HomePage() {
                   Vizyonimiz
                 </h3>
                 <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
-                  Har bir ta’lim yutug‘i darhol tekshiriladigan, global darajada tan olinadigan va doimiy xavfsiz saqlanadigan raqamli dunyo.
+                  Talaba va o'qituvchilar uchun yagona raqamli ta'lim muhiti. Nafaqat hujjatlarni saqlaydi, balki o'rganish, motivatsiya, muloqot va reytingni yagona tizimga birlashtiradi. Platformaning kuchi — ishonchlilik, qulaylik va hamjamiyatda.
                 </p>
               </div>
               
@@ -799,7 +940,7 @@ export default function HomePage() {
               {
                 icon: <Globe className="h-5 w-5" />,
                 title: "Kirish qulayligi",
-                description: "Available 24/7, accessible from anywhere in the world.",
+                description: "24/7, istalgan joydan xavfsiz kirish va ulashish imkoniyati.",
                 gradient: "from-green-500 to-emerald-500",
                 bgGradient: "from-green-50 to-emerald-50"
               },
@@ -812,8 +953,8 @@ export default function HomePage() {
               },
               {
                 icon: <Users className="h-5 w-5" />,
-                title: "Inklyuzivlik",
-                description: "Designed to serve educational institutions of all sizes worldwide.",
+                title: "Hamjamiyat",
+                description: "Talabalar, o'qituvchilar va universitetlar uchun yagona platforma va muloqot muhiti.",
                 gradient: "from-orange-500 to-amber-500",
                 bgGradient: "from-orange-50 to-amber-50"
               }
@@ -853,31 +994,37 @@ export default function HomePage() {
               <div className="h-1.5 w-1.5 bg-green-500 rounded-full"></div>
               Tarif rejalar
             </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Soddalashtirilgan narxlash</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">Bepul boshlang va o‘sishingiz bilan kengaytiring. Ta’lim muassasangiz uchun eng mos rejani tanlang.</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Har bir rol uchun mos narxlar</h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">Talabalar bepul, o'qituvchilar va universitetlar uchun qulay narxlar. Barcha funksiyalar bilan boshlang.</p>
           </div>
 
           {/* Pricing Plans */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            {/* Free Plan */}
+            {/* Student Plan - Free */}
             <div className="rounded-2xl bg-white/90 backdrop-blur border border-gray-200/50 p-6 shadow-lg hover:shadow-xl transition-all duration-300 relative group hover:-translate-y-1">
               <div className="text-center mb-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Free</h3>
-                <div className="text-3xl font-extrabold text-gray-900 mb-2">$0</div>
-                <p className="text-gray-600">Perfect for getting started</p>
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl mb-3">
+                  <GraduationCap className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Talaba</h3>
+                <div className="text-3xl font-extrabold text-gray-900 mb-2">Bepul</div>
+                <p className="text-gray-600">Barcha asosiy funksiyalar</p>
               </div>
               
               <ul className="space-y-3 mb-8">
                 {[
-                  "Unlimited verifications",
-                  "Basic issuing (up to 10/month)",
-                  "Community support",
-                  "Standard templates",
-                  "Basic analytics"
+                  "Cheksiz hujjatlar saqlash",
+                  "Badge olish",
+                  "Ilmiy ish yuklash",
+                  "Community qatnashish",
+                  "Portfolio yaratish",
+                  "Reyting ko'rish",
+                  "QR tekshiruv",
+                  "Public profil"
                 ].map((feature, index) => (
                   <li key={index} className="flex items-center gap-3">
                     <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
-                    <span className="text-gray-700">{feature}</span>
+                    <span className="text-gray-700 text-sm">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -887,69 +1034,75 @@ export default function HomePage() {
               </Link>
             </div>
 
-            {/* Pro Plan */}
-            <div className="rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 p-6 shadow-2xl relative transform scale-105 group hover:scale-110 transition-all duration-300">
+            {/* Teacher Plan */}
+            <div className="rounded-2xl bg-gradient-to-br from-purple-600 to-pink-600 p-6 shadow-2xl relative transform scale-105 group hover:scale-110 transition-all duration-300">
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                 <span className="bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-xs font-bold shadow-lg">Eng ommabop</span>
               </div>
               
               <div className="text-center mb-6">
-                <h3 className="text-xl font-bold text-white mb-2">Pro</h3>
-                <div className="text-3xl font-extrabold text-white mb-2">$19</div>
-                <p className="text-blue-100">oyiga</p>
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-white/20 rounded-xl mb-3">
+                  <Users className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">O'qituvchi</h3>
+                <div className="text-3xl font-extrabold text-white mb-2">$9</div>
+                <p className="text-purple-100">oyiga</p>
               </div>
               
               <ul className="space-y-3 mb-8">
                 {[
-                  "Everything in Free",
-                  "Unlimited issuing",
-                  "Custom branding",
-                  "Advanced analytics",
+                  "Barcha Talaba funksiyalari",
+                  "Badge yaratish va berish",
+                  "Sertifikat yaratish",
+                  "Talabalar boshqaruvi",
+                  "Feedback berish",
+                  "Statistika va analytics",
                   "Priority support",
-                  "Bulk import (CSV)",
-                  "API access",
-                  "Webhook notifications"
+                  "Custom branding"
                 ].map((feature, index) => (
                   <li key={index} className="flex items-center gap-3">
                     <CheckCircle className="h-5 w-5 text-white flex-shrink-0" />
-                    <span className="text-blue-100">{feature}</span>
+                    <span className="text-purple-100 text-sm">{feature}</span>
                   </li>
                 ))}
               </ul>
               
               <button className="w-full bg-white text-gray-900 rounded-full px-5 py-2.5 font-semibold hover:bg-gray-100 transition">
-                Pro sinovini boshlash
+                Sinovni boshlash
               </button>
             </div>
             
-            {/* Enterprise Plan */}
+            {/* University Plan */}
             <div className="rounded-2xl bg-white/90 backdrop-blur border border-gray-200/50 p-6 shadow-lg hover:shadow-xl transition-all duration-300 relative group hover:-translate-y-1">
               <div className="text-center mb-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Enterprise</h3>
-                <div className="text-3xl font-extrabold text-gray-900 mb-2">Custom</div>
-                <p className="text-gray-600">Katta tashkilotlar uchun</p>
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl mb-3">
+                  <Award className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Universitet</h3>
+                <div className="text-3xl font-extrabold text-gray-900 mb-2">$49</div>
+                <p className="text-gray-600">oyiga</p>
               </div>
               
               <ul className="space-y-3 mb-8">
                 {[
-                  "Everything in Pro",
-                  "Custom integrations",
-                  "Dedicated support",
-                  "SLA guarantees",
-                  "Custom templates",
-                  "Advanced security",
-                  "On-premise options",
-                  "Training & consulting"
+                  "Barcha O'qituvchi funksiyalari",
+                  "Admin panel",
+                  "Bulk sertifikat yuklash",
+                  "Talabalar boshqaruvi",
+                  "Advanced analytics",
+                  "Export (CSV, XLSX)",
+                  "Verification requests",
+                  "Dedicated support"
                 ].map((feature, index) => (
                   <li key={index} className="flex items-center gap-3">
                     <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
-                    <span className="text-gray-700">{feature}</span>
+                    <span className="text-gray-700 text-sm">{feature}</span>
                   </li>
                 ))}
               </ul>
               
               <button className="w-full bg-gray-900 text-white rounded-full px-5 py-2.5 font-semibold hover:bg-black transition">
-                Savdo bo‘limiga murojaat
+                Savdo bo'limiga murojaat
               </button>
             </div>
           </div>
@@ -967,34 +1120,42 @@ export default function HomePage() {
               <span className="text-xs font-semibold text-purple-600 uppercase tracking-wider">Yordam markazi</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Ko‘p so‘raladigan savollar</h2>
-            <p className="text-lg text-gray-600 max-w-2xl">Lernis haqida bilishingiz kerak bo‘lgan hamma narsa</p>
+            <p className="text-lg text-gray-600 max-w-2xl">Lernis haqida bilishingiz kerak bo'lgan hamma narsa</p>
           </div>
 
            <div className="space-y-3">
              {[
                {
                  question: "Lernis nima?",
-                 answer: "LERNIS — universitetlar beradigan diplom va sertifikatlarni raqamli, xavfsiz va hech qachon yo‘qolmaydigan tarzda saqlash, boshqarish va ulashish uchun platforma."
+                 answer: "LERNIS — raqamli ta'lim platformasi bo'lib, hujjatlar, badge'lar, ilmiy ishlar va hamjamiyatni birlashtiradi. Har bir foydalanuvchi uchun to'liq portfolio, reyting va yutuqlar yaratadi."
+               },
+               {
+                 question: "Qanday foydalanuvchi rollari mavjud?",
+                 answer: "Platformada 4 ta asosiy rol bor: Talaba (hujjatlar saqlash, badge olish), O'qituvchi (badge berish, sertifikat yaratish), Universitet (admin panel, analytics), va HR (verification)."
+               },
+               {
+                 question: "Badge tizimi qanday ishlaydi?",
+                 answer: "O'qituvchilar talabalarga badge beradi, bu reytingga ta'sir qiladi. Badge'lar faollik, yutuqlar va ilmiy ishlar asosida beriladi va talaba profilida ko'rsatiladi."
+               },
+               {
+                 question: "Ilmiy ishlar moduli qanday?",
+                 answer: "Talabalar ilmiy ishlarni yuklaydi, keyin review jarayoni (plagiarism check, supervisor review, committee review) o'tkaziladi. Approval bo'lganda avtomatik sertifikat generatsiya qilinadi."
+               },
+               {
+                 question: "Community va Forum qanday ishlaydi?",
+                 answer: "Universitetlar uchun yopiq guruhlar, umumiy feed, blog yozish, like/comment/repost funksiyalari mavjud. Har bir postga faol foydalanuvchilar ball oladi."
+               },
+               {
+                 question: "Reyting tizimi qanday hisoblanadi?",
+                 answer: "Reyting GPA, badge'lar, ilmiy ishlar va faollik asosida hisoblanadi: TotalScore = (GPA * 10) + (Badges * 5) + (Approved Papers * 8) + (Activity * 2). Universitet, respublika va mintaqaviy reytinglar mavjud."
                },
                {
                  question: "Qanchalik xavfsiz?",
-                 answer: "Hujjatlar rollar asosidagi ruxsatlar bilan himoyalangan, audit izi va zaxiralar mavjud. Hech kim ruxsatsiz o‘zgartira olmaydi."
-               },
-               {
-                 question: "Qanday ulashaman?",
-                 answer: "Shaxsiy havola yoki QR kod orqali istalgan joyda ko‘rsatish va tekshirish mumkin."
-               },
-               {
-                 question: "Narxlar qanday?",
-                 answer: "Boshlanishi bepul. Pro va Enterprise rejalar ko‘proq funksiya va qo‘llab-quvvatlashni taqdim etadi."
+                 answer: "Zero-Knowledge model: client-side AES-256 shifrlash, privacy levels (Public/Private/Selective), one-time sharing linklar (24 soat), va audit izi. Hech kim ruxsatsiz o'zgartira olmaydi."
                },
                {
                  question: "Qanday boshlayman?",
-                 answer: "Ro‘yxatdan o‘ting, muassasa profilingizni tasdiqlang va sertifikatlarni yuklashni boshlang."
-               },
-               {
-                 question: "Rag‘batlantirish qanday ishlaydi?",
-                 answer: "O‘qituvchi va talabalar uchun badge/achievements va reytinglar orqali rag‘batlantirish mexanizmlari mavjud (tez orada)."
+                 answer: "Ro'yxatdan o'ting, rol tanlang (Talaba/O'qituvchi/Universitet), profilingizni to'ldiring va platforma imkoniyatlaridan foydalanishni boshlang."
                }
              ].map((faq, index) => (
                <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">

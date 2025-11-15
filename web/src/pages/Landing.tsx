@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   GraduationCap, 
@@ -20,7 +20,11 @@ import {
   Phone, 
   Mail, 
   AlertCircle,
-  Hammer
+  Hammer,
+  Key,
+  X,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 // Lazy load components for better performance
 const Navbar = lazy(() => import('../components/Navbar'));
@@ -29,84 +33,235 @@ const Footer = lazy(() => import('../components/Footer'));
 // Coming Soon Mode - Set to true to show coming soon page
 const COMING_SOON_MODE = true;
 
+// Password for accessing full landing page (can be changed)
+const ACCESS_PASSWORD = 'lernis2026';
+
 // Coming Soon Component
-function ComingSoonPage() {
+function ComingSoonPage({ onUnlock }: { onUnlock: () => void }) {
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+
+  // Handle ESC key to close modal
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && showPasswordModal) {
+        setShowPasswordModal(false);
+        setPassword('');
+        setError('');
+      }
+    };
+
+    if (showPasswordModal) {
+      document.addEventListener('keydown', handleEscape);
+      // Prevent body scroll when modal is open
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [showPasswordModal]);
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === ACCESS_PASSWORD) {
+      console.log('Parol to\'g\'ri! Landing page ochilmoqda...');
+      setError('');
+      setPassword('');
+      setShowPasswordModal(false);
+      onUnlock();
+    } else {
+      console.log('Noto\'g\'ri parol kiritildi');
+      setError('Noto\'g\'ri parol. Iltimos, qayta urinib ko\'ring.');
+      setPassword('');
+    }
+  };
+
+  const closeModal = () => {
+    setShowPasswordModal(false);
+    setPassword('');
+    setError('');
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-100/40 relative overflow-hidden flex items-center justify-center">
-      {/* Animated background elements */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-400/25 to-cyan-300/25 rounded-full blur-3xl animate-bounce-slow" />
-        <div className="absolute bottom-32 left-1/3 w-80 h-80 bg-gradient-to-br from-purple-400/22 to-pink-300/22 rounded-full blur-3xl animate-float-gentle" />
-        <div className="absolute top-1/2 right-1/4 w-56 h-56 bg-gradient-to-br from-amber-400/18 to-orange-300/18 rounded-full blur-3xl animate-pulse-slow" />
+    <>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-100/40 relative overflow-hidden flex items-center justify-center">
+        {/* Animated background elements */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-400/25 to-cyan-300/25 rounded-full blur-3xl animate-bounce-slow" />
+          <div className="absolute bottom-32 left-1/3 w-80 h-80 bg-gradient-to-br from-purple-400/22 to-pink-300/22 rounded-full blur-3xl animate-float-gentle" />
+          <div className="absolute top-1/2 right-1/4 w-56 h-56 bg-gradient-to-br from-amber-400/18 to-orange-300/18 rounded-full blur-3xl animate-pulse-slow" />
+        </div>
+
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          {/* Icon */}
+          <div className="mb-8 inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-blue-600 to-purple-600 rounded-3xl shadow-2xl">
+            <Hammer className="h-12 w-12 text-white animate-pulse" />
+          </div>
+
+          {/* Title */}
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-6">
+            Biz hozir bu loyihani{' '}
+            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              qurayabmiz
+            </span>
+          </h1>
+
+          {/* Description */}
+          <p className="text-lg sm:text-xl text-gray-600 mb-4 max-w-2xl mx-auto">
+            Tez orada maxsus yangiliklar bilan qaytamiz!
+          </p>
+
+          {/* Date Info */}
+          <div className="inline-flex items-center gap-2 px-6 py-3 bg-blue-50 border-2 border-blue-200 rounded-full text-blue-700 font-semibold mb-8">
+            <Clock className="h-5 w-5" />
+            <span>Yanvar 2026 yilda ochiladi</span>
+          </div>
+
+          {/* Contact Info */}
+          <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-8 border border-gray-200/50 mb-6">
+            <h2 className="text-xl font-bold text-gray-900 mb-6">Biz bilan bog'lanish</h2>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <a 
+                href="mailto:yuldoshev.dsgn@gmail.com" 
+                className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors"
+              >
+                <Mail className="h-5 w-5" />
+                <span>yuldoshev.dsgn@gmail.com</span>
+              </a>
+              <a 
+                href="tel:+998930093785" 
+                className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors"
+              >
+                <Phone className="h-5 w-5" />
+                <span>+998 93 009 37 85</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Access Button */}
+          <button
+            onClick={() => setShowPasswordModal(true)}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-full hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+          >
+            <Key className="h-5 w-5" />
+            <span>Landing pageni ko'rish</span>
+          </button>
+
+          {/* Small text */}
+          <p className="mt-8 text-sm text-gray-500">
+            © 2025 Lernis. Barcha huquqlar himoyalangan.
+          </p>
+        </div>
       </div>
 
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        {/* Icon */}
-        <div className="mb-8 inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-blue-600 to-purple-600 rounded-3xl shadow-2xl">
-          <Hammer className="h-12 w-12 text-white animate-pulse" />
-        </div>
-
-        {/* Title */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-6">
-          Biz hozir bu loyihani{' '}
-          <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            qurayabmiz
-          </span>
-        </h1>
-
-        {/* Description */}
-        <p className="text-lg sm:text-xl text-gray-600 mb-4 max-w-2xl mx-auto">
-          Tez orada maxsus yangiliklar bilan qaytamiz!
-        </p>
-
-        {/* Date Info */}
-        <div className="inline-flex items-center gap-2 px-6 py-3 bg-blue-50 border-2 border-blue-200 rounded-full text-blue-700 font-semibold mb-8">
-          <Clock className="h-5 w-5" />
-          <span>Yanvar 2026 yilda ochiladi</span>
-        </div>
-
-        {/* Contact Info */}
-        <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-8 border border-gray-200/50">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Biz bilan bog'lanish</h2>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <a 
-              href="mailto:yuldoshev.dsgn@gmail.com" 
-              className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors"
+      {/* Password Modal */}
+      {showPasswordModal && (
+        <div 
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+          onClick={closeModal}
+        >
+          <div 
+            className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 relative animate-in fade-in zoom-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
+              aria-label="Modalni yopish"
             >
-              <Mail className="h-5 w-5" />
-              <span>yuldoshev.dsgn@gmail.com</span>
-            </a>
-            <a 
-              href="tel:+998930093785" 
-              className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors"
-            >
-              <Phone className="h-5 w-5" />
-              <span>+998 93 009 37 85</span>
-            </a>
+              <X className="h-5 w-5" />
+            </button>
+
+            {/* Modal Content */}
+            <div className="text-center mb-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl mb-4">
+                <Key className="h-8 w-8 text-white" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Parol kiriting</h2>
+              <p className="text-gray-600 text-sm">
+                Landing pageni ko'rish uchun parol kiriting
+              </p>
+            </div>
+
+            <form onSubmit={handlePasswordSubmit} className="space-y-4">
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                  Parol
+                </label>
+                <div className="relative">
+                  <input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      setError('');
+                    }}
+                    placeholder="Parolni kiriting"
+                    className="w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    autoFocus
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
+                </div>
+                {error && (
+                  <div className="mt-2 flex items-center gap-2 text-red-600 text-sm">
+                    <AlertCircle className="h-4 w-4" />
+                    <span>{error}</span>
+                  </div>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-[1.02]"
+              >
+                Kirish
+              </button>
+            </form>
           </div>
         </div>
-
-        {/* Small text */}
-        <p className="mt-8 text-sm text-gray-500">
-          © 2025 Lernis. Barcha huquqlar himoyalangan.
-        </p>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 
 export default function HomePage() {
-  // Show coming soon page if enabled
-  if (COMING_SOON_MODE) {
-    return <ComingSoonPage />;
-  }
-
+  // State to control coming soon mode (can be unlocked with password)
+  const [showComingSoon, setShowComingSoon] = useState(COMING_SOON_MODE);
+  
+  // All hooks must be called before any conditional returns
   const [searchId, setSearchId] = useState('');
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const [waitlistEmail, setWaitlistEmail] = useState('');
   const [waitlistSubmitting, setWaitlistSubmitting] = useState(false);
   const [waitlistSuccess, setWaitlistSuccess] = useState<string | null>(null);
   const [waitlistStatus, setWaitlistStatus] = useState<'success' | 'error' | null>(null);
+
+  // Debug: log when showComingSoon changes
+  useEffect(() => {
+    console.log('showComingSoon state:', showComingSoon);
+  }, [showComingSoon]);
+
+  const handleUnlock = () => {
+    console.log('handleUnlock chaqirildi, showComingSoon false qilinmoqda...');
+    setShowComingSoon(false);
+  };
+
+  // Show coming soon page if enabled
+  if (showComingSoon) {
+    return <ComingSoonPage onUnlock={handleUnlock} />;
+  }
 
   const handleJoinWaitlist = async (e: React.FormEvent) => {
     e.preventDefault();

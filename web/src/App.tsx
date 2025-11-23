@@ -13,6 +13,7 @@ const DashboardLayout = lazy(() => import("./components/dashboard/DashboardLayou
 const DashboardHome = lazy(() => import("./pages/dashboard/Home"));
 const DashboardProfile = lazy(() => import("./pages/dashboard/Profile"));
 const DashboardSettings = lazy(() => import("./pages/dashboard/Settings"));
+const DashboardResearch = lazy(() => import("./pages/dashboard/Research"));
 
 export default function App() {
   return (
@@ -43,6 +44,7 @@ export default function App() {
               <Route index element={<DashboardHome />} />
               <Route path="profile" element={<DashboardProfile />} />
               <Route path="settings" element={<DashboardSettings />} />
+              <Route path="research" element={<DashboardResearch />} />
             </Route>
           </Routes>
         </Suspense>

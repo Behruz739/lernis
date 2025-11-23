@@ -36,7 +36,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         { path: '/dashboard', icon: Home, label: 'Home', exact: true },
         { path: '/dashboard/profile', icon: User, label: 'Profile' },
         { path: '/dashboard/certificates', icon: FileText, label: 'Certificates', badge: '3' },
-        { path: '/dashboard/research', icon: BookOpen, label: 'Research', soon: true },
+        { path: '/dashboard/research', icon: BookOpen, label: 'Research' },
         { path: '/dashboard/blog', icon: PenTool, label: 'Blog', soon: true },
         { path: '/dashboard/community', icon: Users, label: 'Community', soon: true },
         { path: '/dashboard/settings', icon: Settings, label: 'Settings' },

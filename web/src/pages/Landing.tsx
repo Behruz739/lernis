@@ -14,6 +14,8 @@ import {
   Database,
   Users,
   Zap,
+  Quote,
+  TrendingUp,
   FileText,
   MapPin,
   Clock,
@@ -31,7 +33,7 @@ const Navbar = lazy(() => import('../components/Navbar'));
 const Footer = lazy(() => import('../components/Footer'));
 
 // Coming Soon Mode - Set to true to show coming soon page
-const COMING_SOON_MODE = true;
+const COMING_SOON_MODE = false;
 
 // Password for accessing full landing page (can be changed)
 const ACCESS_PASSWORD = 'lernis2026';
@@ -315,29 +317,15 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-100/40 relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="pointer-events-none absolute inset-0">
-        {/* Main gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/60 via-transparent to-purple-50/60" />
+      {/* Animated Mesh Gradient Background */}
+      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-purple-400/30 blur-[100px] animate-float-gentle" />
+        <div className="absolute top-[20%] right-[-5%] w-[30%] h-[30%] rounded-full bg-blue-400/30 blur-[100px] animate-bounce-slow" style={{ animationDelay: '2s' }} />
+        <div className="absolute bottom-[-10%] left-[20%] w-[35%] h-[35%] rounded-full bg-pink-400/30 blur-[100px] animate-wiggle" style={{ animationDelay: '4s' }} />
+        <div className="absolute bottom-[10%] right-[10%] w-[25%] h-[25%] rounded-full bg-cyan-400/30 blur-[100px] animate-spin-slow" style={{ animationDelay: '1s' }} />
 
-        {/* Floating orbs with enhanced animation */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-400/25 to-cyan-300/25 rounded-full blur-3xl animate-bounce-slow" />
-        <div className="absolute top-40 right-20 w-96 h-96 bg-gradient-to-br from-purple-400/20 to-pink-300/20 rounded-full blur-3xl animate-float-gentle" style={{ animationDelay: '2s' }} />
-        <div className="absolute bottom-32 left-1/3 w-80 h-80 bg-gradient-to-br from-indigo-400/22 to-blue-300/22 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '4s' }} />
-        <div className="absolute bottom-40 right-1/4 w-32 h-32 bg-gradient-to-br from-emerald-400/15 to-teal-300/15 rounded-full blur-3xl animate-spin-slow" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-56 h-56 bg-gradient-to-br from-amber-400/18 to-orange-300/18 rounded-full blur-3xl animate-wiggle" style={{ animationDelay: '3s' }} />
-
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.03)_1px,transparent_1px)] bg-[size:50px_50px]" />
-
-        {/* Radial gradient overlay for depth */}
-        <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-blue-50/20" />
-      </div>
-
-      {/* Soft gradient blobs */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-20 -left-16 sm:-top-40 sm:-left-32 w-[200px] h-[200px] sm:w-[420px] sm:h-[420px] rounded-full bg-gradient-to-br from-blue-400/25 to-purple-400/25 blur-3xl" />
-        <div className="absolute -bottom-20 -right-16 sm:-bottom-40 sm:-right-32 w-[250px] h-[250px] sm:w-[520px] sm:h-[520px] rounded-full bg-gradient-to-br from-amber-300/20 to-blue-400/20 blur-3xl" />
+        {/* Grid Overlay */}
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light"></div>
       </div>
 
       {/* Navigation Header */}
@@ -346,81 +334,146 @@ export default function HomePage() {
       </Suspense>
 
       {/* Split hero */}
-      <section className="relative pt-16 sm:pt-20 lg:pt-24">
+      <section className="relative pt-12 sm:pt-20 lg:pt-24 pb-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
             {/* Left copy */}
-            <div>
-              <div className="flex items-center gap-2 mb-2 sm:mb-3">
-                <div className="inline-flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-blue-600/10 text-blue-600">
-                  <GraduationCap className="h-4 w-4 sm:h-5 sm:w-5" />
-                </div>
-                <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-purple-600">RAQAMLI TA'LIM PLATFORMASI</p>
+            <div className="relative z-20">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/60 backdrop-blur-md border border-blue-100 shadow-sm mb-4 hover:scale-105 transition-transform duration-300 cursor-default">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                </span>
+                <span className="text-xs font-bold text-blue-600 tracking-wide">RAQAMLI TA'LIM PLATFORMASI</span>
               </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight font-extrabold tracking-tight text-gray-900">
-                Ta'lim <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">yutuqlaringiz</span> uchun
-                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> yagona platforma</span>
+
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-gray-900 mb-4 leading-tight">
+                Ta'lim yutuqlaringiz <br className="hidden sm:block" />
+                <span className="text-blue-600">Raqamli Dunyoda</span>
               </h1>
-              <p className="mt-2 max-w-xl text-gray-600 text-sm sm:text-base">
-                LERNIS — hujjatlar, badge'lar, ilmiy ishlar va hamjamiyatni birlashtiruvchi raqamli ta'lim ekotizimi. Har bir talaba, o'qituvchi va universitet uchun to'liq portfolio, reyting va yutuqlar yarating.
+
+              <p className="mt-2 max-w-lg text-lg text-gray-600 leading-relaxed font-medium">
+                Diplom, sertifikat va ilmiy ishlaringizni yagona ishonchli platformada saqlang va ulashing.
               </p>
 
-              <div className="mt-3 sm:mt-4 flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
-                <Link to="/auth/register" className="inline-flex items-center gap-2 rounded-full px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 hover:shadow-lg hover:scale-105 transition-all duration-300 transform">
-                  Boshlash
-                  <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 group-hover:translate-x-1 transition-transform duration-300" />
+              <div className="mt-5 flex flex-col sm:flex-row items-center gap-3">
+                <Link to="/auth/register" className="group relative inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold text-white bg-gray-900 shadow-lg hover:bg-black hover:shadow-xl hover:scale-105 transition-all duration-300">
+                  <span className="relative z-10">Boshlash</span>
+                  <ArrowRight className="relative z-10 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
                 </Link>
-                <button type="button" className="inline-flex items-center gap-2 rounded-full px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold bg-white text-gray-900 border border-gray-200 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 hover:shadow-lg hover:scale-105 hover:border-gray-300 transition-all duration-300 transform" aria-label="Mahsulot demosini ko'rish">
-                  <Play className="h-3 w-3 sm:h-4 sm:w-4 group-hover:scale-110 transition-transform duration-300" aria-hidden="true" /> Demoni ko'rish
+
+                <button type="button" className="group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold text-gray-700 bg-white border border-gray-200 hover:border-gray-300 hover:bg-gray-50 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300">
+                  <div className="w-6 h-6 rounded-full bg-blue-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <Play className="h-3 w-3 text-blue-600 ml-0.5" fill="currentColor" />
+                  </div>
+                  <span>Demoni ko'rish</span>
                 </button>
               </div>
 
-              <form onSubmit={handleSearch} className="mt-3 sm:mt-4 flex max-w-md rounded-3xl border-2 border-gray-200 bg-white/95 backdrop-blur-md p-1 shadow-lg hover:shadow-xl focus-within:border-blue-500 focus-within:shadow-blue-200 focus-within:scale-105 transition-all duration-300 transform">
-                <div className="flex-1 flex items-center px-2 sm:px-3 py-2 sm:py-2.5">
-                  <Search className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 mr-2 sm:mr-3" />
+              <div className="mt-6 relative max-w-md">
+                <form onSubmit={handleSearch} className="relative flex items-center bg-white rounded-2xl border border-gray-200 p-1.5 shadow-sm transition-all duration-300 hover:shadow-md hover:border-gray-300 group">
+                  <div className="pl-3 pr-2 text-gray-400">
+                    <Search className="h-5 w-5 group-focus-within:text-gray-600 transition-colors" />
+                  </div>
                   <input
                     type="text"
                     placeholder="Sertifikat ID raqamini kiriting"
                     value={searchId}
                     onChange={(e) => setSearchId(e.target.value)}
-                    className="flex-1 text-xs sm:text-sm outline-none bg-transparent placeholder-gray-500 text-gray-900"
-                    aria-label="Tekshiruv uchun sertifikat ID"
+                    className="flex-1 h-10 bg-transparent outline-none text-gray-900 placeholder-gray-500 font-medium text-sm"
                   />
-                </div>
-                <button
-                  type="submit"
-                  className="inline-flex items-center gap-2 rounded-3xl bg-gradient-to-r from-blue-600 to-purple-600 px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-white shadow-md hover:shadow-lg hover:scale-105 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform"
-                >
-                  <Search className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" />
-                  Tekshirish
-                </button>
-              </form>
-
-              {/* Small trust row */}
-              <div className="mt-3 sm:mt-4 flex flex-wrap items-center gap-2 sm:gap-4 text-gray-500/80 text-xs">
-                <div className="inline-flex items-center gap-1"><CheckCircle className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-emerald-600" />Ro‘yxatdan o‘tish shart emas</div>
-                <div className="inline-flex items-center gap-1"><Shield className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-blue-600" />Soxtalashtirishga qarshi</div>
-                <div className="inline-flex items-center gap-1"><QrCode className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-purple-600" />QR orqali tekshiruv</div>
+                  <button
+                    type="submit"
+                    className="ml-2 rounded-xl bg-gray-900 px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-black transition-all duration-300 active:scale-95"
+                  >
+                    Tekshirish
+                  </button>
+                </form>
               </div>
-              <p className="mt-1 sm:mt-2 text-xs text-gray-500">Xavfsiz saqlash, tezkor qidiruv va qulay ulashish.</p>
+
+              {/* Trust Indicators - Minimalist */}
+              <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-gray-500 font-medium">
+                <div className="flex items-center gap-1.5">
+                  <CheckCircle className="h-3.5 w-3.5 text-green-500" />
+                  <span>Ro‘yxatdan o‘tish shart emas</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Shield className="h-3.5 w-3.5 text-blue-500" />
+                  <span>Soxtalashtirishga qarshi</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <QrCode className="h-3.5 w-3.5 text-purple-500" />
+                  <span>QR orqali tekshiruv</span>
+                </div>
+              </div>
             </div>
 
-            {/* Right: Hero Image - Hidden on mobile */}
-            <div className="hidden md:block relative flex items-center justify-center mt-6 sm:mt-8 lg:mt-0">
-              <div className="relative">
-                <img
-                  src="/images/learning-hero.svg"
-                  alt="Lernis Digital Learning Platform"
-                  className="w-full max-w-[500px] md:max-w-[700px] lg:max-w-[900px] h-[300px] md:h-[450px] lg:h-[550px] object-contain animate-float"
-                  loading="eager"
-                  decoding="async"
-                  fetchPriority="high"
-                />
-                {/* Enhanced floating elements around the main image */}
-                <div className="absolute -top-4 -right-4 w-6 h-6 lg:w-8 lg:h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full animate-bounce-slow shadow-lg"></div>
-                <div className="absolute -bottom-4 -left-4 w-4 h-4 lg:w-6 lg:h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-float-gentle shadow-lg" style={{ animationDelay: '1s' }}></div>
-                <div className="absolute top-1/2 -left-6 lg:-left-8 w-3 h-3 lg:w-4 lg:h-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full animate-wiggle shadow-lg" style={{ animationDelay: '2s' }}></div>
+            {/* Right: Interactive 3D Glass Elements */}
+            <div className="hidden md:block relative h-[600px] w-full perspective-1000">
+              {/* Main Certificate Card - Floating Center */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[380px] bg-white/40 backdrop-blur-xl rounded-3xl border border-white/60 shadow-2xl p-6 animate-float z-20">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+                      L
+                    </div>
+                    <div>
+                      <div className="h-2 w-24 bg-gray-800/10 rounded mb-1"></div>
+                      <div className="h-2 w-16 bg-gray-800/10 rounded"></div>
+                    </div>
+                  </div>
+                  <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                    <CheckCircle className="h-5 w-5 text-green-600" />
+                  </div>
+                </div>
+                <div className="space-y-3 mb-6">
+                  <div className="h-4 w-3/4 bg-gray-800/10 rounded"></div>
+                  <div className="h-4 w-full bg-gray-800/10 rounded"></div>
+                  <div className="h-4 w-5/6 bg-gray-800/10 rounded"></div>
+                </div>
+                <div className="flex justify-between items-end">
+                  <div className="flex -space-x-2">
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} className="w-8 h-8 rounded-full bg-gray-200 border-2 border-white"></div>
+                    ))}
+                  </div>
+                  <div className="px-4 py-1.5 bg-blue-600 text-white text-xs rounded-full font-medium">
+                    Verified
+                  </div>
+                </div>
               </div>
+
+              {/* Badge Card - Floating Top Right */}
+              <div className="absolute top-20 right-10 w-48 bg-white/30 backdrop-blur-lg rounded-2xl border border-white/50 shadow-xl p-4 animate-bounce-slow z-10" style={{ animationDelay: '1s' }}>
+                <div className="flex flex-col items-center text-center">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 mb-3 flex items-center justify-center shadow-lg">
+                    <Award className="h-8 w-8 text-white" />
+                  </div>
+                  <div className="font-bold text-gray-800 text-sm">Top Student</div>
+                  <div className="text-xs text-gray-600">Spring 2024</div>
+                </div>
+              </div>
+
+              {/* Stats Card - Floating Bottom Left */}
+              <div className="absolute bottom-32 left-0 w-56 bg-white/30 backdrop-blur-lg rounded-2xl border border-white/50 shadow-xl p-4 animate-float-gentle z-30" style={{ animationDelay: '2s' }}>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 bg-purple-100 rounded-lg">
+                    <TrendingUp className="h-5 w-5 text-purple-600" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-500">Total Score</div>
+                    <div className="font-bold text-gray-900">2,450 XP</div>
+                  </div>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-1.5 mb-1">
+                  <div className="bg-purple-600 h-1.5 rounded-full w-[75%]"></div>
+                </div>
+                <div className="text-right text-[10px] text-gray-500">Top 5%</div>
+              </div>
+
+              {/* Decorative Elements */}
+              <div className="absolute top-1/4 left-10 w-12 h-12 bg-blue-500/20 rounded-full blur-xl animate-pulse"></div>
+              <div className="absolute bottom-1/4 right-20 w-20 h-20 bg-purple-500/20 rounded-full blur-xl animate-pulse" style={{ animationDelay: '1.5s' }}></div>
             </div>
           </div>
 
@@ -447,54 +500,41 @@ export default function HomePage() {
               {
                 number: "200+",
                 label: "Foydalanuvchilar",
-                icon: <Users className="h-12 w-12" />,
+                icon: <Users className="h-8 w-8" />,
                 color: "from-blue-500 to-cyan-500",
-                bgGradient: "from-blue-50 to-cyan-50",
-                shadowColor: "shadow-blue-500/20"
+                bgClass: "bg-blue-50/50"
               },
               {
                 number: "200+",
                 label: "Hujjatlar",
-                icon: <FileText className="h-12 w-12" />,
+                icon: <FileText className="h-8 w-8" />,
                 color: "from-green-500 to-emerald-500",
-                bgGradient: "from-green-50 to-emerald-50",
-                shadowColor: "shadow-green-500/20"
+                bgClass: "bg-green-50/50"
               },
               {
                 number: "10+",
                 label: "Badge'lar",
-                icon: <Award className="h-12 w-12" />,
+                icon: <Award className="h-8 w-8" />,
                 color: "from-purple-500 to-pink-500",
-                bgGradient: "from-purple-50 to-pink-50",
-                shadowColor: "shadow-purple-500/20"
+                bgClass: "bg-purple-50/50"
               },
               {
                 number: "5+",
                 label: "Ilmiy ishlar",
-                icon: <Database className="h-12 w-12" />,
+                icon: <Database className="h-8 w-8" />,
                 color: "from-orange-500 to-red-500",
-                bgGradient: "from-orange-50 to-red-50",
-                shadowColor: "shadow-orange-500/20"
+                bgClass: "bg-orange-50/50"
               }
             ].map((stat, index) => (
-              <div key={index} className="text-center group">
-                <div className="mb-4">
-                  {/* Simple and clean icon container */}
-                  <div className="inline-flex items-center justify-center mb-6">
-                    <div className={`relative bg-gradient-to-br ${stat.color} rounded-2xl p-4 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105`}>
-                      <div className="text-white">
-                        {React.cloneElement(stat.icon, {
-                          className: "h-8 w-8"
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                  <div className={`text-3xl md:text-4xl font-extrabold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2`}>
-                    {stat.number}
-                  </div>
-                  <div className="text-gray-600 font-medium text-sm">
-                    {stat.label}
-                  </div>
+              <div key={index} className={`group relative overflow-hidden rounded-3xl ${stat.bgClass} backdrop-blur-md border border-white/60 p-6 text-center hover:-translate-y-1 transition-all duration-300 hover:shadow-xl`}>
+                <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${stat.color} text-white mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                  {stat.icon}
+                </div>
+                <div className={`text-4xl font-extrabold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2`}>
+                  {stat.number}
+                </div>
+                <div className="text-gray-600 font-medium">
+                  {stat.label}
                 </div>
               </div>
             ))}
@@ -516,10 +556,10 @@ export default function HomePage() {
 
           {/* Timeline Style */}
           <div className="relative">
-            {/* Timeline Line */}
-            <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-200 via-purple-200 to-green-200 transform -translate-y-1/2"></div>
+            {/* Timeline Line - Enhanced */}
+            <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-blue-200 via-purple-200 to-green-200 transform -translate-y-1/2 rounded-full opacity-50"></div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-6">
               {[
                 {
                   step: "01",
@@ -527,8 +567,7 @@ export default function HomePage() {
                   description: "Muassasalar sertifikat ma’lumotlarini yuklaydi va brendlashadi",
                   icon: <Users className="h-6 w-6" />,
                   color: "from-blue-500 to-blue-600",
-                  bgColor: "bg-blue-50",
-                  borderColor: "border-blue-200"
+                  bgClass: "bg-blue-50/60"
                 },
                 {
                   step: "02",
@@ -536,8 +575,7 @@ export default function HomePage() {
                   description: "Hujjatlar yuklang, badge berish yoki ilmiy ish joylashtiring",
                   icon: <FileText className="h-6 w-6" />,
                   color: "from-purple-500 to-purple-600",
-                  bgColor: "bg-purple-50",
-                  borderColor: "border-purple-200"
+                  bgClass: "bg-purple-50/60"
                 },
                 {
                   step: "03",
@@ -545,8 +583,7 @@ export default function HomePage() {
                   description: "Badge oling, ilmiy ishlar yuklang va hamjamiyatda qatnashing",
                   icon: <Award className="h-6 w-6" />,
                   color: "from-pink-500 to-pink-600",
-                  bgColor: "bg-pink-50",
-                  borderColor: "border-pink-200"
+                  bgClass: "bg-pink-50/60"
                 },
                 {
                   step: "04",
@@ -554,34 +591,31 @@ export default function HomePage() {
                   description: "Barcha yutuqlaringizni bir joyda to'plang va ulashing",
                   icon: <Globe className="h-6 w-6" />,
                   color: "from-green-500 to-green-600",
-                  bgColor: "bg-green-50",
-                  borderColor: "border-green-200"
+                  bgClass: "bg-green-50/60"
                 }
               ].map((item, index) => (
                 <div key={index} className="relative group">
-                  {/* Step Circle */}
+                  {/* Step Circle with Glow */}
                   <div className="relative z-10 mx-auto lg:mx-0 w-16 h-16 mb-6">
-                    <div className={`w-16 h-16 rounded-full bg-gradient-to-r ${item.color} flex items-center justify-center text-white font-bold text-lg shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <div className={`absolute inset-0 bg-gradient-to-r ${item.color} rounded-full blur-lg opacity-40 group-hover:opacity-70 transition-opacity duration-300`}></div>
+                    <div className={`relative w-16 h-16 rounded-full bg-gradient-to-r ${item.color} flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300 ring-4 ring-white`}>
                       {item.step}
-                    </div>
-                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center">
-                      <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${item.color}`}></div>
                     </div>
                   </div>
 
-                  {/* Content Card */}
-                  <div className={`${item.bgColor} ${item.borderColor} border rounded-2xl p-6 text-center lg:text-left group-hover:shadow-lg transition-all duration-300`}>
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${item.color} flex items-center justify-center mx-auto lg:mx-0 mb-4 text-white`}>
+                  {/* Content Card - Glassmorphism */}
+                  <div className={`${item.bgClass} backdrop-blur-md border border-white/60 rounded-3xl p-8 text-center lg:text-left group-hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full flex flex-col`}>
+                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${item.color} flex items-center justify-center mx-auto lg:mx-0 mb-6 text-white shadow-md group-hover:rotate-6 transition-transform duration-300`}>
                       {item.icon}
                     </div>
                     <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
-                    <p className="text-gray-600 leading-relaxed">{item.description}</p>
+                    <p className="text-gray-600 leading-relaxed font-medium flex-grow">{item.description}</p>
                   </div>
 
                   {/* Arrow for mobile */}
-                  {index < 2 && (
+                  {index < 3 && (
                     <div className="lg:hidden flex justify-center mt-6">
-                      <ArrowRight className="h-5 w-5 text-gray-400" />
+                      <ArrowRight className="h-6 w-6 text-gray-300 animate-bounce" />
                     </div>
                   )}
                 </div>
@@ -612,93 +646,89 @@ export default function HomePage() {
           </div>
 
           {/* Features Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[minmax(200px,auto)]">
             {[
               {
-                icon: <FileText className="h-5 w-5" />,
+                icon: <Database className="h-8 w-8" />,
+                title: "Research Hub",
+                description: "Ilmiy ishlaringizni xalqaro darajada chop eting, DOI oling va iqtiboslar to'plang. Global ilmiy bazaga ulaning.",
+                gradient: "from-purple-600 to-pink-600",
+                className: "md:col-span-2 md:row-span-2",
+                bgClass: "bg-purple-50/40"
+              },
+              {
+                icon: <Award className="h-8 w-8" />,
+                title: "Gamification",
+                description: "O'qish jarayonini qiziqarli o'yinga aylantiring. Badge'lar to'plang, darajangizni oshiring va do'stlaringiz bilan bellashing.",
+                gradient: "from-orange-500 to-red-500",
+                className: "md:col-span-1 md:row-span-2",
+                bgClass: "bg-orange-50/40"
+              },
+              {
+                icon: <Users className="h-6 w-6" />,
+                title: "Global Hamjamiyat",
+                description: "Dunyo bo'ylab talabalar va ekspertlar bilan fikr almashing, blog yuritib, obunachilar orttiring.",
+                gradient: "from-green-500 to-emerald-600",
+                className: "md:col-span-2",
+                bgClass: "bg-green-50/40"
+              },
+              {
+                icon: <FileText className="h-6 w-6" />,
                 title: "Raqamli hujjatlar",
-                description: "Diplom, sertifikat va boshqa hujjatlarni xavfsiz saqlash va QR orqali tekshirish.",
+                description: "Diplom va sertifikatlarni xavfsiz saqlash.",
                 gradient: "from-blue-500 to-cyan-500",
-                bgGradient: "from-blue-50 to-cyan-50"
+                className: "md:col-span-1",
+                bgClass: "bg-blue-50/40"
               },
               {
-                icon: <Award className="h-5 w-5" />,
-                title: "Badge & Reward",
-                description: "O'qituvchilar talabalarga badge beradi, reyting va motivatsiya tizimi.",
-                gradient: "from-yellow-500 to-orange-500",
-                bgGradient: "from-yellow-50 to-orange-50"
-              },
-              {
-                icon: <Database className="h-5 w-5" />,
-                title: "Ilmiy ishlar",
-                description: "Ilmiy ishlarni yuklash, review jarayoni va approval tracking.",
-                gradient: "from-purple-500 to-pink-500",
-                bgGradient: "from-purple-50 to-pink-50"
-              },
-              {
-                icon: <Users className="h-5 w-5" />,
-                title: "Community & Forum",
-                description: "Universitetlar uchun yopiq guruhlar, blog, feed va muloqot.",
-                gradient: "from-green-500 to-emerald-500",
-                bgGradient: "from-green-50 to-emerald-50"
-              },
-              {
-                icon: <Target className="h-5 w-5" />,
+                icon: <Target className="h-6 w-6" />,
                 title: "Reyting tizimi",
-                description: "GPA, badge, ilmiy ishlar va faollik asosida reyting va leaderboard.",
+                description: "GPA va faollik asosida reyting.",
                 gradient: "from-indigo-500 to-blue-500",
-                bgGradient: "from-indigo-50 to-blue-50"
+                className: "md:col-span-1",
+                bgClass: "bg-indigo-50/40"
               },
               {
-                icon: <Shield className="h-5 w-5" />,
-                title: "Zero-Knowledge xavfsizlik",
-                description: "Client-side shifrlash, privacy levels va one-time sharing linklar.",
+                icon: <Shield className="h-6 w-6" />,
+                title: "Xavfsizlik",
+                description: "Zero-Knowledge shifrlash.",
                 gradient: "from-red-500 to-pink-500",
-                bgGradient: "from-red-50 to-pink-50"
+                className: "md:col-span-1",
+                bgClass: "bg-red-50/40"
               },
               {
-                icon: <QrCode className="h-5 w-5" />,
+                icon: <QrCode className="h-6 w-6" />,
                 title: "QR tekshiruv",
-                description: "Har bir hujjat uchun unikal QR kod va tezkor verification.",
+                description: "Tezkor verification.",
                 gradient: "from-teal-500 to-cyan-500",
-                bgGradient: "from-teal-50 to-cyan-50"
-              },
-              {
-                icon: <Globe className="h-5 w-5" />,
-                title: "Portfolio profili",
-                description: "Har bir foydalanuvchi uchun public portfolio va custom bio.",
-                gradient: "from-violet-500 to-purple-500",
-                bgGradient: "from-violet-50 to-purple-50"
-              },
-              {
-                icon: <Zap className="h-5 w-5" />,
-                title: "Real-time bildirishnomalar",
-                description: "Badge, sertifikat, ilmiy ish holati o'zgarishlari haqida xabarlar.",
-                gradient: "from-amber-500 to-yellow-500",
-                bgGradient: "from-amber-50 to-yellow-50"
+                className: "md:col-span-1",
+                bgClass: "bg-teal-50/40"
               }
             ].map((feature, index) => (
-              <div key={index} className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${feature.bgGradient} p-6 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}>
-                {/* Background Pattern */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div
+                key={index}
+                className={`group relative overflow-hidden rounded-3xl ${feature.bgClass} backdrop-blur-xl border border-white/60 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 p-8 flex flex-col justify-between ${feature.className || ''}`}
+              >
+                {/* Background Glow */}
+                <div className={`absolute -right-10 -top-10 w-32 h-32 bg-gradient-to-br ${feature.gradient} opacity-10 blur-3xl rounded-full group-hover:scale-150 transition-transform duration-700`} />
 
                 {/* Icon */}
-                <div className={`relative z-10 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-r ${feature.gradient} text-white mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                <div className={`relative z-10 inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${feature.gradient} text-white mb-6 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
                   {feature.icon}
                 </div>
 
                 {/* Content */}
                 <div className="relative z-10">
-                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-gray-800 transition-colors duration-300">
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 tracking-tight">
                     {feature.title}
                   </h3>
-                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
+                  <p className="text-gray-600 leading-relaxed font-medium">
                     {feature.description}
                   </p>
                 </div>
 
-                {/* Hover Effect */}
-                <div className={`absolute inset-0 bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
+                {/* Hover Border Gradient */}
+                <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-white/50 transition-colors duration-300 pointer-events-none" />
               </div>
             ))}
           </div>
@@ -780,21 +810,30 @@ export default function HomePage() {
                 bgGradient: "from-orange-50 to-red-50"
               }
             ].map((role, index) => (
-              <div key={index} className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${role.bgGradient} p-6 border border-white/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2`}>
-                <div className={`relative z-10 inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${role.gradient} text-white mb-4 group-hover:scale-110 transition-transform duration-300`}>
+              <div key={index} className={`group relative overflow-hidden rounded-3xl bg-gradient-to-br ${role.bgGradient} p-8 border border-white/60 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2`}>
+                {/* Background Glow */}
+                <div className={`absolute -right-20 -top-20 w-64 h-64 bg-gradient-to-br ${role.gradient} opacity-10 blur-3xl rounded-full group-hover:scale-125 transition-transform duration-700`} />
+
+                <div className={`relative z-10 inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${role.gradient} text-white mb-6 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
                   {role.icon}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{role.role}</h3>
-                <p className="text-sm text-gray-600 mb-4 leading-relaxed">{role.description}</p>
-                <ul className="space-y-2">
+
+                <h3 className="text-2xl font-bold text-gray-900 mb-3 relative z-10">{role.role}</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed relative z-10 font-medium">{role.description}</p>
+
+                <ul className="space-y-3 relative z-10">
                   {role.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-2 text-sm text-gray-700">
-                      <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                      <span>{feature}</span>
+                    <li key={idx} className="flex items-center gap-3 text-sm text-gray-700 group-hover:text-gray-900 transition-colors duration-300">
+                      <div className={`w-5 h-5 rounded-full bg-gradient-to-r ${role.gradient} flex items-center justify-center text-white shadow-sm`}>
+                        <CheckCircle className="h-3 w-3" />
+                      </div>
+                      <span className="font-medium">{feature}</span>
                     </li>
                   ))}
                 </ul>
-                <div className={`absolute inset-0 bg-gradient-to-r ${role.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
+
+                {/* Hover Border */}
+                <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-white/50 transition-colors duration-300 pointer-events-none" />
               </div>
             ))}
           </div>
@@ -822,7 +861,7 @@ export default function HomePage() {
               {
                 name: "Dr. Sarah Johnson",
                 role: "Registrar, MIT",
-                content: "EduNFT has revolutionized how we issue and verify certificates. The blockchain technology ensures our credentials are tamper-proof and globally recognized.",
+                content: "Lernis has revolutionized how we issue and verify certificates. The blockchain technology ensures our credentials are tamper-proof and globally recognized.",
                 avatar: "SJ"
               },
               {
@@ -834,21 +873,26 @@ export default function HomePage() {
               {
                 name: "Lisa Chen",
                 role: "HR Director, Google",
-                content: "Verifying educational credentials has never been easier. We can instantly validate certificates from any institution using EduNFT.",
+                content: "Verifying educational credentials has never been easier. We can instantly validate certificates from any institution using Lernis.",
                 avatar: "LC"
               }
             ].map((testimonial, index) => (
-              <div key={index} className="rounded-2xl bg-white/90 backdrop-blur border border-gray-200/50 p-6 shadow-lg hover:shadow-xl transition-all duration-300 group hover:-translate-y-1">
-                <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-base shadow-lg">
+              <div key={index} className="bg-white/60 backdrop-blur-lg p-8 rounded-3xl shadow-sm border border-white/50 relative hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                {/* Quote Icon */}
+                <div className="absolute top-6 right-8 text-blue-100">
+                  <Quote className="h-12 w-12 opacity-50" />
+                </div>
+
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="h-14 w-14 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-xl shadow-md">
                     {testimonial.avatar}
                   </div>
-                  <div className="ml-3">
-                    <div className="font-bold text-gray-900 text-base">{testimonial.name}</div>
-                    <div className="text-gray-600 font-medium text-sm">{testimonial.role}</div>
+                  <div>
+                    <h4 className="font-bold text-gray-900 text-lg">{testimonial.name}</h4>
+                    <p className="text-blue-600 text-sm font-medium">{testimonial.role}</p>
                   </div>
                 </div>
-                <p className="text-gray-600 italic text-sm leading-relaxed">"{testimonial.content}"</p>
+                <p className="text-gray-600 italic relative z-10 text-lg leading-relaxed">"{testimonial.content}"</p>
               </div>
             ))}
           </div>
@@ -999,19 +1043,21 @@ export default function HomePage() {
           </div>
 
           {/* Pricing Plans */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             {/* Student Plan - Free */}
-            <div className="rounded-2xl bg-white/90 backdrop-blur border border-gray-200/50 p-6 shadow-lg hover:shadow-xl transition-all duration-300 relative group hover:-translate-y-1">
-              <div className="text-center mb-6">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl mb-3">
-                  <GraduationCap className="h-6 w-6 text-white" />
+            <div className="rounded-3xl bg-white/60 backdrop-blur-xl border border-white/60 p-8 shadow-xl hover:shadow-2xl transition-all duration-500 relative group hover:-translate-y-2 flex flex-col">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-cyan-50/50 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+              <div className="relative z-10 text-center mb-8">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <GraduationCap className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Talaba</h3>
-                <div className="text-3xl font-extrabold text-gray-900 mb-2">Bepul</div>
-                <p className="text-gray-600">Barcha asosiy funksiyalar</p>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Talaba</h3>
+                <div className="text-4xl font-extrabold text-gray-900 mb-2">Bepul</div>
+                <p className="text-blue-600 font-medium">Barcha asosiy funksiyalar</p>
               </div>
 
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-4 mb-8 relative z-10 flex-grow">
                 {[
                   "Cheksiz hujjatlar saqlash",
                   "Badge olish",
@@ -1035,21 +1081,23 @@ export default function HomePage() {
             </div>
 
             {/* Teacher Plan */}
-            <div className="rounded-2xl bg-gradient-to-br from-purple-600 to-pink-600 p-6 shadow-2xl relative transform scale-105 group hover:scale-110 transition-all duration-300">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <span className="bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-xs font-bold shadow-lg">Eng ommabop</span>
+            <div className="rounded-3xl bg-gradient-to-br from-purple-600 to-pink-600 p-8 shadow-2xl relative transform scale-105 z-10 flex flex-col">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <span className="bg-yellow-400 text-yellow-900 px-4 py-1.5 rounded-full text-sm font-bold shadow-lg flex items-center gap-1">
+                  <Zap className="h-3 w-3" /> Eng ommabop
+                </span>
               </div>
 
-              <div className="text-center mb-6">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-white/20 rounded-xl mb-3">
-                  <Users className="h-6 w-6 text-white" />
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-2xl mb-4 shadow-inner">
+                  <Users className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2">O'qituvchi</h3>
-                <div className="text-3xl font-extrabold text-white mb-2">$9</div>
-                <p className="text-purple-100">oyiga</p>
+                <h3 className="text-2xl font-bold text-white mb-2">O'qituvchi</h3>
+                <div className="text-5xl font-extrabold text-white mb-2">$9</div>
+                <p className="text-purple-100 font-medium">oyiga</p>
               </div>
 
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-4 mb-8 flex-grow">
                 {[
                   "Barcha Talaba funksiyalari",
                   "Badge yaratish va berish",
@@ -1061,29 +1109,33 @@ export default function HomePage() {
                   "Custom branding"
                 ].map((feature, index) => (
                   <li key={index} className="flex items-center gap-3">
-                    <CheckCircle className="h-5 w-5 text-white flex-shrink-0" />
-                    <span className="text-purple-100 text-sm">{feature}</span>
+                    <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-white">
+                      <CheckCircle className="h-3 w-3" />
+                    </div>
+                    <span className="text-purple-50 font-medium text-sm">{feature}</span>
                   </li>
                 ))}
               </ul>
 
-              <button className="w-full bg-white text-gray-900 rounded-full px-5 py-2.5 font-semibold hover:bg-gray-100 transition">
+              <button className="w-full bg-white text-purple-600 rounded-full px-6 py-3.5 font-bold hover:bg-purple-50 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                 Sinovni boshlash
               </button>
             </div>
 
             {/* University Plan */}
-            <div className="rounded-2xl bg-white/90 backdrop-blur border border-gray-200/50 p-6 shadow-lg hover:shadow-xl transition-all duration-300 relative group hover:-translate-y-1">
-              <div className="text-center mb-6">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl mb-3">
-                  <Award className="h-6 w-6 text-white" />
+            <div className="rounded-3xl bg-white/60 backdrop-blur-xl border border-white/60 p-8 shadow-xl hover:shadow-2xl transition-all duration-500 relative group hover:-translate-y-2 flex flex-col">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-50/50 to-emerald-50/50 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+              <div className="relative z-10 text-center mb-8">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <Award className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Universitet</h3>
-                <div className="text-3xl font-extrabold text-gray-900 mb-2">$49</div>
-                <p className="text-gray-600">oyiga</p>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Universitet</h3>
+                <div className="text-4xl font-extrabold text-gray-900 mb-2">$49</div>
+                <p className="text-green-600 font-medium">oyiga</p>
               </div>
 
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-4 mb-8 relative z-10 flex-grow">
                 {[
                   "Barcha O'qituvchi funksiyalari",
                   "Admin panel",
@@ -1096,12 +1148,12 @@ export default function HomePage() {
                 ].map((feature, index) => (
                   <li key={index} className="flex items-center gap-3">
                     <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
-                    <span className="text-gray-700 text-sm">{feature}</span>
+                    <span className="text-gray-700 text-sm font-medium">{feature}</span>
                   </li>
                 ))}
               </ul>
 
-              <button className="w-full bg-gray-900 text-white rounded-full px-5 py-2.5 font-semibold hover:bg-black transition">
+              <button className="w-full bg-gray-900 text-white rounded-full px-6 py-3.5 font-bold hover:bg-black transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                 Savdo bo'limiga murojaat
               </button>
             </div>
@@ -1158,7 +1210,7 @@ export default function HomePage() {
                 answer: "Ro'yxatdan o'ting, rol tanlang (Talaba/O'qituvchi/Universitet), profilingizni to'ldiring va platforma imkoniyatlaridan foydalanishni boshlang."
               }
             ].map((faq, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+              <div key={index} className="bg-white/60 backdrop-blur-md rounded-2xl shadow-sm border border-white/60 overflow-hidden hover:shadow-md transition-shadow duration-300">
                 <button
                   onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
                   className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-200"

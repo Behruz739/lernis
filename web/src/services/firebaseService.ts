@@ -10,6 +10,7 @@ import {
   where,
   orderBy,
   limit,
+  deleteDoc,
   Timestamp
 } from 'firebase/firestore';
 import { db } from '../firebase/config';
@@ -125,6 +126,67 @@ export interface WaitlistEntry {
   createdAt: Timestamp;
 }
 
+export interface ResearchPaper {
+  id?: string;
+  title: string;
+  abstract: string;
+  authors: string[];
+  publicationDate: string;
+  journal?: string;
+  doi?: string;
+  tags: string[];
+  fileUrl?: string;
+  userId: string;
+  views: number;
+  citations: number;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
+export interface BlogPost {
+  id?: string;
+  title: string;
+  content: string;
+  summary: string;
+  coverImage?: string;
+  tags: string[];
+  authorId: string;
+  authorName: string;
+  authorAvatar?: string;
+  published: boolean;
+  likes: number;
+  views: number;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
+export interface CommunityPost {
+  id?: string;
+  content: string;
+  authorId: string;
+  authorName: string;
+  authorAvatar?: string;
+  likes: number;
+  commentsCount: number;
+  tags: string[];
+  images?: string[];
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
+export interface Comment {
+  id?: string;
+  postId: string;
+  postType: 'blog' | 'community';
+  content: string;
+  authorId: string;
+  authorName: string;
+  authorAvatar?: string;
+  likes: number;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
 // Simple cache for Firebase queries
 const cache = new Map<string, { data: any; timestamp: number }>();
 const CACHE_DURATION = 30000; // 30 seconds
@@ -136,6 +198,70 @@ const getCachedData = (key: string) => {
   }
   return null;
 };
+
+const createFirestoreService = <T>(collectionName: string) => ({
+  async getAll(userId?: string): Promise<T[]> {
+    try {
+      let q;
+      if (userId) {
+        q = query(collection(db, collectionName), where('userId', '==', userId), orderBy('createdAt', 'desc'));
+      } else {
+        q = query(collection(db, collectionName), orderBy('createdAt', 'desc'));
+      }
+      const snap = await getDocs(q);
+      return snap.docs.map(d => ({ id: d.id, ...(d.data() as any) })) as T[];
+    } catch (error) {
+      console.error(`Error fetching ${collectionName}:`, error);
+      return [];
+    }
+  },
+
+  async getById(id: string): Promise<T | null> {
+    try {
+      const docRef = doc(db, collectionName, id);
+      const snap = await getDoc(docRef);
+      return snap.exists() ? ({ id: snap.id, ...(snap.data() as any) } as T) : null;
+    } catch (error) {
+      console.error(`Error fetching ${collectionName} item:`, error);
+      return null;
+    }
+  },
+
+  async add(item: any): Promise<string | null> {
+    try {
+      const docRef = await addDoc(collection(db, collectionName), {
+        ...item,
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now()
+      });
+      return docRef.id;
+    } catch (error) {
+      console.error(`Error adding to ${collectionName}:`, error);
+      return null;
+    }
+  },
+
+  async update(id: string, data: any): Promise<boolean> {
+    try {
+      const docRef = doc(db, collectionName, id);
+      await updateDoc(docRef, { ...data, updatedAt: Timestamp.now() });
+      return true;
+    } catch (error) {
+      console.error(`Error updating ${collectionName}:`, error);
+      return false;
+    }
+  },
+
+  async delete(id: string): Promise<boolean> {
+    try {
+      await deleteDoc(doc(db, collectionName, id));
+      return true;
+    } catch (error) {
+      console.error(`Error deleting from ${collectionName}:`, error);
+      return false;
+    }
+  }
+});
 
 const setCachedData = (key: string, data: any) => {
   cache.set(key, { data, timestamp: Date.now() });
@@ -617,6 +743,55 @@ export const waitlistService = {
     } catch (error) {
       console.error('Error fetching waitlist entries:', error);
       return [];
+    }
+  }
+};
+
+export const researchService = createFirestoreService<ResearchPaper>('research_papers');
+export const blogService = createFirestoreService<BlogPost>('blog_posts');
+
+export const communityService = {
+  ...createFirestoreService<CommunityPost>('community_posts'),
+
+  async getComments(postId: string): Promise<Comment[]> {
+    try {
+      const q = query(
+        collection(db, 'comments'),
+        where('postId', '==', postId),
+        orderBy('createdAt', 'desc')
+      );
+      const snap = await getDocs(q);
+      return snap.docs.map(d => ({ id: d.id, ...(d.data() as any) })) as Comment[];
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+      return [];
+    }
+  },
+
+  async addComment(comment: Omit<Comment, 'id' | 'createdAt' | 'updatedAt'>): Promise<string | null> {
+    try {
+      const docRef = await addDoc(collection(db, 'comments'), {
+        ...comment,
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now()
+      });
+
+      // Increment comment count on post
+      const collectionName = comment.postType === 'blog' ? 'blog_posts' : 'community_posts';
+      const postRef = doc(db, collectionName, comment.postId);
+      const postSnap = await getDoc(postRef);
+
+      if (postSnap.exists()) {
+        const currentCount = postSnap.data().commentsCount || 0;
+        await updateDoc(postRef, {
+          commentsCount: currentCount + 1
+        });
+      }
+
+      return docRef.id;
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      return null;
     }
   }
 };

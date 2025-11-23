@@ -33,7 +33,7 @@ const Navbar = lazy(() => import('../components/Navbar'));
 const Footer = lazy(() => import('../components/Footer'));
 
 // Coming Soon Mode - Set to true to show coming soon page
-const COMING_SOON_MODE = true;
+const COMING_SOON_MODE = false;
 
 // Password for accessing full landing page (can be changed)
 const ACCESS_PASSWORD = 'lernis2026';

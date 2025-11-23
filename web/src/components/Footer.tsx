@@ -1,88 +1,94 @@
 import { Link } from 'react-router-dom';
-import { 
-  GraduationCap, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Twitter, 
-  Linkedin, 
-  Github
+import {
+  GraduationCap,
+  Mail,
+  Phone,
+  MapPin,
+  Twitter,
+  Linkedin,
+  Github,
+  ArrowRight
 } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
+    <footer className="relative overflow-hidden bg-gray-900">
       {/* Background Effects */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
       </div>
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Main Footer Content */}
-        <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="py-12 md:py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
           {/* Company Info */}
           <div className="lg:col-span-1">
             <div className="flex items-center space-x-3 mb-6">
               <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
                 <GraduationCap className="h-6 w-6 text-white" />
               </div>
-              <span className="text-2xl font-bold">Lernis</span>
+              <span className="text-2xl font-black text-white">Lernis</span>
             </div>
-            <p className="text-gray-300 mb-6 max-w-sm leading-relaxed">
-              Ta’limni raqamli yechimlar bilan yangilaymiz. Xavfsiz, ishonchli va istalgan joydan kirish mumkin bo‘lgan raqamli sertifikatlar.
+            <p className="text-gray-400 mb-6 max-w-sm leading-relaxed text-sm">
+              Ta'limni raqamli yechimlar bilan yangilaymiz. Xavfsiz, ishonchli va global darajada tan olinadigan raqamli sertifikatlar.
             </p>
             <div className="flex space-x-3">
-              <a 
-                href="#" 
-                className="w-11 h-11 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-blue-500/25"
+              <a
+                href="#"
+                className="w-10 h-10 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center hover:scale-110 transition-all duration-300 border border-white/10"
               >
-                <Twitter className="h-5 w-5" />
+                <Twitter className="h-4 w-4 text-white" />
               </a>
-              <a 
-                href="#" 
-                className="w-11 h-11 bg-gradient-to-r from-blue-700 to-blue-600 rounded-xl flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-blue-500/25"
+              <a
+                href="#"
+                className="w-10 h-10 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center hover:scale-110 transition-all duration-300 border border-white/10"
               >
-                <Linkedin className="h-5 w-5" />
+                <Linkedin className="h-4 w-4 text-white" />
               </a>
-              <a 
-                href="#" 
-                className="w-11 h-11 bg-gradient-to-r from-gray-700 to-gray-600 rounded-xl flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-gray-500/25"
+              <a
+                href="#"
+                className="w-10 h-10 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center hover:scale-110 transition-all duration-300 border border-white/10"
               >
-                <Github className="h-5 w-5" />
+                <Github className="h-4 w-4 text-white" />
               </a>
             </div>
           </div>
 
           {/* Product Links */}
           <div>
-            <h3 className="text-lg font-bold mb-6 text-white">Mahsulot</h3>
-            <ul className="space-y-4">
+            <h3 className="text-base font-bold mb-5 text-white">Mahsulot</h3>
+            <ul className="space-y-3">
               <li>
-                <Link to="/#features" className="text-gray-300 hover:text-white transition-colors duration-200">
-                Imkoniyatlar
+                <Link to="/#features" className="text-sm text-gray-400 hover:text-white transition-colors duration-200 flex items-center gap-2 group">
+                  <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Imkoniyatlar
                 </Link>
               </li>
               <li>
-                <Link to="/#pricing" className="text-gray-300 hover:text-white transition-colors duration-200">
-                Narxlar
+                <Link to="/#pricing" className="text-sm text-gray-400 hover:text-white transition-colors duration-200 flex items-center gap-2 group">
+                  <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Narxlar
                 </Link>
               </li>
               <li>
-                <Link to="/verify" className="text-gray-300 hover:text-white transition-colors duration-200">
-                Sertifikatni tekshirish
+                <Link to="/verify" className="text-sm text-gray-400 hover:text-white transition-colors duration-200 flex items-center gap-2 group">
+                  <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Sertifikatni tekshirish
                 </Link>
               </li>
               <li>
-                <Link to="/api-docs" className="text-gray-300 hover:text-white transition-colors duration-200">
-                API hujjatlari
+                <Link to="/api-docs" className="text-sm text-gray-400 hover:text-white transition-colors duration-200 flex items-center gap-2 group">
+                  <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  API hujjatlari
                 </Link>
               </li>
               <li>
-                <Link to="/integrations" className="text-gray-300 hover:text-white transition-colors duration-200">
-                Integratsiyalar
+                <Link to="/integrations" className="text-sm text-gray-400 hover:text-white transition-colors duration-200 flex items-center gap-2 group">
+                  <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Integratsiyalar
                 </Link>
               </li>
             </ul>
@@ -90,31 +96,36 @@ export default function Footer() {
 
           {/* Company Links */}
           <div>
-            <h3 className="text-lg font-bold mb-6 text-white">Kompaniya</h3>
-            <ul className="space-y-4">
+            <h3 className="text-base font-bold mb-5 text-white">Kompaniya</h3>
+            <ul className="space-y-3">
               <li>
-                <Link to="/#about" className="text-gray-300 hover:text-white transition-colors duration-200">
-                Biz haqimizda
+                <Link to="/#about" className="text-sm text-gray-400 hover:text-white transition-colors duration-200 flex items-center gap-2 group">
+                  <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Biz haqimizda
                 </Link>
               </li>
               <li>
-                <Link to="/blog" className="text-gray-300 hover:text-white transition-colors duration-200">
+                <Link to="/blog" className="text-sm text-gray-400 hover:text-white transition-colors duration-200 flex items-center gap-2 group">
+                  <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                   Blog
                 </Link>
               </li>
               <li>
-                <Link to="/careers" className="text-gray-300 hover:text-white transition-colors duration-200">
-                Bo‘sh ish o‘rinlari
+                <Link to="/careers" className="text-sm text-gray-400 hover:text-white transition-colors duration-200 flex items-center gap-2 group">
+                  <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Bo'sh ish o'rinlari
                 </Link>
               </li>
               <li>
-                <Link to="/press" className="text-gray-300 hover:text-white transition-colors duration-200">
-                Matbuot
+                <Link to="/press" className="text-sm text-gray-400 hover:text-white transition-colors duration-200 flex items-center gap-2 group">
+                  <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Matbuot
                 </Link>
               </li>
               <li>
-                <Link to="/partners" className="text-gray-300 hover:text-white transition-colors duration-200">
-                Hamkorlar
+                <Link to="/partners" className="text-sm text-gray-400 hover:text-white transition-colors duration-200 flex items-center gap-2 group">
+                  <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Hamkorlar
                 </Link>
               </li>
             </ul>
@@ -122,61 +133,65 @@ export default function Footer() {
 
           {/* Support & Contact */}
           <div>
-            <h3 className="text-lg font-bold mb-6 text-white">Qo‘llab-quvvatlash</h3>
-            <ul className="space-y-4 mb-8">
+            <h3 className="text-base font-bold mb-5 text-white">Qo'llab-quvvatlash</h3>
+            <ul className="space-y-3 mb-6">
               <li>
-                <Link to="/help" className="text-gray-300 hover:text-white transition-colors duration-200">
-                Yordam markazi
+                <Link to="/help" className="text-sm text-gray-400 hover:text-white transition-colors duration-200 flex items-center gap-2 group">
+                  <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Yordam markazi
                 </Link>
               </li>
               <li>
-                <Link to="/docs" className="text-gray-300 hover:text-white transition-colors duration-200">
-                Hujjatlar
+                <Link to="/docs" className="text-sm text-gray-400 hover:text-white transition-colors duration-200 flex items-center gap-2 group">
+                  <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Hujjatlar
                 </Link>
               </li>
               <li>
-                <Link to="/status" className="text-gray-300 hover:text-white transition-colors duration-200">
-                Tizim holati
+                <Link to="/status" className="text-sm text-gray-400 hover:text-white transition-colors duration-200 flex items-center gap-2 group">
+                  <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Tizim holati
                 </Link>
               </li>
               <li>
-                <Link to="/security" className="text-gray-300 hover:text-white transition-colors duration-200">
-                Xavfsizlik
+                <Link to="/security" className="text-sm text-gray-400 hover:text-white transition-colors duration-200 flex items-center gap-2 group">
+                  <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Xavfsizlik
                 </Link>
               </li>
             </ul>
 
             {/* Contact Info */}
             <div className="space-y-3">
-              <div className="flex items-center space-x-3 text-gray-300 hover:text-white transition-colors duration-200">
+              <div className="flex items-center space-x-3 text-gray-400 hover:text-white transition-colors duration-200">
                 <div className="w-8 h-8 bg-blue-600/20 rounded-lg flex items-center justify-center">
                   <Mail className="h-4 w-4" />
                 </div>
-                <span className="text-sm">yuldoshev.dsgn@gmail.com</span>
+                <span className="text-xs">yuldoshev.dsgn@gmail.com</span>
               </div>
-              <div className="flex items-center space-x-3 text-gray-300 hover:text-white transition-colors duration-200">
+              <div className="flex items-center space-x-3 text-gray-400 hover:text-white transition-colors duration-200">
                 <div className="w-8 h-8 bg-green-600/20 rounded-lg flex items-center justify-center">
                   <Phone className="h-4 w-4" />
                 </div>
-                <span className="text-sm">+998 93 009 37 85</span>
+                <span className="text-xs">+998 93 009 37 85</span>
               </div>
-              <div className="flex items-center space-x-3 text-gray-300 hover:text-white transition-colors duration-200">
+              <div className="flex items-center space-x-3 text-gray-400 hover:text-white transition-colors duration-200">
                 <div className="w-8 h-8 bg-purple-600/20 rounded-lg flex items-center justify-center">
                   <MapPin className="h-4 w-4" />
                 </div>
-                <span className="text-sm">Toshkent, O‘zbekiston</span>
+                <span className="text-xs">Toshkent, O'zbekiston</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-700/50 py-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-400 text-sm mb-4 md:mb-0">
+        <div className="border-t border-white/10 py-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="text-gray-400 text-xs">
               © {currentYear} Lernis. Barcha huquqlar himoyalangan.
             </div>
-            <div className="flex flex-wrap justify-center gap-6 text-sm">
+            <div className="flex flex-wrap justify-center gap-6 text-xs">
               <Link to="/privacy" className="text-gray-400 hover:text-white transition-colors duration-200">
                 Maxfiylik siyosati
               </Link>

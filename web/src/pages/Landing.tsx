@@ -249,11 +249,42 @@ export default function HomePage() {
   const [waitlistSubmitting, setWaitlistSubmitting] = useState(false);
   const [waitlistSuccess, setWaitlistSuccess] = useState<string | null>(null);
   const [waitlistStatus, setWaitlistStatus] = useState<'success' | 'error' | null>(null);
+  const [activeRole, setActiveRole] = useState('student');
+  const [activePricingRole, setActivePricingRole] = useState('student');
 
   // Debug: log when showComingSoon changes
   useEffect(() => {
     console.log('showComingSoon state:', showComingSoon);
   }, [showComingSoon]);
+
+  // Auto-scroll for testimonials carousel
+  useEffect(() => {
+    const carousel = document.querySelector('.testimonials-carousel') as HTMLElement;
+    if (!carousel) return;
+
+    let scrollInterval: NodeJS.Timeout;
+
+    const startAutoScroll = () => {
+      scrollInterval = setInterval(() => {
+        if (carousel.dataset.paused === 'true') return;
+
+        const scrollAmount = carousel.offsetWidth / 2 + 24; // Half width + gap
+        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
+
+        if (carousel.scrollLeft >= maxScroll) {
+          carousel.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+      }, 4000); // Every 4 seconds
+    };
+
+    startAutoScroll();
+
+    return () => {
+      clearInterval(scrollInterval);
+    };
+  }, []);
 
   const handleUnlock = () => {
     console.log('handleUnlock chaqirildi, showComingSoon false qilinmoqda...');
@@ -554,81 +585,63 @@ export default function HomePage() {
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">Hujjatlar, badge'lar, ilmiy ishlar va hamjamiyat — barchasi bir joyda</p>
           </div>
 
-          {/* Timeline Style */}
-          <div className="relative">
-            {/* Timeline Line - Enhanced */}
-            <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-blue-200 via-purple-200 to-green-200 transform -translate-y-1/2 rounded-full opacity-50"></div>
+          {/* Steps Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[
+              {
+                step: "01",
+                title: "Ro'yxatdan o'tish",
+                description: "Muassasalar sertifikat ma’lumotlarini yuklaydi va brendlashadi",
+                icon: <Users className="h-6 w-6" />,
+                gradient: "from-blue-500 to-cyan-500",
+                bg: "bg-blue-50/50",
+                border: "border-blue-100"
+              },
+              {
+                step: "02",
+                title: "Kontent yaratish",
+                description: "Hujjatlar yuklang, badge berish yoki ilmiy ish joylashtiring",
+                icon: <FileText className="h-6 w-6" />,
+                gradient: "from-purple-500 to-pink-500",
+                bg: "bg-purple-50/50",
+                border: "border-purple-100"
+              },
+              {
+                step: "03",
+                title: "Faollik va reyting",
+                description: "Badge oling, ilmiy ishlar yuklang va hamjamiyatda qatnashing",
+                icon: <Award className="h-6 w-6" />,
+                gradient: "from-orange-500 to-red-500",
+                bg: "bg-orange-50/50",
+                border: "border-orange-100"
+              },
+              {
+                step: "04",
+                title: "Portfolio yaratish",
+                description: "Barcha yutuqlaringizni bir joyda to'plang va ulashing",
+                icon: <Globe className="h-6 w-6" />,
+                gradient: "from-green-500 to-emerald-500",
+                bg: "bg-green-50/50",
+                border: "border-green-100"
+              }
+            ].map((item, index) => (
+              <div key={index} className={`relative group overflow-hidden rounded-3xl p-8 ${item.bg} backdrop-blur-md border border-white/60 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}>
+                {/* Background Glow */}
+                <div className={`absolute -right-10 -top-10 w-32 h-32 bg-gradient-to-br ${item.gradient} opacity-10 blur-3xl rounded-full group-hover:scale-150 transition-transform duration-700`} />
 
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-6">
-              {[
-                {
-                  step: "01",
-                  title: "Ro'yxatdan o'tish",
-                  description: "Muassasalar sertifikat ma’lumotlarini yuklaydi va brendlashadi",
-                  icon: <Users className="h-6 w-6" />,
-                  color: "from-blue-500 to-blue-600",
-                  bgClass: "bg-blue-50/60"
-                },
-                {
-                  step: "02",
-                  title: "Kontent yaratish",
-                  description: "Hujjatlar yuklang, badge berish yoki ilmiy ish joylashtiring",
-                  icon: <FileText className="h-6 w-6" />,
-                  color: "from-purple-500 to-purple-600",
-                  bgClass: "bg-purple-50/60"
-                },
-                {
-                  step: "03",
-                  title: "Faollik va reyting",
-                  description: "Badge oling, ilmiy ishlar yuklang va hamjamiyatda qatnashing",
-                  icon: <Award className="h-6 w-6" />,
-                  color: "from-pink-500 to-pink-600",
-                  bgClass: "bg-pink-50/60"
-                },
-                {
-                  step: "04",
-                  title: "Portfolio yaratish",
-                  description: "Barcha yutuqlaringizni bir joyda to'plang va ulashing",
-                  icon: <Globe className="h-6 w-6" />,
-                  color: "from-green-500 to-green-600",
-                  bgClass: "bg-green-50/60"
-                }
-              ].map((item, index) => (
-                <div key={index} className="relative group">
-                  {/* Step Circle with Glow */}
-                  <div className="relative z-10 mx-auto lg:mx-0 w-16 h-16 mb-6">
-                    <div className={`absolute inset-0 bg-gradient-to-r ${item.color} rounded-full blur-lg opacity-40 group-hover:opacity-70 transition-opacity duration-300`}></div>
-                    <div className={`relative w-16 h-16 rounded-full bg-gradient-to-r ${item.color} flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:scale-110 transition-transform duration-300 ring-4 ring-white`}>
-                      {item.step}
-                    </div>
+                <div className="relative z-10 flex items-start justify-between mb-6">
+                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
+                    {item.icon}
                   </div>
-
-                  {/* Content Card - Glassmorphism */}
-                  <div className={`${item.bgClass} backdrop-blur-md border border-white/60 rounded-3xl p-8 text-center lg:text-left group-hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full flex flex-col`}>
-                    <div className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${item.color} flex items-center justify-center mx-auto lg:mx-0 mb-6 text-white shadow-md group-hover:rotate-6 transition-transform duration-300`}>
-                      {item.icon}
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
-                    <p className="text-gray-600 leading-relaxed font-medium flex-grow">{item.description}</p>
-                  </div>
-
-                  {/* Arrow for mobile */}
-                  {index < 3 && (
-                    <div className="lg:hidden flex justify-center mt-6">
-                      <ArrowRight className="h-6 w-6 text-gray-300 animate-bounce" />
-                    </div>
-                  )}
+                  <span className={`text-5xl font-black bg-gradient-to-br ${item.gradient} bg-clip-text text-transparent opacity-20 group-hover:opacity-40 transition-opacity duration-300 select-none`}>
+                    {item.step}
+                  </span>
                 </div>
-              ))}
-            </div>
-          </div>
 
-          {/* Bottom CTA */}
-          <div className="text-center mt-12">
-            <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-50 to-purple-50 border border-gray-200 rounded-full">
-              <Clock className="h-4 w-4 text-blue-600" />
-              <span className="text-sm font-semibold text-gray-700">Butun jarayon 5 daqiqadan kam vaqt oladi</span>
-            </div>
+                <h3 className="relative z-10 text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
+                <p className="relative z-10 text-gray-600 leading-relaxed font-medium">{item.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -641,538 +654,857 @@ export default function HomePage() {
               <Zap className="h-3 w-3" />
               Kuchli imkoniyatlar
             </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Platforma imkoniyatlari</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">Lernis — hujjatlar, badge'lar, ilmiy ishlar va hamjamiyatni birlashtiruvchi to'liq raqamli ta'lim ekotizimi.</p>
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4 tracking-tight">Platforma imkoniyatlari</h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto font-medium">Lernis — hujjatlar, badge'lar, ilmiy ishlar va hamjamiyatni birlashtiruvchi to'liq raqamli ta'lim ekotizimi.</p>
           </div>
 
           {/* Features Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[minmax(200px,auto)]">
-            {[
-              {
-                icon: <Database className="h-8 w-8" />,
-                title: "Research Hub",
-                description: "Ilmiy ishlaringizni xalqaro darajada chop eting, DOI oling va iqtiboslar to'plang. Global ilmiy bazaga ulaning.",
-                gradient: "from-purple-600 to-pink-600",
-                className: "md:col-span-2 md:row-span-2",
-                bgClass: "bg-purple-50/40"
-              },
-              {
-                icon: <Award className="h-8 w-8" />,
-                title: "Gamification",
-                description: "O'qish jarayonini qiziqarli o'yinga aylantiring. Badge'lar to'plang, darajangizni oshiring va do'stlaringiz bilan bellashing.",
-                gradient: "from-orange-500 to-red-500",
-                className: "md:col-span-1 md:row-span-2",
-                bgClass: "bg-orange-50/40"
-              },
-              {
-                icon: <Users className="h-6 w-6" />,
-                title: "Global Hamjamiyat",
-                description: "Dunyo bo'ylab talabalar va ekspertlar bilan fikr almashing, blog yuritib, obunachilar orttiring.",
-                gradient: "from-green-500 to-emerald-600",
-                className: "md:col-span-2",
-                bgClass: "bg-green-50/40"
-              },
-              {
-                icon: <FileText className="h-6 w-6" />,
-                title: "Raqamli hujjatlar",
-                description: "Diplom va sertifikatlarni xavfsiz saqlash.",
-                gradient: "from-blue-500 to-cyan-500",
-                className: "md:col-span-1",
-                bgClass: "bg-blue-50/40"
-              },
-              {
-                icon: <Target className="h-6 w-6" />,
-                title: "Reyting tizimi",
-                description: "GPA va faollik asosida reyting.",
-                gradient: "from-indigo-500 to-blue-500",
-                className: "md:col-span-1",
-                bgClass: "bg-indigo-50/40"
-              },
-              {
-                icon: <Shield className="h-6 w-6" />,
-                title: "Xavfsizlik",
-                description: "Zero-Knowledge shifrlash.",
-                gradient: "from-red-500 to-pink-500",
-                className: "md:col-span-1",
-                bgClass: "bg-red-50/40"
-              },
-              {
-                icon: <QrCode className="h-6 w-6" />,
-                title: "QR tekshiruv",
-                description: "Tezkor verification.",
-                gradient: "from-teal-500 to-cyan-500",
-                className: "md:col-span-1",
-                bgClass: "bg-teal-50/40"
-              }
-            ].map((feature, index) => (
-              <div
-                key={index}
-                className={`group relative overflow-hidden rounded-3xl ${feature.bgClass} backdrop-blur-xl border border-white/60 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 p-8 flex flex-col justify-between ${feature.className || ''}`}
-              >
-                {/* Background Glow */}
-                <div className={`absolute -right-10 -top-10 w-32 h-32 bg-gradient-to-br ${feature.gradient} opacity-10 blur-3xl rounded-full group-hover:scale-150 transition-transform duration-700`} />
-
-                {/* Icon */}
-                <div className={`relative z-10 inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${feature.gradient} text-white mb-6 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
-                  {feature.icon}
+            {/* Research Hub - Large */}
+            <div className="md:col-span-2 md:row-span-2 group relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-50/80 to-indigo-50/80 backdrop-blur-xl border border-purple-100/50 p-8 hover:shadow-xl transition-all duration-300 hover:border-purple-200">
+              <div className="absolute inset-0 bg-white/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10">
+                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-purple-600 mb-6 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                  <Database className="h-6 w-6" />
                 </div>
+                <h3 className="text-3xl font-black text-gray-900 mb-3 tracking-tight">Research Hub</h3>
+                <p className="text-gray-600 leading-relaxed font-medium max-w-md text-lg">
+                  Ilmiy ishlaringizni xalqaro darajada chop eting, DOI oling va iqtiboslar to'plang. Global ilmiy bazaga ulaning.
+                </p>
 
-                {/* Content */}
-                <div className="relative z-10">
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 tracking-tight">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed font-medium">
-                    {feature.description}
+                {/* Mini UI: Document Stack */}
+                <div className="absolute right-0 bottom-0 translate-x-1/4 translate-y-1/4 w-64 h-64 opacity-60 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-500">
+                  <div className="absolute top-0 right-10 w-40 h-52 bg-white rounded-xl shadow-xl border border-purple-100 transform rotate-[-6deg] z-10 p-4">
+                    <div className="w-full h-2 bg-purple-50 rounded mb-2"></div>
+                    <div className="w-3/4 h-2 bg-purple-50 rounded mb-4"></div>
+                    <div className="space-y-2">
+                      <div className="w-full h-1.5 bg-gray-50 rounded"></div>
+                      <div className="w-full h-1.5 bg-gray-50 rounded"></div>
+                      <div className="w-5/6 h-1.5 bg-gray-50 rounded"></div>
+                    </div>
+                  </div>
+                  <div className="absolute top-4 right-4 w-40 h-52 bg-purple-100 rounded-xl shadow-lg transform rotate-[6deg] z-0 border border-purple-200"></div>
+                </div>
+              </div>
+            </div>
+
+            {/* Gamification - Tall */}
+            <div className="md:col-span-1 md:row-span-2 group relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange-50/80 to-amber-50/80 backdrop-blur-xl border border-orange-100/50 p-8 hover:shadow-xl transition-all duration-300 hover:border-orange-200">
+              <div className="absolute inset-0 bg-white/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10 h-full flex flex-col">
+                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-orange-600 mb-6 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                  <Award className="h-6 w-6" />
+                </div>
+                <h3 className="text-2xl font-black text-gray-900 mb-3 tracking-tight">Gamification</h3>
+                <p className="text-gray-600 leading-relaxed font-medium mb-8">
+                  O'qish jarayonini qiziqarli o'yinga aylantiring. Badge'lar to'plang.
+                </p>
+
+                {/* Mini UI: Badges */}
+                <div className="mt-auto flex flex-col gap-3">
+                  <div className="flex items-center gap-3 p-3 bg-white/60 backdrop-blur rounded-xl border border-orange-100 shadow-sm transform translate-x-4 group-hover:translate-x-0 transition-transform duration-300">
+                    <div className="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-700 text-xs font-bold border border-yellow-200">1</div>
+                    <div className="text-sm font-bold text-gray-800">Top Student</div>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 bg-white/60 backdrop-blur rounded-xl border border-orange-100 shadow-sm transform translate-x-8 group-hover:translate-x-0 transition-transform duration-300 delay-75">
+                    <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 text-xs font-bold border border-blue-200">2</div>
+                    <div className="text-sm font-bold text-gray-800">Research Pro</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Global Community - Wide */}
+            <div className="md:col-span-2 group relative overflow-hidden rounded-3xl bg-gradient-to-br from-green-50/80 to-emerald-50/80 backdrop-blur-xl border border-green-100/50 p-8 hover:shadow-xl transition-all duration-300 hover:border-green-200">
+              <div className="absolute inset-0 bg-white/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6">
+                <div className="flex-1">
+                  <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-green-600 mb-6 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                    <Users className="h-6 w-6" />
+                  </div>
+                  <h3 className="text-2xl font-black text-gray-900 mb-2 tracking-tight">Global Hamjamiyat</h3>
+                  <p className="text-gray-600 font-medium text-lg">
+                    Dunyo bo'ylab talabalar va ekspertlar bilan fikr almashing.
                   </p>
                 </div>
 
-                {/* Hover Border Gradient */}
-                <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-white/50 transition-colors duration-300 pointer-events-none" />
+                {/* Mini UI: Chat Bubbles */}
+                <div className="relative w-full md:w-1/3 h-24">
+                  <div className="absolute top-0 right-0 bg-white p-3 rounded-t-2xl rounded-bl-2xl shadow-sm border border-green-100 text-xs text-gray-600 transform group-hover:-translate-y-1 transition-transform duration-300">
+                    Salom! Loyihangiz ajoyib ekan 👋
+                  </div>
+                  <div className="absolute bottom-0 left-4 bg-green-100 p-3 rounded-t-2xl rounded-br-2xl shadow-sm border border-green-200 text-xs text-green-800 transform group-hover:translate-y-1 transition-transform duration-300">
+                    Rahmat! Hamkorlik qilamizmi?
+                  </div>
+                </div>
               </div>
-            ))}
+            </div>
+
+            {/* Small Cards Grid */}
+            <div className="md:col-span-1 grid grid-cols-1 gap-6">
+              {/* Digital Docs */}
+              <div className="group p-6 rounded-3xl bg-gradient-to-br from-blue-50/80 to-cyan-50/80 backdrop-blur-xl border border-blue-100/50 hover:shadow-lg transition-all duration-300 hover:border-blue-200">
+                <FileText className="h-8 w-8 text-blue-600 mb-3 group-hover:scale-110 transition-transform duration-300" />
+                <h3 className="font-bold text-gray-900 mb-1 text-lg">Raqamli hujjatlar</h3>
+                <p className="text-sm text-gray-600 font-medium">Diplom va sertifikatlarni xavfsiz saqlash.</p>
+              </div>
+            </div>
+
+            {/* Rating System */}
+            <div className="md:col-span-1 group p-6 rounded-3xl bg-gradient-to-br from-indigo-50/80 to-blue-50/80 backdrop-blur-xl border border-indigo-100/50 hover:shadow-lg transition-all duration-300 hover:border-indigo-200">
+              <Target className="h-8 w-8 text-indigo-600 mb-3 group-hover:scale-110 transition-transform duration-300" />
+              <h3 className="font-bold text-gray-900 mb-1 text-lg">Reyting tizimi</h3>
+              <p className="text-sm text-gray-600 font-medium">GPA va faollik asosida reyting.</p>
+            </div>
+
+            {/* Security */}
+            <div className="md:col-span-1 group p-6 rounded-3xl bg-gradient-to-br from-red-50/80 to-pink-50/80 backdrop-blur-xl border border-red-100/50 hover:shadow-lg transition-all duration-300 hover:border-red-200">
+              <Shield className="h-8 w-8 text-red-600 mb-3 group-hover:scale-110 transition-transform duration-300" />
+              <h3 className="font-bold text-gray-900 mb-1 text-lg">Xavfsizlik</h3>
+              <p className="text-sm text-gray-600 font-medium">Zero-Knowledge shifrlash.</p>
+            </div>
+
+            {/* QR Check */}
+            <div className="md:col-span-1 group p-6 rounded-3xl bg-gradient-to-br from-teal-50/80 to-emerald-50/80 backdrop-blur-xl border border-teal-100/50 hover:shadow-lg transition-all duration-300 hover:border-teal-200">
+              <QrCode className="h-8 w-8 text-teal-600 mb-3 group-hover:scale-110 transition-transform duration-300" />
+              <h3 className="font-bold text-gray-900 mb-1 text-lg">QR tekshiruv</h3>
+              <p className="text-sm text-gray-600 font-medium">Tezkor verification.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* User Roles Section */}
-      <section id="user-roles" className="py-16 relative bg-gradient-to-br from-gray-50 to-blue-50/30">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-full text-blue-700 text-sm font-semibold mb-6">
-              <Users className="h-4 w-4" />
+      {/* User Roles Section - Interactive Tabs */}
+      <section id="user-roles" className="py-12 relative">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-200 rounded-full text-blue-700 text-xs font-semibold mb-4">
+              <Users className="h-3 w-3" />
               Foydalanuvchi rollari
             </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Har bir rol uchun maxsus imkoniyatlar</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">Talaba, o'qituvchi, universitet va HR — barcha uchun yagona platforma</p>
+            <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-3 tracking-tight">Har bir rol uchun maxsus imkoniyatlar</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Role Tabs */}
+          <div className="flex flex-wrap justify-center gap-3 mb-8">
+            {[
+              { id: 'student', label: "Talaba", icon: <GraduationCap className="h-4 w-4" /> },
+              { id: 'teacher', label: "O'qituvchi", icon: <Users className="h-4 w-4" /> },
+              { id: 'university', label: "Universitet", icon: <Award className="h-4 w-4" /> },
+              { id: 'hr', label: "HR", icon: <Shield className="h-4 w-4" /> },
+            ].map((role) => (
+              <button
+                key={role.id}
+                onClick={() => setActiveRole(role.id)}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm transition-all duration-300 ${activeRole === role.id
+                  ? 'bg-gray-900 text-white shadow-md scale-105'
+                  : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
+                  }`}
+              >
+                {role.icon}
+                {role.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Role Content Area */}
+          <div className="relative min-h-[400px]">
             {[
               {
+                id: 'student',
                 role: "Talaba / O'quvchi",
-                icon: <GraduationCap className="h-8 w-8" />,
-                description: "Hujjatlarini saqlaydi, badge oladi, ilmiy ish joylaydi",
+                description: "Hujjatlaringizni raqamlashtiring va kelajak karyerangizni quring.",
                 features: [
-                  "Profil va portfolio",
-                  "Hujjatlar saqlash",
-                  "Badge olish",
-                  "Ilmiy ish yuklash",
-                  "Community qatnashish",
-                  "Reyting ko'rish"
+                  "Barcha diplom va sertifikatlar bir joyda",
+                  "Xalqaro darajadagi raqamli portfolio",
+                  "Reyting va yutuqlar (Gamification)",
+                  "Ilmiy ishlarni chop etish (DOI)"
                 ],
-                gradient: "from-blue-500 to-cyan-500",
-                bgGradient: "from-blue-50 to-cyan-50"
+                imageGradient: "from-blue-500 to-cyan-500",
+                bgGradient: "from-blue-50/50 to-cyan-50/50",
+                mainIcon: <GraduationCap className="h-24 w-24 text-white opacity-90" />
               },
               {
+                id: 'teacher',
                 role: "O'qituvchi",
-                icon: <Users className="h-8 w-8" />,
-                description: "Talabalarni rag'batlantiradi, badge beradi, sertifikat yaratadi",
+                description: "Talabalarni rag'batlantiring va professional brendingizni rivojlantiring.",
                 features: [
-                  "Badge yaratish",
-                  "Talabalarga badge berish",
-                  "Sertifikat yaratish",
-                  "Feedback berish",
-                  "Portfolio ko'rish",
-                  "Statistika"
+                  "Talabalarga badge va sertifikat berish",
+                  "Guruhlar va kurslarni boshqarish",
+                  "Talabalar reytingini kuzatish",
+                  "Ilmiy ishlarga taqriz yozish"
                 ],
-                gradient: "from-purple-500 to-pink-500",
-                bgGradient: "from-purple-50 to-pink-50"
+                imageGradient: "from-purple-500 to-pink-500",
+                bgGradient: "from-purple-50/50 to-pink-50/50",
+                mainIcon: <Users className="h-24 w-24 text-white opacity-90" />
               },
               {
+                id: 'university',
                 role: "Universitet / O'quv markaz",
-                icon: <Award className="h-8 w-8" />,
-                description: "O'quvchilar uchun sertifikat yaratadi, statistikani ko'radi",
+                description: "Ta'lim jarayonini raqamlashtiring va muassasa nufuzini oshiring.",
                 features: [
-                  "Admin panel",
-                  "Bulk sertifikat yuklash",
-                  "Analytics va statistika",
-                  "Talabalar boshqaruvi",
-                  "Export funksiyalari",
-                  "Verification requests"
+                  "Avtomatlashtirilgan sertifikatlash tizimi",
+                  "Kengaytirilgan statistika va analytics",
+                  "Bitiruvchilar monitoringi",
+                  "Xalqaro hamkorlik imkoniyatlari"
                 ],
-                gradient: "from-green-500 to-emerald-500",
-                bgGradient: "from-green-50 to-emerald-50"
+                imageGradient: "from-green-500 to-emerald-500",
+                bgGradient: "from-green-50/50 to-emerald-50/50",
+                mainIcon: <Award className="h-24 w-24 text-white opacity-90" />
               },
               {
+                id: 'hr',
                 role: "Ish beruvchi / HR",
-                icon: <Shield className="h-8 w-8" />,
-                description: "Diplom va sertifikatni tekshiradi",
+                description: "Nomzodlarning malakasini tezkor va ishonchli tekshiring.",
                 features: [
-                  "QR verification",
-                  "API orqali tekshirish",
-                  "Hujjat haqiqiyligi",
-                  "Tezkor tekshiruv",
-                  "Bulk verification",
-                  "Report generatsiya"
+                  "QR kod orqali tezkor tekshiruv",
+                  "Soxtalashtirishdan 100% himoya",
+                  "Tasdiqlangan ko'nikmalar bazasi",
+                  "Nomzodning to'liq portfoliosini ko'rish"
                 ],
-                gradient: "from-orange-500 to-red-500",
-                bgGradient: "from-orange-50 to-red-50"
+                imageGradient: "from-orange-500 to-red-500",
+                bgGradient: "from-orange-50/50 to-red-50/50",
+                mainIcon: <Shield className="h-24 w-24 text-white opacity-90" />
               }
-            ].map((role, index) => (
-              <div key={index} className={`group relative overflow-hidden rounded-3xl bg-gradient-to-br ${role.bgGradient} p-8 border border-white/60 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2`}>
-                {/* Background Glow */}
-                <div className={`absolute -right-20 -top-20 w-64 h-64 bg-gradient-to-br ${role.gradient} opacity-10 blur-3xl rounded-full group-hover:scale-125 transition-transform duration-700`} />
-
-                <div className={`relative z-10 inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r ${role.gradient} text-white mb-6 shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
-                  {role.icon}
-                </div>
-
-                <h3 className="text-2xl font-bold text-gray-900 mb-3 relative z-10">{role.role}</h3>
-                <p className="text-gray-600 mb-6 leading-relaxed relative z-10 font-medium">{role.description}</p>
-
-                <ul className="space-y-3 relative z-10">
-                  {role.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center gap-3 text-sm text-gray-700 group-hover:text-gray-900 transition-colors duration-300">
-                      <div className={`w-5 h-5 rounded-full bg-gradient-to-r ${role.gradient} flex items-center justify-center text-white shadow-sm`}>
-                        <CheckCircle className="h-3 w-3" />
+            ].map((role) => (
+              <div
+                key={role.id}
+                className={`absolute inset-0 transition-all duration-500 ease-in-out transform ${activeRole === role.id ? 'opacity-100 translate-y-0 z-10' : 'opacity-0 translate-y-4 z-0 pointer-events-none'
+                  }`}
+              >
+                <div className={`rounded-3xl bg-white/80 backdrop-blur-xl border border-white/60 shadow-xl overflow-hidden`}>
+                  <div className="grid md:grid-cols-2 gap-0">
+                    {/* Left: Content */}
+                    <div className="p-8 flex flex-col justify-center">
+                      <div className={`inline-flex items-center gap-2 mb-4`}>
+                        <div className={`p-2 rounded-lg bg-gradient-to-r ${role.imageGradient} text-white shadow-sm`}>
+                          {role.id === 'student' && <GraduationCap className="h-4 w-4" />}
+                          {role.id === 'teacher' && <Users className="h-4 w-4" />}
+                          {role.id === 'university' && <Award className="h-4 w-4" />}
+                          {role.id === 'hr' && <Shield className="h-4 w-4" />}
+                        </div>
+                        <span className={`text-xs font-bold uppercase tracking-wider bg-gradient-to-r ${role.imageGradient} bg-clip-text text-transparent`}>
+                          {role.role}
+                        </span>
                       </div>
-                      <span className="font-medium">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
 
-                {/* Hover Border */}
-                <div className="absolute inset-0 rounded-3xl border-2 border-transparent group-hover:border-white/50 transition-colors duration-300 pointer-events-none" />
+                      <h3 className="text-2xl font-black text-gray-900 mb-4 leading-tight">
+                        {role.description}
+                      </h3>
+
+                      <ul className="space-y-3 mb-6">
+                        {role.features.map((feature, idx) => (
+                          <li key={idx} className="flex items-center gap-3">
+                            <CheckCircle className={`h-4 w-4 flex-shrink-0 text-gray-400`} />
+                            <span className="text-gray-700 font-medium text-sm">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+
+                      <button className={`w-fit px-6 py-3 rounded-full bg-gray-900 text-white text-sm font-bold hover:bg-black transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5`}>
+                        Batafsil
+                      </button>
+                    </div>
+
+                    {/* Right: Visual */}
+                    <div className={`bg-gradient-to-br ${role.bgGradient} p-8 flex items-center justify-center relative overflow-hidden`}>
+                      {/* Abstract Shapes */}
+                      <div className="absolute top-0 right-0 w-40 h-40 bg-white/20 rounded-full blur-2xl transform translate-x-1/2 -translate-y-1/2"></div>
+                      <div className="absolute bottom-0 left-0 w-40 h-40 bg-white/20 rounded-full blur-2xl transform -translate-x-1/2 translate-y-1/2"></div>
+
+                      {/* Main Icon */}
+                      <div className="relative z-10 transform hover:scale-105 transition-transform duration-500 drop-shadow-xl">
+                        <div className={`w-32 h-32 rounded-3xl bg-gradient-to-br ${role.imageGradient} flex items-center justify-center shadow-2xl`}>
+                          {role.mainIcon}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section id="testimonials" className="py-16 relative">
+      {/* Testimonials Section - Carousel */}
+      <section id="testimonials" className="py-12 relative overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="mb-12">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-3">Foydalanuvchilar fikri</h2>
-                <p className="text-lg text-gray-600">Lernis’dan foydalanuvchi muassasalarning fikrlari</p>
+          {/* Header with Trust Badge */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-50 border border-green-200 rounded-full text-green-700 text-xs font-semibold mb-3">
+              <CheckCircle className="h-3 w-3" />
+              Ishonch
+            </div>
+            <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-3 tracking-tight">Foydalanuvchilar fikri</h2>
+
+            {/* Trust Counter */}
+            <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-white/80 backdrop-blur-xl border border-gray-100 rounded-2xl shadow-sm">
+              <div className="flex -space-x-2">
+                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 border-2 border-white flex items-center justify-center text-white text-xs font-bold shadow-sm">T</div>
+                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 border-2 border-white flex items-center justify-center text-white text-xs font-bold shadow-sm">N</div>
+                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-orange-500 to-red-500 border-2 border-white flex items-center justify-center text-white text-xs font-bold shadow-sm">S</div>
               </div>
-              <div className="hidden md:flex items-center gap-2 text-green-600">
-                <Users className="h-5 w-5" />
-                <span className="text-xs font-semibold">500+ muassasa ishonadi</span>
+              <div className="text-left">
+                <div className="text-xl font-black text-gray-900">500+</div>
+                <div className="text-xs text-gray-600 font-medium">Muassasa ishonadi</div>
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                name: "Dr. Sarah Johnson",
-                role: "Registrar, MIT",
-                content: "Lernis has revolutionized how we issue and verify certificates. The blockchain technology ensures our credentials are tamper-proof and globally recognized.",
-                avatar: "SJ"
-              },
-              {
-                name: "Prof. Ahmed Hassan",
-                role: "Dean, University of Dubai",
-                content: "The platform is incredibly user-friendly. Our students can now share their certificates instantly with employers worldwide.",
-                avatar: "AH"
-              },
-              {
-                name: "Lisa Chen",
-                role: "HR Director, Google",
-                content: "Verifying educational credentials has never been easier. We can instantly validate certificates from any institution using Lernis.",
-                avatar: "LC"
-              }
-            ].map((testimonial, index) => (
-              <div key={index} className="bg-white/60 backdrop-blur-lg p-8 rounded-3xl shadow-sm border border-white/50 relative hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                {/* Quote Icon */}
-                <div className="absolute top-6 right-8 text-blue-100">
-                  <Quote className="h-12 w-12 opacity-50" />
-                </div>
+          {/* Carousel Container */}
+          <div className="relative">
+            {/* Testimonials - Horizontal Scroll with Auto-scroll */}
+            <div
+              className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide testimonials-carousel"
+              onMouseEnter={(e) => {
+                const el = e.currentTarget;
+                el.dataset.paused = 'true';
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget;
+                el.dataset.paused = 'false';
+              }}
+            >
+              {[
+                {
+                  name: "Prof. Aziza Rahimova",
+                  role: "Rektor o'rinbosari",
+                  institution: "TATU",
+                  content: "Lernis platformasi orqali talabalarimizning barcha yutuqlarini bir joyda kuzatish va ularga raqamli sertifikatlar berish jarayoni juda soddalashdi. Xalqaro hamkorlarimiz ham platformani yuqori baholashmoqda.",
+                  logoGradient: "from-blue-500 to-cyan-500",
+                  logoBg: "bg-blue-50/80",
+                  logoText: "TATU"
+                },
+                {
+                  name: "Dr. Jamshid Karimov",
+                  role: "Kafedra mudiri",
+                  institution: "O'zMU",
+                  content: "Talabalar endi o'z diplomlari va sertifikatlarini osongina ulashishlari mumkin. Blockchain texnologiyasi hujjatlarning haqiqiyligini kafolatlaydi. Bu katta yutuq!",
+                  logoGradient: "from-green-500 to-emerald-500",
+                  logoBg: "bg-green-50/80",
+                  logoText: "O'zMU"
+                },
+                {
+                  name: "Dilnoza Abdullayeva",
+                  role: "Kadrlar bo'limi boshlig'i",
+                  institution: "Uzum",
+                  content: "Nomzodlarning hujjatlarini tekshirish endi bir necha soniya ichida amalga oshadi. QR kod orqali barcha ma'lumotlarni ko'rishimiz mumkin. Vaqt va resurslarni ancha tejadik.",
+                  logoGradient: "from-purple-500 to-pink-500",
+                  logoBg: "bg-purple-50/80",
+                  logoText: "Uzum"
+                },
+                {
+                  name: "Sardor Toshmatov",
+                  role: "Talaba",
+                  institution: "TDIU",
+                  content: "Barcha sertifikatlarim bir joyda! Portfolio yaratish va ish beruvchilarga ko'rsatish juda qulay. Ilmiy ishlarimni ham platformaga joylashtirdim va DOI oldim.",
+                  logoGradient: "from-orange-500 to-red-500",
+                  logoBg: "bg-orange-50/80",
+                  logoText: "TDIU"
+                },
+                {
+                  name: "Prof. Nodira Yusupova",
+                  role: "Ilmiy ishlar bo'limi",
+                  institution: "SamDU",
+                  content: "Ilmiy ishlarni chop etish va ularga DOI berish jarayoni juda tez va qulay. Talabalarimiz xalqaro darajada tan olingan platformada o'z ishlarini e'lon qilishlari mumkin.",
+                  logoGradient: "from-indigo-500 to-blue-500",
+                  logoBg: "bg-indigo-50/80",
+                  logoText: "SamDU"
+                }
+              ].map((testimonial, index) => (
+                <div key={index} className="flex-shrink-0 w-full md:w-[calc(50%-12px)] snap-start">
+                  <div className="group relative overflow-hidden rounded-3xl bg-white/70 backdrop-blur-xl border border-white/40 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 p-6 h-full">
+                    {/* Gradient Glow on Hover */}
+                    <div className={`absolute inset-0 bg-gradient-to-br ${testimonial.logoGradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
 
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="h-14 w-14 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-xl shadow-md">
-                    {testimonial.avatar}
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 text-lg">{testimonial.name}</h4>
-                    <p className="text-blue-600 text-sm font-medium">{testimonial.role}</p>
+                    <div className="relative z-10 flex flex-col h-full">
+                      {/* Institution Logo */}
+                      <div className="flex items-center justify-between mb-4">
+                        <div className={`w-14 h-14 rounded-2xl ${testimonial.logoBg} backdrop-blur-xl flex items-center justify-center shadow-sm border border-white/40 group-hover:scale-110 transition-transform duration-300`}>
+                          <span className={`text-lg font-black bg-gradient-to-br ${testimonial.logoGradient} bg-clip-text text-transparent`}>
+                            {testimonial.logoText}
+                          </span>
+                        </div>
+                        <Quote className="h-8 w-8 text-gray-200 group-hover:text-gray-300 transition-colors duration-300" />
+                      </div>
+
+                      {/* Content */}
+                      <p className="text-gray-600 italic mb-6 leading-relaxed text-sm flex-grow">"{testimonial.content}"</p>
+
+                      {/* Author Info */}
+                      <div className="pt-4 border-t border-gray-100">
+                        <h4 className="font-bold text-gray-900 text-sm">{testimonial.name}</h4>
+                        <p className="text-xs text-gray-500 font-medium">{testimonial.role}, {testimonial.institution}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <p className="text-gray-600 italic relative z-10 text-lg leading-relaxed">"{testimonial.content}"</p>
+              ))}
+            </div>
+
+            {/* Scroll Hint */}
+            <div className="flex justify-center gap-2 mt-6">
+              <div className="text-xs text-gray-400 flex items-center gap-2">
+                <ArrowRight className="h-3 w-3" />
+                <span>Avtomatik scroll</span>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-16 relative">
+      <section id="about" className="py-12 relative">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="grid lg:grid-cols-2 gap-6 items-center mb-10">
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <div className="h-1.5 w-1.5 bg-orange-500 rounded-full"></div>
-                <div className="h-1.5 w-1.5 bg-orange-400 rounded-full"></div>
-                <div className="h-1.5 w-1.5 bg-orange-300 rounded-full"></div>
-                <span className="text-xs font-semibold text-orange-600 uppercase tracking-wider ml-3">Biz haqimizda</span>
-              </div>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-3">Lernis haqida</h2>
-              <p className="text-base text-gray-600 leading-relaxed">
-                LERNIS — ta'lim tizimidagi barcha hujjatlarni (diplom, sertifikat, ilmiy ish, badge) raqamli, xavfsiz va tekshiriladigan shaklda saqlaydigan, talabalar, o'qituvchilar va universitetlarni birlashtiruvchi ijtimoiy o'quv platformasi.
-              </p>
+          {/* Header */}
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-orange-50 border border-orange-200 rounded-full text-orange-700 text-xs font-semibold mb-3">
+              <Award className="h-3 w-3" />
+              Biz haqimizda
             </div>
-            <div className="hidden lg:block">
-              <div className="w-full h-40 bg-gradient-to-br from-orange-100 to-yellow-100 rounded-2xl flex items-center justify-center">
-                <Award className="h-12 w-12 text-orange-500 opacity-50" />
+            <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-4 tracking-tight">Lernis haqida</h2>
+            <p className="text-base text-gray-600 leading-relaxed max-w-3xl mx-auto font-medium">
+              LERNIS — ta'lim tizimidagi barcha hujjatlarni raqamli, xavfsiz va tekshiriladigan shaklda saqlaydigan platforma.
+            </p>
+          </div>
+
+          {/* Mission & Vision - Side by Side */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            {/* Mission */}
+            <div className="group relative overflow-hidden rounded-3xl bg-white/70 backdrop-blur-xl border border-white/40 p-8 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-cyan-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+              <div className="relative z-10">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                  <Target className="h-6 w-6" />
+                </div>
+                <h3 className="text-xl font-black text-gray-900 mb-3 tracking-tight">Missiyamiz</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Har bir foydalanuvchining ta'limdagi yutuqlarini raqamli portfolioga aylantirish va global darajada tan olinadigan shaklda saqlash.
+                </p>
+              </div>
+            </div>
+
+            {/* Vision */}
+            <div className="group relative overflow-hidden rounded-3xl bg-white/70 backdrop-blur-xl border border-white/40 p-8 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-pink-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+              <div className="relative z-10">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                  <Award className="h-6 w-6" />
+                </div>
+                <h3 className="text-xl font-black text-gray-900 mb-3 tracking-tight">Vizyonimiz</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Talaba va o'qituvchilar uchun yagona raqamli ta'lim muhiti. O'rganish, motivatsiya va muloqotni birlashtiruvchi platforma.
+                </p>
               </div>
             </div>
           </div>
 
-          {/* Mission & Vision */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-12">
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 p-6 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              {/* Background Pattern */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-              {/* Icon */}
-              <div className="relative z-10 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white mb-4 group-hover:scale-110 transition-transform duration-300">
-                <Target className="h-5 w-5" />
-              </div>
-
-              {/* Content */}
-              <div className="relative z-10">
-                <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-gray-800 transition-colors duration-300">
-                  Missiyamiz
-                </h3>
-                <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
-                  Har bir foydalanuvchining ta'limdagi to'liq portfolioga aylantirish: uning bilimlari, hujjatlari, yutuqlari va faolligi raqamli portfolioga aylanadi. Ta'lim yutuqlarini ishonchli, xavfsiz va global darajada tan olinadigan shaklda saqlash va ulashish.
-                </p>
-              </div>
-
-              {/* Hover Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
-            </div>
-
-            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-50 to-pink-50 p-6 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              {/* Background Pattern */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-              {/* Icon */}
-              <div className="relative z-10 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white mb-4 group-hover:scale-110 transition-transform duration-300">
-                <Award className="h-5 w-5" />
-              </div>
-
-              {/* Content */}
-              <div className="relative z-10">
-                <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-gray-800 transition-colors duration-300">
-                  Vizyonimiz
-                </h3>
-                <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
-                  Talaba va o'qituvchilar uchun yagona raqamli ta'lim muhiti. Nafaqat hujjatlarni saqlaydi, balki o'rganish, motivatsiya, muloqot va reytingni yagona tizimga birlashtiradi. Platformaning kuchi — ishonchlilik, qulaylik va hamjamiyatda.
-                </p>
-              </div>
-
-              {/* Hover Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
-            </div>
-          </div>
-
-          {/* Core Values */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          {/* Core Values - 4 Column Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               {
-                icon: <Shield className="h-5 w-5" />,
+                icon: <Shield className="h-6 w-6" />,
                 title: "Xavfsizlik",
-                description: "Audit izi, zaxira va rekvizitlar orqali hujjatlar yaxlitligi ta’minlanadi.",
+                description: "Himoyalangan saqlash",
                 gradient: "from-red-500 to-pink-500",
-                bgGradient: "from-red-50 to-pink-50"
+                iconBg: "bg-gradient-to-br from-red-500 to-pink-500"
               },
               {
-                icon: <Globe className="h-5 w-5" />,
-                title: "Kirish qulayligi",
-                description: "24/7, istalgan joydan xavfsiz kirish va ulashish imkoniyati.",
+                icon: <Globe className="h-6 w-6" />,
+                title: "Global Kirish",
+                description: "24/7 istalgan joydan",
                 gradient: "from-green-500 to-emerald-500",
-                bgGradient: "from-green-50 to-emerald-50"
+                iconBg: "bg-gradient-to-br from-green-500 to-emerald-500"
               },
               {
-                icon: <Database className="h-5 w-5" />,
+                icon: <Database className="h-6 w-6" />,
                 title: "Shaffoflik",
-                description: "Tekshirish jarayoni ochiq: kim, qachon, qaysi hujjatni ko‘rganini nazorat qiling.",
+                description: "Ochiq tekshirish",
                 gradient: "from-blue-500 to-cyan-500",
-                bgGradient: "from-blue-50 to-cyan-50"
+                iconBg: "bg-gradient-to-br from-blue-500 to-cyan-500"
               },
               {
-                icon: <Users className="h-5 w-5" />,
+                icon: <Users className="h-6 w-6" />,
                 title: "Hamjamiyat",
-                description: "Talabalar, o'qituvchilar va universitetlar uchun yagona platforma va muloqot muhiti.",
+                description: "Yagona muhit",
                 gradient: "from-orange-500 to-amber-500",
-                bgGradient: "from-orange-50 to-amber-50"
+                iconBg: "bg-gradient-to-br from-orange-500 to-amber-500"
               }
             ].map((value, index) => (
-              <div key={index} className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${value.bgGradient} p-5 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}>
-                {/* Background Pattern */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div key={index} className="group relative overflow-hidden rounded-2xl bg-white/70 backdrop-blur-xl border border-white/40 p-5 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                <div className={`absolute inset-0 bg-gradient-to-br ${value.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
 
-                {/* Icon */}
-                <div className={`relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-r ${value.gradient} text-white mb-3 group-hover:scale-110 transition-transform duration-300`}>
-                  {value.icon}
+                <div className="relative z-10 text-center">
+                  <div className={`w-12 h-12 rounded-xl ${value.iconBg} flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-300 text-white shadow-md`}>
+                    {value.icon}
+                  </div>
+                  <h4 className="text-sm font-bold text-gray-900 mb-1">{value.title}</h4>
+                  <p className="text-xs text-gray-500">{value.description}</p>
                 </div>
-
-                {/* Content */}
-                <div className="relative z-10">
-                  <h3 className="text-base font-bold text-gray-900 mb-2 group-hover:text-gray-800 transition-colors duration-300">
-                    {value.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
-                    {value.description}
-                  </p>
-                </div>
-
-                {/* Hover Effect */}
-                <div className={`absolute inset-0 bg-gradient-to-r ${value.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="py-16 relative">
+      {/* Pricing Section - Role-Based Tabs */}
+      <section id="pricing" className="py-12 relative">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-200 rounded-full text-green-700 text-xs font-semibold mb-4">
-              <div className="h-1.5 w-1.5 bg-green-500 rounded-full"></div>
+          {/* Header */}
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-50 border border-green-200 rounded-full text-green-700 text-xs font-semibold mb-3">
+              <Zap className="h-3 w-3" />
               Tarif rejalar
             </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Har bir rol uchun mos narxlar</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">Talabalar bepul, o'qituvchilar va universitetlar uchun qulay narxlar. Barcha funksiyalar bilan boshlang.</p>
+            <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-4 tracking-tight">Har bir rol uchun mos narxlar</h2>
+            <p className="text-base text-gray-600 max-w-3xl mx-auto font-medium">Barcha funksiyalar bilan boshlang. Istalgan vaqtda bekor qiling.</p>
           </div>
 
-          {/* Pricing Plans */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            {/* Student Plan - Free */}
-            <div className="rounded-3xl bg-white/60 backdrop-blur-xl border border-white/60 p-8 shadow-xl hover:shadow-2xl transition-all duration-500 relative group hover:-translate-y-2 flex flex-col">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-cyan-50/50 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          {/* Role Tabs */}
+          <div className="flex flex-wrap justify-center gap-3 mb-10">
+            {[
+              { id: 'student', label: "Talaba", icon: <GraduationCap className="h-4 w-4" /> },
+              { id: 'teacher', label: "O'qituvchi", icon: <Users className="h-4 w-4" /> },
+              { id: 'university', label: "Universitet", icon: <Award className="h-4 w-4" /> },
+              { id: 'hr', label: "HR", icon: <Shield className="h-4 w-4" /> },
+            ].map((role) => (
+              <button
+                key={role.id}
+                onClick={() => setActivePricingRole(role.id)}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm transition-all duration-300 ${activePricingRole === role.id
+                  ? 'bg-gray-900 text-white shadow-md scale-105'
+                  : 'bg-white text-gray-600 hover:bg-gray-50 border border-gray-200'
+                  }`}
+              >
+                {role.icon}
+                {role.label}
+              </button>
+            ))}
+          </div>
 
-              <div className="relative z-10 text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <GraduationCap className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Talaba</h3>
-                <div className="text-4xl font-extrabold text-gray-900 mb-2">Bepul</div>
-                <p className="text-blue-600 font-medium">Barcha asosiy funksiyalar</p>
-              </div>
-
-              <ul className="space-y-4 mb-8 relative z-10 flex-grow">
+          {/* Pricing Cards Container */}
+          <div className="relative min-h-[600px]">
+            {/* Student Pricing */}
+            <div className={`absolute inset-0 transition-all duration-500 ${activePricingRole === 'student' ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+              }`}>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[
-                  "Cheksiz hujjatlar saqlash",
-                  "Badge olish",
-                  "Ilmiy ish yuklash",
-                  "Community qatnashish",
-                  "Portfolio yaratish",
-                  "Reyting ko'rish",
-                  "QR tekshiruv",
-                  "Public profil"
-                ].map((feature, index) => (
-                  <li key={index} className="flex items-center gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
-                    <span className="text-gray-700 text-sm">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <Link to="/auth/register" className="w-full bg-gray-900 text-white rounded-full px-5 py-2.5 font-semibold hover:bg-black transition block text-center">
-                Bepul boshlash
-              </Link>
-            </div>
-
-            {/* Teacher Plan */}
-            <div className="rounded-3xl bg-gradient-to-br from-purple-600 to-pink-600 p-8 shadow-2xl relative transform scale-105 z-10 flex flex-col">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <span className="bg-yellow-400 text-yellow-900 px-4 py-1.5 rounded-full text-sm font-bold shadow-lg flex items-center gap-1">
-                  <Zap className="h-3 w-3" /> Eng ommabop
-                </span>
-              </div>
-
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-2xl mb-4 shadow-inner">
-                  <Users className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-2">O'qituvchi</h3>
-                <div className="text-5xl font-extrabold text-white mb-2">$9</div>
-                <p className="text-purple-100 font-medium">oyiga</p>
-              </div>
-
-              <ul className="space-y-4 mb-8 flex-grow">
-                {[
-                  "Barcha Talaba funksiyalari",
-                  "Badge yaratish va berish",
-                  "Sertifikat yaratish",
-                  "Talabalar boshqaruvi",
-                  "Feedback berish",
-                  "Statistika va analytics",
-                  "Priority support",
-                  "Custom branding"
-                ].map((feature, index) => (
-                  <li key={index} className="flex items-center gap-3">
-                    <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-white">
-                      <CheckCircle className="h-3 w-3" />
+                  {
+                    name: "Freemium",
+                    price: "Bepul",
+                    period: "Abadiy",
+                    description: "Asosiy funksiyalar",
+                    features: ["Hujjatlar saqlash", "Badge olish", "Portfolio", "Public profil", "Community"],
+                    cta: "Boshlash",
+                    highlighted: false
+                  },
+                  {
+                    name: "Pro",
+                    price: "25,000",
+                    period: "oyiga",
+                    description: "Kengaytirilgan imkoniyatlar",
+                    features: ["Barcha Freemium", "Ilmiy ish yuklash", "DOI olish", "Advanced analytics", "Priority support"],
+                    cta: "Sinov boshlash",
+                    highlighted: true
+                  },
+                  {
+                    name: "Premium",
+                    price: "60,000",
+                    period: "oyiga",
+                    description: "Maksimal imkoniyatlar",
+                    features: ["Barcha Pro", "Cheksiz ilmiy ishlar", "Custom domain", "Verified badge", "1-on-1 mentorship"],
+                    cta: "Sinov boshlash",
+                    highlighted: false
+                  }
+                ].map((plan, idx) => (
+                  <div key={idx} className={`relative rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 ${plan.highlighted
+                    ? 'bg-gradient-to-br from-blue-600 to-cyan-600 shadow-2xl scale-105'
+                    : 'bg-white/70 backdrop-blur-xl border border-white/40 shadow-sm hover:shadow-xl'
+                    }`}>
+                    {plan.highlighted && (
+                      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                        <span className="bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-xs font-bold shadow-lg">Tavsiya etiladi</span>
+                      </div>
+                    )}
+                    <div className={`text-center mb-6 ${plan.highlighted ? 'text-white' : 'text-gray-900'}`}>
+                      <h3 className="text-xl font-black mb-2">{plan.name}</h3>
+                      <div className="mb-1">
+                        {plan.price === "Bepul" || plan.price === "Maxsus" ? (
+                          <span className="text-4xl font-black">{plan.price}</span>
+                        ) : (
+                          <>
+                            <span className="text-4xl font-black">{plan.price}</span>
+                            <span className="text-lg font-semibold ml-1">so'm</span>
+                          </>
+                        )}
+                      </div>
+                      <p className={`text-sm ${plan.highlighted ? 'text-blue-100' : 'text-gray-500'}`}>{plan.period}</p>
+                      <p className={`text-xs mt-2 ${plan.highlighted ? 'text-blue-100' : 'text-gray-600'}`}>{plan.description}</p>
                     </div>
-                    <span className="text-purple-50 font-medium text-sm">{feature}</span>
-                  </li>
+                    <ul className="space-y-3 mb-6">
+                      {plan.features.map((feature, i) => (
+                        <li key={i} className="flex items-center gap-2">
+                          <CheckCircle className={`h-4 w-4 flex-shrink-0 ${plan.highlighted ? 'text-blue-200' : 'text-green-600'}`} />
+                          <span className={`text-sm ${plan.highlighted ? 'text-white' : 'text-gray-700'}`}>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <button className={`w-full py-3 rounded-full font-bold text-sm transition-all ${plan.highlighted
+                      ? 'bg-white text-blue-600 hover:bg-blue-50'
+                      : 'bg-gray-900 text-white hover:bg-black'
+                      }`}>
+                      {plan.cta}
+                    </button>
+                  </div>
                 ))}
-              </ul>
-
-              <button className="w-full bg-white text-purple-600 rounded-full px-6 py-3.5 font-bold hover:bg-purple-50 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                Sinovni boshlash
-              </button>
+              </div>
             </div>
 
-            {/* University Plan */}
-            <div className="rounded-3xl bg-white/60 backdrop-blur-xl border border-white/60 p-8 shadow-xl hover:shadow-2xl transition-all duration-500 relative group hover:-translate-y-2 flex flex-col">
-              <div className="absolute inset-0 bg-gradient-to-br from-green-50/50 to-emerald-50/50 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-              <div className="relative z-10 text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <Award className="h-8 w-8 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Universitet</h3>
-                <div className="text-4xl font-extrabold text-gray-900 mb-2">$49</div>
-                <p className="text-green-600 font-medium">oyiga</p>
-              </div>
-
-              <ul className="space-y-4 mb-8 relative z-10 flex-grow">
+            {/* Teacher Pricing */}
+            <div className={`absolute inset-0 transition-all duration-500 ${activePricingRole === 'teacher' ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+              }`}>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[
-                  "Barcha O'qituvchi funksiyalari",
-                  "Admin panel",
-                  "Bulk sertifikat yuklash",
-                  "Talabalar boshqaruvi",
-                  "Advanced analytics",
-                  "Export (CSV, XLSX)",
-                  "Verification requests",
-                  "Dedicated support"
-                ].map((feature, index) => (
-                  <li key={index} className="flex items-center gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
-                    <span className="text-gray-700 text-sm font-medium">{feature}</span>
-                  </li>
+                  {
+                    name: "Freemium",
+                    price: "Bepul",
+                    period: "Abadiy",
+                    description: "Asosiy o'qituvchi funksiyalari",
+                    features: ["5 tagacha badge", "10 tagacha talaba", "Asosiy statistika", "Community"],
+                    cta: "Boshlash",
+                    highlighted: false
+                  },
+                  {
+                    name: "Pro",
+                    price: "110,000",
+                    period: "oyiga",
+                    description: "Professional o'qituvchi",
+                    features: ["Cheksiz badge", "100 tagacha talaba", "Sertifikat yaratish", "Advanced analytics", "Priority support"],
+                    cta: "Sinov boshlash",
+                    highlighted: true
+                  },
+                  {
+                    name: "Enterprise",
+                    price: "360,000",
+                    period: "oyiga",
+                    description: "Katta guruhlar uchun",
+                    features: ["Cheksiz talaba", "Custom branding", "API access", "Dedicated support", "Team collaboration"],
+                    cta: "Bog'lanish",
+                    highlighted: false
+                  }
+                ].map((plan, idx) => (
+                  <div key={idx} className={`relative rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 ${plan.highlighted
+                    ? 'bg-gradient-to-br from-purple-600 to-pink-600 shadow-2xl scale-105'
+                    : 'bg-white/70 backdrop-blur-xl border border-white/40 shadow-sm hover:shadow-xl'
+                    }`}>
+                    {plan.highlighted && (
+                      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                        <span className="bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-xs font-bold shadow-lg">Eng ommabop</span>
+                      </div>
+                    )}
+                    <div className={`text-center mb-6 ${plan.highlighted ? 'text-white' : 'text-gray-900'}`}>
+                      <h3 className="text-xl font-black mb-2">{plan.name}</h3>
+                      <div className="mb-1">
+                        {plan.price === "Bepul" || plan.price === "Maxsus" ? (
+                          <span className="text-4xl font-black">{plan.price}</span>
+                        ) : (
+                          <>
+                            <span className="text-4xl font-black">{plan.price}</span>
+                            <span className="text-lg font-semibold ml-1">so'm</span>
+                          </>
+                        )}
+                      </div>
+                      <p className={`text-sm ${plan.highlighted ? 'text-purple-100' : 'text-gray-500'}`}>{plan.period}</p>
+                      <p className={`text-xs mt-2 ${plan.highlighted ? 'text-purple-100' : 'text-gray-600'}`}>{plan.description}</p>
+                    </div>
+                    <ul className="space-y-3 mb-6">
+                      {plan.features.map((feature, i) => (
+                        <li key={i} className="flex items-center gap-2">
+                          <CheckCircle className={`h-4 w-4 flex-shrink-0 ${plan.highlighted ? 'text-purple-200' : 'text-green-600'}`} />
+                          <span className={`text-sm ${plan.highlighted ? 'text-white' : 'text-gray-700'}`}>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <button className={`w-full py-3 rounded-full font-bold text-sm transition-all ${plan.highlighted
+                      ? 'bg-white text-purple-600 hover:bg-purple-50'
+                      : 'bg-gray-900 text-white hover:bg-black'
+                      }`}>
+                      {plan.cta}
+                    </button>
+                  </div>
                 ))}
-              </ul>
+              </div>
+            </div>
 
-              <button className="w-full bg-gray-900 text-white rounded-full px-6 py-3.5 font-bold hover:bg-black transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                Savdo bo'limiga murojaat
-              </button>
+            {/* University Pricing */}
+            <div className={`absolute inset-0 transition-all duration-500 ${activePricingRole === 'university' ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+              }`}>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                  {
+                    name: "Starter",
+                    price: "600,000",
+                    period: "oyiga",
+                    description: "Kichik universitetlar",
+                    features: ["500 tagacha talaba", "Admin panel", "Bulk upload", "Basic analytics", "Email support"],
+                    cta: "Sinov boshlash",
+                    highlighted: false
+                  },
+                  {
+                    name: "Professional",
+                    price: "1,850,000",
+                    period: "oyiga",
+                    description: "O'rta universitetlar",
+                    features: ["5000 tagacha talaba", "Advanced analytics", "API access", "Custom branding", "Priority support"],
+                    cta: "Sinov boshlash",
+                    highlighted: true
+                  },
+                  {
+                    name: "Enterprise",
+                    price: "Maxsus",
+                    period: "Shartnoma asosida",
+                    description: "Katta universitetlar",
+                    features: ["Cheksiz talaba", "Dedicated server", "Custom features", "24/7 support", "SLA guarantee"],
+                    cta: "Savdo bo'limiga",
+                    highlighted: false
+                  }
+                ].map((plan, idx) => (
+                  <div key={idx} className={`relative rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 ${plan.highlighted
+                    ? 'bg-gradient-to-br from-green-600 to-emerald-600 shadow-2xl scale-105'
+                    : 'bg-white/70 backdrop-blur-xl border border-white/40 shadow-sm hover:shadow-xl'
+                    }`}>
+                    {plan.highlighted && (
+                      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                        <span className="bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-xs font-bold shadow-lg">Tavsiya etiladi</span>
+                      </div>
+                    )}
+                    <div className={`text-center mb-6 ${plan.highlighted ? 'text-white' : 'text-gray-900'}`}>
+                      <h3 className="text-xl font-black mb-2">{plan.name}</h3>
+                      <div className="mb-1">
+                        {plan.price === "Bepul" || plan.price === "Maxsus" ? (
+                          <span className="text-4xl font-black">{plan.price}</span>
+                        ) : (
+                          <>
+                            <span className="text-4xl font-black">{plan.price}</span>
+                            <span className="text-lg font-semibold ml-1">so'm</span>
+                          </>
+                        )}
+                      </div>
+                      <p className={`text-sm ${plan.highlighted ? 'text-green-100' : 'text-gray-500'}`}>{plan.period}</p>
+                      <p className={`text-xs mt-2 ${plan.highlighted ? 'text-green-100' : 'text-gray-600'}`}>{plan.description}</p>
+                    </div>
+                    <ul className="space-y-3 mb-6">
+                      {plan.features.map((feature, i) => (
+                        <li key={i} className="flex items-center gap-2">
+                          <CheckCircle className={`h-4 w-4 flex-shrink-0 ${plan.highlighted ? 'text-green-200' : 'text-green-600'}`} />
+                          <span className={`text-sm ${plan.highlighted ? 'text-white' : 'text-gray-700'}`}>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <button className={`w-full py-3 rounded-full font-bold text-sm transition-all ${plan.highlighted
+                      ? 'bg-white text-green-600 hover:bg-green-50'
+                      : 'bg-gray-900 text-white hover:bg-black'
+                      }`}>
+                      {plan.cta}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* HR Pricing */}
+            <div className={`absolute inset-0 transition-all duration-500 ${activePricingRole === 'hr' ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+              }`}>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                  {
+                    name: "Basic",
+                    price: "240,000",
+                    period: "oyiga",
+                    description: "Kichik kompaniyalar",
+                    features: ["50 tagacha tekshiruv", "QR verification", "Basic reports", "Email support"],
+                    cta: "Sinov boshlash",
+                    highlighted: false
+                  },
+                  {
+                    name: "Professional",
+                    price: "600,000",
+                    period: "oyiga",
+                    description: "O'rta kompaniyalar",
+                    features: ["500 tagacha tekshiruv", "API access", "Advanced reports", "Bulk verification", "Priority support"],
+                    cta: "Sinov boshlash",
+                    highlighted: true
+                  },
+                  {
+                    name: "Enterprise",
+                    price: "2,500,000",
+                    period: "oyiga",
+                    description: "Katta kompaniyalar",
+                    features: ["Cheksiz tekshiruv", "Dedicated API", "Custom integration", "24/7 support", "SLA guarantee"],
+                    cta: "Savdo bo'limiga",
+                    highlighted: false
+                  }
+                ].map((plan, idx) => (
+                  <div key={idx} className={`relative rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 ${plan.highlighted
+                    ? 'bg-gradient-to-br from-orange-600 to-red-600 shadow-2xl scale-105'
+                    : 'bg-white/70 backdrop-blur-xl border border-white/40 shadow-sm hover:shadow-xl'
+                    }`}>
+                    {plan.highlighted && (
+                      <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                        <span className="bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-xs font-bold shadow-lg">Tavsiya etiladi</span>
+                      </div>
+                    )}
+                    <div className={`text-center mb-6 ${plan.highlighted ? 'text-white' : 'text-gray-900'}`}>
+                      <h3 className="text-xl font-black mb-2">{plan.name}</h3>
+                      <div className="mb-1">
+                        {plan.price === "Bepul" || plan.price === "Maxsus" ? (
+                          <span className="text-4xl font-black">{plan.price}</span>
+                        ) : (
+                          <>
+                            <span className="text-4xl font-black">{plan.price}</span>
+                            <span className="text-lg font-semibold ml-1">so'm</span>
+                          </>
+                        )}
+                      </div>
+                      <p className={`text-sm ${plan.highlighted ? 'text-orange-100' : 'text-gray-500'}`}>{plan.period}</p>
+                      <p className={`text-xs mt-2 ${plan.highlighted ? 'text-orange-100' : 'text-gray-600'}`}>{plan.description}</p>
+                    </div>
+                    <ul className="space-y-3 mb-6">
+                      {plan.features.map((feature, i) => (
+                        <li key={i} className="flex items-center gap-2">
+                          <CheckCircle className={`h-4 w-4 flex-shrink-0 ${plan.highlighted ? 'text-orange-200' : 'text-green-600'}`} />
+                          <span className={`text-sm ${plan.highlighted ? 'text-white' : 'text-gray-700'}`}>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <button className={`w-full py-3 rounded-full font-bold text-sm transition-all ${plan.highlighted
+                      ? 'bg-white text-orange-600 hover:bg-orange-50'
+                      : 'bg-gray-900 text-white hover:bg-black'
+                      }`}>
+                      {plan.cta}
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-16 relative">
+      <section id="faq" className="py-12 relative">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="mb-12">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="h-6 w-6 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-                <FileText className="h-3 w-3 text-white" />
-              </div>
-              <span className="text-xs font-semibold text-purple-600 uppercase tracking-wider">Yordam markazi</span>
+          {/* Header */}
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-purple-50 border border-purple-200 rounded-full text-purple-700 text-xs font-semibold mb-3">
+              <FileText className="h-3 w-3" />
+              Yordam markazi
             </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Ko‘p so‘raladigan savollar</h2>
-            <p className="text-lg text-gray-600 max-w-2xl">Lernis haqida bilishingiz kerak bo'lgan hamma narsa</p>
+            <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-4 tracking-tight">Ko'p so'raladigan savollar</h2>
+            <p className="text-base text-gray-600 max-w-2xl mx-auto font-medium">Lernis haqida bilishingiz kerak bo'lgan hamma narsa</p>
           </div>
 
           <div className="space-y-3">
@@ -1210,7 +1542,7 @@ export default function HomePage() {
                 answer: "Ro'yxatdan o'ting, rol tanlang (Talaba/O'qituvchi/Universitet), profilingizni to'ldiring va platforma imkoniyatlaridan foydalanishni boshlang."
               }
             ].map((faq, index) => (
-              <div key={index} className="bg-white/60 backdrop-blur-md rounded-2xl shadow-sm border border-white/60 overflow-hidden hover:shadow-md transition-shadow duration-300">
+              <div key={index} className="bg-white/70 backdrop-blur-xl rounded-2xl shadow-sm border border-white/40 overflow-hidden hover:shadow-lg transition-all duration-300">
                 <button
                   onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
                   className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-200"
@@ -1243,151 +1575,188 @@ export default function HomePage() {
 
 
       {/* Get Started CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-extrabold text-white mb-4">
+      <section className="py-16 relative overflow-hidden">
+        {/* Background Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600"></div>
+        {/* Subtle Glow Effects */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <h2 className="text-3xl md:text-4xl font-black text-white mb-4 tracking-tight">
             Tayyormisiz?
           </h2>
-          <p className="text-xl text-blue-100 mb-8">
-            Lernis’dan foydalanayotgan minglab muassasalarga qo‘shiling. Bugun bepul sinovni boshlang.
+          <p className="text-lg md:text-xl text-white/90 mb-10 font-medium max-w-2xl mx-auto">
+            Lernis'dan foydalanayotgan minglab muassasalarga qo'shiling. Bugun bepul sinovni boshlang.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               to="/auth/register"
-              className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-lg font-semibold bg-white text-gray-900 hover:bg-gray-100 transition"
+              className="group inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-bold bg-white text-gray-900 hover:bg-gray-100 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105"
             >
               <GraduationCap className="h-5 w-5" />
               Bepul sinovni boshlash
-              <ArrowRight className="h-5 w-5" />
+              <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
             <Link
               to="/demo"
-              className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-lg font-semibold border-2 border-white text-white hover:bg-white hover:text-gray-900 transition"
+              className="group inline-flex items-center gap-2 rounded-full px-8 py-4 text-base font-bold border-2 border-white/80 text-white hover:bg-white hover:text-purple-600 transition-all duration-300 backdrop-blur-sm"
             >
               <Play className="h-5 w-5" />
-              Demo namuni ko‘rish
+              Demo namuni ko'rish
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-16 relative">
+      {/* Waitlist Section */}
+      <section id="contact" className="py-12 relative">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Waitlist Card */}
+          <div className="relative overflow-hidden rounded-3xl bg-white/70 backdrop-blur-xl border border-white/40 shadow-xl p-8 md:p-12">
+            {/* Gradient Glow */}
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-blue-50/50 opacity-0 hover:opacity-100 transition-opacity duration-500"></div>
+
+            <div className="relative z-10 text-center">
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-purple-50 border border-purple-200 rounded-full text-purple-700 text-xs font-semibold mb-4">
+                <div className="h-1.5 w-1.5 bg-purple-500 rounded-full animate-pulse"></div>
+                Erta kirish ro'yxati
+              </div>
+
+              {/* Heading */}
+              <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-3 tracking-tight">Waitlist'ga qo'shiling</h2>
+              <p className="text-base text-gray-600 max-w-2xl mx-auto mb-8 font-medium">
+                Dastlabki yangiliklar va erta kirish haqida birinchi bo'lib xabardor bo'ling.
+              </p>
+
+              {/* Form */}
+              <form onSubmit={handleJoinWaitlist} className="max-w-md mx-auto">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <input
+                    type="email"
+                    placeholder="Email manzilingiz"
+                    value={waitlistEmail}
+                    onChange={(e) => setWaitlistEmail(e.target.value)}
+                    className="flex-1 px-5 py-3.5 rounded-full border border-gray-200 bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm font-medium placeholder:text-gray-400"
+                    aria-label="Waitlist email"
+                  />
+                  <button
+                    type="submit"
+                    disabled={waitlistSubmitting}
+                    className="px-6 py-3.5 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold hover:from-purple-700 hover:to-blue-700 disabled:opacity-60 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 text-sm"
+                  >
+                    {waitlistSubmitting ? 'Yuborilmoqda…' : 'Qo\'shilish'}
+                  </button>
+                </div>
+              </form>
+
+              {/* Success/Error Message */}
+              {waitlistSuccess && (
+                <div className={`max-w-md mx-auto mt-4 rounded-2xl border px-4 py-3 text-sm flex items-start gap-2 ${waitlistStatus === 'success'
+                  ? 'border-green-200 bg-green-50 text-green-700'
+                  : 'border-red-200 bg-red-50 text-red-700'
+                  }`}>
+                  {waitlistStatus === 'success' ? (
+                    <CheckCircle className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                  ) : (
+                    <AlertCircle className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                  )}
+                  <span className="font-medium">{waitlistSuccess}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Information Section */}
+      <section className="py-12 relative">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Waitlist CTA */}
-          <div className="mb-16">
-            <div className="text-center">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-50 border-2 border-purple-200 rounded-full text-purple-700 text-xs font-semibold mb-4">
-                <div className="h-1.5 w-1.5 bg-purple-500 rounded-full"></div>
-                Erta kirish ro‘yxati
-              </div>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">Waitlist’ga qo‘shiling</h2>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">Dastlabki yangiliklar va dastlabki kirish haqida birinchi bo‘lib xabardor bo‘ling.</p>
-            </div>
-            <form onSubmit={handleJoinWaitlist} className="max-w-xl mx-auto flex flex-col sm:flex-row gap-3">
-              <input
-                type="email"
-                placeholder="Email manzilingiz"
-                value={waitlistEmail}
-                onChange={(e) => setWaitlistEmail(e.target.value)}
-                className="flex-1 px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                aria-label="Waitlist email"
-              />
-              <button
-                type="submit"
-                disabled={waitlistSubmitting}
-                className="px-6 py-3 rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold hover:from-purple-700 hover:to-blue-700 disabled:opacity-60"
-              >
-                {waitlistSubmitting ? 'Yuborilmoqda…' : 'Qo‘shilish'}
-              </button>
-            </form>
-            {waitlistSuccess && (
-              <div className={`max-w-xl mx-auto mt-3 rounded-lg border px-4 py-3 text-sm flex items-start gap-2 ${waitlistStatus === 'success' ? 'border-green-200 bg-green-50 text-green-700' : 'border-red-200 bg-red-50 text-red-700'}`}>
-                {waitlistStatus === 'success' ? (
-                  <CheckCircle className="h-4 w-4 mt-0.5" />
-                ) : (
-                  <AlertCircle className="h-4 w-4 mt-0.5" />
-                )}
-                <span>{waitlistSuccess}</span>
-              </div>
-            )}
-          </div>
-
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border-2 border-blue-200 rounded-full text-blue-700 text-xs font-semibold mb-4">
+          {/* Header */}
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-200 rounded-full text-blue-700 text-xs font-semibold mb-3">
               <Mail className="h-3 w-3" />
-              <span>Biz bilan bog‘laning</span>
-              <div className="h-1 w-1 bg-blue-400 rounded-full"></div>
-              <div className="h-1 w-1 bg-blue-300 rounded-full"></div>
+              Biz bilan bog'laning
             </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Biz bilan bog‘laning</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">Savolingiz bormi? Xabar yuboring, imkon qadar tez javob beramiz.</p>
+            <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-4 tracking-tight">Aloqa ma'lumotlari</h2>
+            <p className="text-base text-gray-600 max-w-2xl mx-auto font-medium">Savolingiz bormi? Biz bilan bog'laning</p>
           </div>
 
-          {/* Contact Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
+          {/* Contact Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             {[
               {
                 icon: <Mail className="h-5 w-5" />,
                 title: "Email",
                 description: "yuldoshev.dsgn@gmail.com",
-                link: "mailto:yuldoshev.dsgn@gmail.com"
+                link: "mailto:yuldoshev.dsgn@gmail.com",
+                gradient: "from-blue-500 to-cyan-500"
               },
               {
                 icon: <Phone className="h-5 w-5" />,
-                title: "Phone",
+                title: "Telefon",
                 description: "+998 93 009 3785",
-                link: "tel:+930093785"
+                link: "tel:+998930093785",
+                gradient: "from-green-500 to-emerald-500"
               },
               {
                 icon: <MapPin className="h-5 w-5" />,
-                title: "Address",
-                description: "Tashkent, Uzbekistan",
-                link: "#"
+                title: "Manzil",
+                description: "Toshkent, O'zbekiston",
+                link: "#",
+                gradient: "from-purple-500 to-pink-500"
               },
               {
                 icon: <Clock className="h-5 w-5" />,
-                title: "Business Hours",
+                title: "Ish vaqti",
                 description: "24/7",
-                link: "#"
+                link: "#",
+                gradient: "from-orange-500 to-red-500"
               }
             ].map((info, index) => (
-              <div key={index} className="rounded-2xl bg-white/90 backdrop-blur border border-gray-200/50 p-5 shadow-lg hover:shadow-xl transition-all duration-300 text-center group hover:-translate-y-1">
-                <div className="bg-blue-600/10 text-blue-600 p-2.5 rounded-lg w-10 h-10 flex items-center justify-center mb-3 mx-auto group-hover:scale-110 transition-transform duration-300">
-                  {info.icon}
+              <div key={index} className="group relative overflow-hidden rounded-2xl bg-white/70 backdrop-blur-xl border border-white/40 p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-center">
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-white/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                <div className="relative z-10">
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${info.gradient} flex items-center justify-center mx-auto mb-4 text-white shadow-md group-hover:scale-110 transition-transform duration-300`}>
+                    {info.icon}
+                  </div>
+                  <h3 className="text-sm font-bold text-gray-900 mb-2">{info.title}</h3>
+                  <a
+                    href={info.link}
+                    className="text-sm text-gray-600 hover:text-blue-600 transition-colors font-medium"
+                  >
+                    {info.description}
+                  </a>
                 </div>
-                <h3 className="text-base font-bold text-gray-900 mb-2">{info.title}</h3>
-                <a
-                  href={info.link}
-                  className="text-gray-600 hover:text-blue-600 transition-colors"
-                >
-                  {info.description}
-                </a>
               </div>
             ))}
           </div>
 
-          {/* Contact CTA */}
-          <div className="text-center">
-            <div className="rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 p-5 text-white">
-              <h3 className="text-xl font-extrabold mb-2">Boshlashda yordam kerakmi?</h3>
-              <p className="text-blue-100 mb-4">
-                Jamoamiz Lernis’ni muassasangizda joriy etishda yordam beradi
+          {/* CTA Card */}
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-blue-600 to-purple-600 p-8 md:p-10 text-white shadow-2xl">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+
+            <div className="relative z-10 text-center">
+              <h3 className="text-xl md:text-2xl font-black mb-3">Boshlashda yordam kerakmi?</h3>
+              <p className="text-white/90 mb-6 max-w-2xl mx-auto font-medium">
+                Jamoamiz Lernis'ni muassasangizda joriy etishda yordam beradi
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <Link
                   to="/contact"
-                  className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold bg-white text-gray-900 hover:bg-gray-100 transition"
+                  className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold bg-white text-gray-900 hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
                 >
-                  <Mail className="h-3 w-3" />
-                  Savdo bo‘limiga murojaat
-                  <ArrowRight className="h-3 w-3" />
+                  <Mail className="h-4 w-4" />
+                  Savdo bo'limiga murojaat
+                  <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
                   to="/schedule-demo"
-                  className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold border-2 border-white text-white hover:bg-white hover:text-gray-900 transition"
+                  className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold border-2 border-white/80 text-white hover:bg-white hover:text-purple-600 transition-all duration-300"
                 >
-                  <Play className="h-3 w-3" />
+                  <Play className="h-4 w-4" />
                   Demo uchun
                 </Link>
               </div>
@@ -1397,10 +1766,10 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <Suspense fallback={<div className="h-32 bg-gray-900" />}>
+      < Suspense fallback={< div className="h-32 bg-gray-900" />}>
         <Footer />
-      </Suspense>
+      </Suspense >
 
-    </div>
+    </div >
   );
 }

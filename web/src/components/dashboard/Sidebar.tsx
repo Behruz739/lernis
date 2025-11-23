@@ -10,7 +10,8 @@ import {
     Users,
     PenTool,
     LogOut,
-    X
+    X,
+    GraduationCap
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -33,13 +34,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     };
 
     const navItems = [
-        { path: '/dashboard', icon: Home, label: 'Home', exact: true },
-        { path: '/dashboard/profile', icon: User, label: 'Profile' },
-        { path: '/dashboard/certificates', icon: FileText, label: 'Certificates', badge: '3' },
-        { path: '/dashboard/research', icon: BookOpen, label: 'Research' },
+        { path: '/dashboard', icon: Home, label: 'Bosh sahifa', exact: true },
+        { path: '/dashboard/profile', icon: User, label: 'Profil' },
+        { path: '/dashboard/certificates', icon: FileText, label: 'Sertifikatlar', badge: '3' },
+        { path: '/dashboard/research', icon: BookOpen, label: 'Tadqiqotlar' },
         { path: '/dashboard/blog', icon: PenTool, label: 'Blog', soon: true },
-        { path: '/dashboard/community', icon: Users, label: 'Community', soon: true },
-        { path: '/dashboard/settings', icon: Settings, label: 'Settings' },
+        { path: '/dashboard/community', icon: Users, label: 'Jamiyat', soon: true },
+        { path: '/dashboard/settings', icon: Settings, label: 'Sozlamalar' },
     ];
 
     const isActive = (path: string, exact?: boolean) => {
@@ -54,7 +55,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             {/* Mobile Overlay */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+                    className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
                     onClick={onClose}
                 />
             )}
@@ -62,19 +63,19 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             {/* Sidebar */}
             <aside
                 className={`
-          fixed top-0 left-0 h-full bg-white border-r border-gray-200 z-50
-          transition-transform duration-300 ease-in-out
-          w-64 lg:translate-x-0
-          ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-        `}
+                    fixed top-0 left-0 h-full bg-white/70 backdrop-blur-xl border-r border-white/40 z-50
+                    transition-transform duration-300 ease-in-out shadow-2xl
+                    w-64 lg:translate-x-0
+                    ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+                `}
             >
                 {/* Header */}
-                <div className="h-16 flex items-center justify-between px-6 border-b border-gray-200">
-                    <Link to="/" className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
-                            <span className="text-white text-lg font-bold">L</span>
+                <div className="h-16 flex items-center justify-between px-6 border-b border-white/40">
+                    <Link to="/" className="flex items-center gap-2 group">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                            <GraduationCap className="h-6 w-6 text-white" />
                         </div>
-                        <span className="text-xl font-bold text-gray-900">LERNIS</span>
+                        <span className="text-xl font-black text-gray-900 tracking-tight">Lernis</span>
                     </Link>
                     <button
                         onClick={onClose}
@@ -85,18 +86,18 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                 </div>
 
                 {/* User Info */}
-                <div className="p-4 border-b border-gray-200">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
-                            <span className="text-white font-semibold">
+                <div className="p-4 border-b border-white/40">
+                    <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-br from-blue-50/50 to-purple-50/50 border border-white/40">
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center shadow-md">
+                            <span className="text-white font-black text-lg">
                                 {userData?.displayName?.charAt(0).toUpperCase() || 'U'}
                             </span>
                         </div>
                         <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-gray-900 truncate">
-                                {userData?.displayName || 'User'}
+                            <p className="text-sm font-black text-gray-900 truncate">
+                                {userData?.displayName || 'Foydalanuvchi'}
                             </p>
-                            <p className="text-xs text-gray-500 truncate">{userData?.email}</p>
+                            <p className="text-xs text-gray-600 truncate font-semibold">{userData?.email}</p>
                         </div>
                     </div>
                 </div>
@@ -113,25 +114,25 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                                 to={item.path}
                                 onClick={onClose}
                                 className={`
-                  flex items-center gap-3 px-4 py-3 rounded-xl transition-all
-                  ${active
-                                        ? 'bg-gradient-to-r from-blue-50 to-purple-50 text-blue-600 font-medium'
-                                        : 'text-gray-700 hover:bg-gray-50'
+                                    flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300
+                                    ${active
+                                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white font-black shadow-lg shadow-blue-500/30 scale-105'
+                                        : 'text-gray-700 hover:bg-gray-50 hover:scale-105 font-semibold'
                                     }
-                  ${item.soon ? 'opacity-50 cursor-not-allowed' : ''}
-                `}
+                                    ${item.soon ? 'opacity-50 cursor-not-allowed' : ''}
+                                `}
                                 {...(item.soon && { onClick: (e: React.MouseEvent) => e.preventDefault() })}
                             >
-                                <Icon className={`h-5 w-5 ${active ? 'text-blue-600' : 'text-gray-500'}`} />
+                                <Icon className={`h-5 w-5 ${active ? 'text-white' : 'text-gray-500'}`} />
                                 <span className="flex-1">{item.label}</span>
                                 {item.badge && (
-                                    <span className="px-2 py-0.5 text-xs font-semibold bg-blue-100 text-blue-600 rounded-full">
+                                    <span className={`px-2 py-0.5 text-xs font-bold rounded-full ${active ? 'bg-white/20 text-white' : 'bg-blue-100 text-blue-600'}`}>
                                         {item.badge}
                                     </span>
                                 )}
                                 {item.soon && (
-                                    <span className="px-2 py-0.5 text-xs font-medium bg-gray-100 text-gray-500 rounded-full">
-                                        Soon
+                                    <span className="px-2 py-0.5 text-xs font-semibold bg-gray-100 text-gray-500 rounded-full">
+                                        Tez kunda
                                     </span>
                                 )}
                             </Link>
@@ -140,13 +141,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                 </nav>
 
                 {/* Logout Button */}
-                <div className="p-4 border-t border-gray-200">
+                <div className="p-4 border-t border-white/40">
                     <button
                         onClick={handleLogout}
-                        className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl transition-colors"
+                        className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl transition-all duration-300 font-bold hover:scale-105"
                     >
                         <LogOut className="h-5 w-5" />
-                        <span className="font-medium">Logout</span>
+                        <span>Chiqish</span>
                     </button>
                 </div>
             </aside>

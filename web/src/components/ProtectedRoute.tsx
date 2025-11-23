@@ -49,7 +49,7 @@ class ErrorBoundary extends React.Component<
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  requiredRole?: 'student' | 'teacher' | 'organization' | 'admin';
+  requiredRole?: 'user' | 'org_admin' | 'super_admin';
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole }) => {

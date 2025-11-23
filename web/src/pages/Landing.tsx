@@ -33,7 +33,7 @@ const Navbar = lazy(() => import('../components/Navbar'));
 const Footer = lazy(() => import('../components/Footer'));
 
 // Coming Soon Mode - Set to true to show coming soon page
-const COMING_SOON_MODE = false;
+const COMING_SOON_MODE = true;
 
 // Password for accessing full landing page (can be changed)
 const ACCESS_PASSWORD = 'lernis2026';
@@ -262,7 +262,7 @@ export default function HomePage() {
     const carousel = document.querySelector('.testimonials-carousel') as HTMLElement;
     if (!carousel) return;
 
-    let scrollInterval: NodeJS.Timeout;
+    let scrollInterval: ReturnType<typeof setInterval>;
 
     const startAutoScroll = () => {
       scrollInterval = setInterval(() => {

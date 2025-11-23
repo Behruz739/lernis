@@ -1,24 +1,24 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  GraduationCap, 
-  Search, 
-  ArrowRight, 
-  Play, 
-  CheckCircle, 
-  Shield, 
-  QrCode, 
-  Target, 
-  Award, 
-  Globe, 
-  Database, 
-  Users, 
-  Zap, 
-  FileText, 
-  MapPin, 
-  Clock, 
-  Phone, 
-  Mail, 
+import {
+  GraduationCap,
+  Search,
+  ArrowRight,
+  Play,
+  CheckCircle,
+  Shield,
+  QrCode,
+  Target,
+  Award,
+  Globe,
+  Database,
+  Users,
+  Zap,
+  FileText,
+  MapPin,
+  Clock,
+  Phone,
+  Mail,
   AlertCircle,
   Hammer,
   Key,
@@ -125,15 +125,15 @@ function ComingSoonPage({ onUnlock }: { onUnlock: () => void }) {
           <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-8 border border-gray-200/50 mb-6">
             <h2 className="text-xl font-bold text-gray-900 mb-6">Biz bilan bog'lanish</h2>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <a 
-                href="mailto:yuldoshev.dsgn@gmail.com" 
+              <a
+                href="mailto:yuldoshev.dsgn@gmail.com"
                 className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors"
               >
                 <Mail className="h-5 w-5" />
                 <span>yuldoshev.dsgn@gmail.com</span>
               </a>
-              <a 
-                href="tel:+998930093785" 
+              <a
+                href="tel:+998930093785"
                 className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors"
               >
                 <Phone className="h-5 w-5" />
@@ -160,11 +160,11 @@ function ComingSoonPage({ onUnlock }: { onUnlock: () => void }) {
 
       {/* Password Modal */}
       {showPasswordModal && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
           onClick={closeModal}
         >
-          <div 
+          <div
             className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 relative animate-in fade-in zoom-in"
             onClick={(e) => e.stopPropagation()}
           >
@@ -239,7 +239,7 @@ function ComingSoonPage({ onUnlock }: { onUnlock: () => void }) {
 export default function HomePage() {
   // State to control coming soon mode (can be unlocked with password)
   const [showComingSoon, setShowComingSoon] = useState(COMING_SOON_MODE);
-  
+
   // All hooks must be called before any conditional returns
   const [searchId, setSearchId] = useState('');
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
@@ -319,17 +319,17 @@ export default function HomePage() {
       <div className="pointer-events-none absolute inset-0">
         {/* Main gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-50/60 via-transparent to-purple-50/60" />
-        
+
         {/* Floating orbs with enhanced animation */}
         <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-400/25 to-cyan-300/25 rounded-full blur-3xl animate-bounce-slow" />
-        <div className="absolute top-40 right-20 w-96 h-96 bg-gradient-to-br from-purple-400/20 to-pink-300/20 rounded-full blur-3xl animate-float-gentle" style={{animationDelay: '2s'}} />
-        <div className="absolute bottom-32 left-1/3 w-80 h-80 bg-gradient-to-br from-indigo-400/22 to-blue-300/22 rounded-full blur-3xl animate-pulse-slow" style={{animationDelay: '4s'}} />
-        <div className="absolute bottom-40 right-1/4 w-32 h-32 bg-gradient-to-br from-emerald-400/15 to-teal-300/15 rounded-full blur-3xl animate-spin-slow" style={{animationDelay: '1s'}} />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-56 h-56 bg-gradient-to-br from-amber-400/18 to-orange-300/18 rounded-full blur-3xl animate-wiggle" style={{animationDelay: '3s'}} />
-        
+        <div className="absolute top-40 right-20 w-96 h-96 bg-gradient-to-br from-purple-400/20 to-pink-300/20 rounded-full blur-3xl animate-float-gentle" style={{ animationDelay: '2s' }} />
+        <div className="absolute bottom-32 left-1/3 w-80 h-80 bg-gradient-to-br from-indigo-400/22 to-blue-300/22 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '4s' }} />
+        <div className="absolute bottom-40 right-1/4 w-32 h-32 bg-gradient-to-br from-emerald-400/15 to-teal-300/15 rounded-full blur-3xl animate-spin-slow" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-56 h-56 bg-gradient-to-br from-amber-400/18 to-orange-300/18 rounded-full blur-3xl animate-wiggle" style={{ animationDelay: '3s' }} />
+
         {/* Subtle grid pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.03)_1px,transparent_1px)] bg-[size:50px_50px]" />
-        
+
         {/* Radial gradient overlay for depth */}
         <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-blue-50/20" />
       </div>
@@ -347,87 +347,87 @@ export default function HomePage() {
 
       {/* Split hero */}
       <section className="relative pt-16 sm:pt-20 lg:pt-24">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
-              {/* Left copy */}
-              <div>
-                <div className="flex items-center gap-2 mb-2 sm:mb-3">
-                  <div className="inline-flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-blue-600/10 text-blue-600">
-                    <GraduationCap className="h-4 w-4 sm:h-5 sm:w-5" />
-                  </div>
-                  <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-purple-600">RAQAMLI TA'LIM PLATFORMASI</p>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
+            {/* Left copy */}
+            <div>
+              <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                <div className="inline-flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-blue-600/10 text-blue-600">
+                  <GraduationCap className="h-4 w-4 sm:h-5 sm:w-5" />
                 </div>
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight font-extrabold tracking-tight text-gray-900">
-                  Ta'lim <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">yutuqlaringiz</span> uchun
-                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> yagona platforma</span>
-                </h1>
-                <p className="mt-2 max-w-xl text-gray-600 text-sm sm:text-base">
-                  LERNIS — hujjatlar, badge'lar, ilmiy ishlar va hamjamiyatni birlashtiruvchi raqamli ta'lim ekotizimi. Har bir talaba, o'qituvchi va universitet uchun to'liq portfolio, reyting va yutuqlar yarating.
-                </p>
+                <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-purple-600">RAQAMLI TA'LIM PLATFORMASI</p>
+              </div>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight font-extrabold tracking-tight text-gray-900">
+                Ta'lim <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">yutuqlaringiz</span> uchun
+                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> yagona platforma</span>
+              </h1>
+              <p className="mt-2 max-w-xl text-gray-600 text-sm sm:text-base">
+                LERNIS — hujjatlar, badge'lar, ilmiy ishlar va hamjamiyatni birlashtiruvchi raqamli ta'lim ekotizimi. Har bir talaba, o'qituvchi va universitet uchun to'liq portfolio, reyting va yutuqlar yarating.
+              </p>
 
-                <div className="mt-3 sm:mt-4 flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
-                  <Link to="/auth/register" className="inline-flex items-center gap-2 rounded-full px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 hover:shadow-lg hover:scale-105 transition-all duration-300 transform">
-                    Boshlash
-                    <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 group-hover:translate-x-1 transition-transform duration-300" />
-                  </Link>
-                  <button type="button" className="inline-flex items-center gap-2 rounded-full px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold bg-white text-gray-900 border border-gray-200 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 hover:shadow-lg hover:scale-105 hover:border-gray-300 transition-all duration-300 transform" aria-label="Mahsulot demosini ko'rish">
-                    <Play className="h-3 w-3 sm:h-4 sm:w-4 group-hover:scale-110 transition-transform duration-300" aria-hidden="true" /> Demoni ko'rish
-                  </button>
-                </div>
-
-                <form onSubmit={handleSearch} className="mt-3 sm:mt-4 flex max-w-md rounded-3xl border-2 border-gray-200 bg-white/95 backdrop-blur-md p-1 shadow-lg hover:shadow-xl focus-within:border-blue-500 focus-within:shadow-blue-200 focus-within:scale-105 transition-all duration-300 transform">
-                  <div className="flex-1 flex items-center px-2 sm:px-3 py-2 sm:py-2.5">
-                    <Search className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 mr-2 sm:mr-3" />
-                    <input 
-                      type="text" 
-                      placeholder="Sertifikat ID raqamini kiriting" 
-                      value={searchId} 
-                      onChange={(e) => setSearchId(e.target.value)} 
-                      className="flex-1 text-xs sm:text-sm outline-none bg-transparent placeholder-gray-500 text-gray-900" 
-                      aria-label="Tekshiruv uchun sertifikat ID"
-                    />
-                  </div>
-                  <button 
-                    type="submit" 
-                    className="inline-flex items-center gap-2 rounded-3xl bg-gradient-to-r from-blue-600 to-purple-600 px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-white shadow-md hover:shadow-lg hover:scale-105 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform"
-                  >
-                    <Search className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" /> 
-                    Tekshirish
-                  </button>
-                </form>
-
-                {/* Small trust row */}
-                <div className="mt-3 sm:mt-4 flex flex-wrap items-center gap-2 sm:gap-4 text-gray-500/80 text-xs">
-                  <div className="inline-flex items-center gap-1"><CheckCircle className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-emerald-600"/>Ro‘yxatdan o‘tish shart emas</div>
-                  <div className="inline-flex items-center gap-1"><Shield className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-blue-600"/>Soxtalashtirishga qarshi</div>
-                  <div className="inline-flex items-center gap-1"><QrCode className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-purple-600"/>QR orqali tekshiruv</div>
-                </div>
-                <p className="mt-1 sm:mt-2 text-xs text-gray-500">Xavfsiz saqlash, tezkor qidiruv va qulay ulashish.</p>
+              <div className="mt-3 sm:mt-4 flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
+                <Link to="/auth/register" className="inline-flex items-center gap-2 rounded-full px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 hover:shadow-lg hover:scale-105 transition-all duration-300 transform">
+                  Boshlash
+                  <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 group-hover:translate-x-1 transition-transform duration-300" />
+                </Link>
+                <button type="button" className="inline-flex items-center gap-2 rounded-full px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold bg-white text-gray-900 border border-gray-200 hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 hover:shadow-lg hover:scale-105 hover:border-gray-300 transition-all duration-300 transform" aria-label="Mahsulot demosini ko'rish">
+                  <Play className="h-3 w-3 sm:h-4 sm:w-4 group-hover:scale-110 transition-transform duration-300" aria-hidden="true" /> Demoni ko'rish
+                </button>
               </div>
 
-               {/* Right: Hero Image - Hidden on mobile */}
-               <div className="hidden md:block relative flex items-center justify-center mt-6 sm:mt-8 lg:mt-0">
-                 <div className="relative">
-                   <img 
-                    src="/images/NFT-hero.svg" 
-                    alt="Lernis Digital Certificates" 
-                     className="w-full max-w-[500px] md:max-w-[700px] lg:max-w-[900px] h-[300px] md:h-[450px] lg:h-[550px] object-contain animate-float"
-                     loading="eager"
-                     decoding="async"
-                     fetchPriority="high"
-                   />
-                   {/* Enhanced floating elements around the main image */}
-                   <div className="absolute -top-4 -right-4 w-6 h-6 lg:w-8 lg:h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full animate-bounce-slow shadow-lg"></div>
-                   <div className="absolute -bottom-4 -left-4 w-4 h-4 lg:w-6 lg:h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-float-gentle shadow-lg" style={{animationDelay: '1s'}}></div>
-                   <div className="absolute top-1/2 -left-6 lg:-left-8 w-3 h-3 lg:w-4 lg:h-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full animate-wiggle shadow-lg" style={{animationDelay: '2s'}}></div>
-                 </div>
-               </div>
+              <form onSubmit={handleSearch} className="mt-3 sm:mt-4 flex max-w-md rounded-3xl border-2 border-gray-200 bg-white/95 backdrop-blur-md p-1 shadow-lg hover:shadow-xl focus-within:border-blue-500 focus-within:shadow-blue-200 focus-within:scale-105 transition-all duration-300 transform">
+                <div className="flex-1 flex items-center px-2 sm:px-3 py-2 sm:py-2.5">
+                  <Search className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400 mr-2 sm:mr-3" />
+                  <input
+                    type="text"
+                    placeholder="Sertifikat ID raqamini kiriting"
+                    value={searchId}
+                    onChange={(e) => setSearchId(e.target.value)}
+                    className="flex-1 text-xs sm:text-sm outline-none bg-transparent placeholder-gray-500 text-gray-900"
+                    aria-label="Tekshiruv uchun sertifikat ID"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="inline-flex items-center gap-2 rounded-3xl bg-gradient-to-r from-blue-600 to-purple-600 px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-white shadow-md hover:shadow-lg hover:scale-105 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform"
+                >
+                  <Search className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" />
+                  Tekshirish
+                </button>
+              </form>
+
+              {/* Small trust row */}
+              <div className="mt-3 sm:mt-4 flex flex-wrap items-center gap-2 sm:gap-4 text-gray-500/80 text-xs">
+                <div className="inline-flex items-center gap-1"><CheckCircle className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-emerald-600" />Ro‘yxatdan o‘tish shart emas</div>
+                <div className="inline-flex items-center gap-1"><Shield className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-blue-600" />Soxtalashtirishga qarshi</div>
+                <div className="inline-flex items-center gap-1"><QrCode className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-purple-600" />QR orqali tekshiruv</div>
+              </div>
+              <p className="mt-1 sm:mt-2 text-xs text-gray-500">Xavfsiz saqlash, tezkor qidiruv va qulay ulashish.</p>
             </div>
 
-            {/* Space before next sections */}
-            <div className="h-4 sm:h-6 lg:h-8" />
+            {/* Right: Hero Image - Hidden on mobile */}
+            <div className="hidden md:block relative flex items-center justify-center mt-6 sm:mt-8 lg:mt-0">
+              <div className="relative">
+                <img
+                  src="/images/learning-hero.svg"
+                  alt="Lernis Digital Learning Platform"
+                  className="w-full max-w-[500px] md:max-w-[700px] lg:max-w-[900px] h-[300px] md:h-[450px] lg:h-[550px] object-contain animate-float"
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
+                />
+                {/* Enhanced floating elements around the main image */}
+                <div className="absolute -top-4 -right-4 w-6 h-6 lg:w-8 lg:h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full animate-bounce-slow shadow-lg"></div>
+                <div className="absolute -bottom-4 -left-4 w-4 h-4 lg:w-6 lg:h-6 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-float-gentle shadow-lg" style={{ animationDelay: '1s' }}></div>
+                <div className="absolute top-1/2 -left-6 lg:-left-8 w-3 h-3 lg:w-4 lg:h-4 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full animate-wiggle shadow-lg" style={{ animationDelay: '2s' }}></div>
+              </div>
+            </div>
           </div>
-        </section>
+
+          {/* Space before next sections */}
+          <div className="h-4 sm:h-6 lg:h-8" />
+        </div>
+      </section>
 
       {/* Trust Section */}
       <section className="py-16 relative">
@@ -440,36 +440,36 @@ export default function HomePage() {
               Talabalar, o'qituvchilar va universitetlar bir platformada
             </p>
           </div>
-          
+
           {/* Stats Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { 
-                number: "200+", 
+              {
+                number: "200+",
                 label: "Foydalanuvchilar",
                 icon: <Users className="h-12 w-12" />,
                 color: "from-blue-500 to-cyan-500",
                 bgGradient: "from-blue-50 to-cyan-50",
                 shadowColor: "shadow-blue-500/20"
               },
-              { 
-                number: "200+", 
+              {
+                number: "200+",
                 label: "Hujjatlar",
                 icon: <FileText className="h-12 w-12" />,
                 color: "from-green-500 to-emerald-500",
                 bgGradient: "from-green-50 to-emerald-50",
                 shadowColor: "shadow-green-500/20"
               },
-              { 
-                number: "10+", 
+              {
+                number: "10+",
                 label: "Badge'lar",
                 icon: <Award className="h-12 w-12" />,
                 color: "from-purple-500 to-pink-500",
                 bgGradient: "from-purple-50 to-pink-50",
                 shadowColor: "shadow-purple-500/20"
               },
-              { 
-                number: "5+", 
+              {
+                number: "5+",
                 label: "Ilmiy ishlar",
                 icon: <Database className="h-12 w-12" />,
                 color: "from-orange-500 to-red-500",
@@ -506,7 +506,7 @@ export default function HomePage() {
       <section id="how-it-works" className="py-16 relative">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-full text-blue-700 text-sm font-semibold mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-full text-blue-700 text-sm font-semibold mb-6">
               <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
               Qanday ishlaydi
             </div>
@@ -518,7 +518,7 @@ export default function HomePage() {
           <div className="relative">
             {/* Timeline Line */}
             <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-200 via-purple-200 to-green-200 transform -translate-y-1/2"></div>
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-4">
               {[
                 {
@@ -531,7 +531,7 @@ export default function HomePage() {
                   borderColor: "border-blue-200"
                 },
                 {
-                  step: "02", 
+                  step: "02",
                   title: "Kontent yaratish",
                   description: "Hujjatlar yuklang, badge berish yoki ilmiy ish joylashtiring",
                   icon: <FileText className="h-6 w-6" />,
@@ -541,7 +541,7 @@ export default function HomePage() {
                 },
                 {
                   step: "03",
-                  title: "Faollik va reyting", 
+                  title: "Faollik va reyting",
                   description: "Badge oling, ilmiy ishlar yuklang va hamjamiyatda qatnashing",
                   icon: <Award className="h-6 w-6" />,
                   color: "from-pink-500 to-pink-600",
@@ -550,7 +550,7 @@ export default function HomePage() {
                 },
                 {
                   step: "04",
-                  title: "Portfolio yaratish", 
+                  title: "Portfolio yaratish",
                   description: "Barcha yutuqlaringizni bir joyda to'plang va ulashing",
                   icon: <Globe className="h-6 w-6" />,
                   color: "from-green-500 to-green-600",
@@ -603,7 +603,7 @@ export default function HomePage() {
       <section id="features" className="py-16 relative">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold mb-4">
               <Zap className="h-3 w-3" />
               Kuchli imkoniyatlar
             </div>
@@ -681,12 +681,12 @@ export default function HomePage() {
               <div key={index} className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${feature.bgGradient} p-6 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}>
                 {/* Background Pattern */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
+
                 {/* Icon */}
                 <div className={`relative z-10 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-r ${feature.gradient} text-white mb-4 group-hover:scale-110 transition-transform duration-300`}>
                   {feature.icon}
                 </div>
-                
+
                 {/* Content */}
                 <div className="relative z-10">
                   <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-gray-800 transition-colors duration-300">
@@ -696,7 +696,7 @@ export default function HomePage() {
                     {feature.description}
                   </p>
                 </div>
-                
+
                 {/* Hover Effect */}
                 <div className={`absolute inset-0 bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
               </div>
@@ -866,10 +866,10 @@ export default function HomePage() {
                 <div className="h-1.5 w-1.5 bg-orange-300 rounded-full"></div>
                 <span className="text-xs font-semibold text-orange-600 uppercase tracking-wider ml-3">Biz haqimizda</span>
               </div>
-                <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-3">Lernis haqida</h2>
-                <p className="text-base text-gray-600 leading-relaxed">
-                  LERNIS — ta'lim tizimidagi barcha hujjatlarni (diplom, sertifikat, ilmiy ish, badge) raqamli, xavfsiz va tekshiriladigan shaklda saqlaydigan, talabalar, o'qituvchilar va universitetlarni birlashtiruvchi ijtimoiy o'quv platformasi.
-                </p>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 mb-3">Lernis haqida</h2>
+              <p className="text-base text-gray-600 leading-relaxed">
+                LERNIS — ta'lim tizimidagi barcha hujjatlarni (diplom, sertifikat, ilmiy ish, badge) raqamli, xavfsiz va tekshiriladigan shaklda saqlaydigan, talabalar, o'qituvchilar va universitetlarni birlashtiruvchi ijtimoiy o'quv platformasi.
+              </p>
             </div>
             <div className="hidden lg:block">
               <div className="w-full h-40 bg-gradient-to-br from-orange-100 to-yellow-100 rounded-2xl flex items-center justify-center">
@@ -883,12 +883,12 @@ export default function HomePage() {
             <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 p-6 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
               {/* Background Pattern */}
               <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              
+
               {/* Icon */}
               <div className="relative z-10 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white mb-4 group-hover:scale-110 transition-transform duration-300">
                 <Target className="h-5 w-5" />
               </div>
-              
+
               {/* Content */}
               <div className="relative z-10">
                 <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-gray-800 transition-colors duration-300">
@@ -898,7 +898,7 @@ export default function HomePage() {
                   Har bir foydalanuvchining ta'limdagi to'liq portfolioga aylantirish: uning bilimlari, hujjatlari, yutuqlari va faolligi raqamli portfolioga aylanadi. Ta'lim yutuqlarini ishonchli, xavfsiz va global darajada tan olinadigan shaklda saqlash va ulashish.
                 </p>
               </div>
-              
+
               {/* Hover Effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
             </div>
@@ -906,12 +906,12 @@ export default function HomePage() {
             <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-50 to-pink-50 p-6 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
               {/* Background Pattern */}
               <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              
+
               {/* Icon */}
               <div className="relative z-10 inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white mb-4 group-hover:scale-110 transition-transform duration-300">
                 <Award className="h-5 w-5" />
               </div>
-              
+
               {/* Content */}
               <div className="relative z-10">
                 <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-gray-800 transition-colors duration-300">
@@ -921,7 +921,7 @@ export default function HomePage() {
                   Talaba va o'qituvchilar uchun yagona raqamli ta'lim muhiti. Nafaqat hujjatlarni saqlaydi, balki o'rganish, motivatsiya, muloqot va reytingni yagona tizimga birlashtiradi. Platformaning kuchi — ishonchlilik, qulaylik va hamjamiyatda.
                 </p>
               </div>
-              
+
               {/* Hover Effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-5 transition-opacity duration-300" />
             </div>
@@ -962,12 +962,12 @@ export default function HomePage() {
               <div key={index} className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${value.bgGradient} p-5 border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}>
                 {/* Background Pattern */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
+
                 {/* Icon */}
                 <div className={`relative z-10 inline-flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-r ${value.gradient} text-white mb-3 group-hover:scale-110 transition-transform duration-300`}>
                   {value.icon}
                 </div>
-                
+
                 {/* Content */}
                 <div className="relative z-10">
                   <h3 className="text-base font-bold text-gray-900 mb-2 group-hover:text-gray-800 transition-colors duration-300">
@@ -977,7 +977,7 @@ export default function HomePage() {
                     {value.description}
                   </p>
                 </div>
-                
+
                 {/* Hover Effect */}
                 <div className={`absolute inset-0 bg-gradient-to-r ${value.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
               </div>
@@ -1010,7 +1010,7 @@ export default function HomePage() {
                 <div className="text-3xl font-extrabold text-gray-900 mb-2">Bepul</div>
                 <p className="text-gray-600">Barcha asosiy funksiyalar</p>
               </div>
-              
+
               <ul className="space-y-3 mb-8">
                 {[
                   "Cheksiz hujjatlar saqlash",
@@ -1028,7 +1028,7 @@ export default function HomePage() {
                   </li>
                 ))}
               </ul>
-              
+
               <Link to="/auth/register" className="w-full bg-gray-900 text-white rounded-full px-5 py-2.5 font-semibold hover:bg-black transition block text-center">
                 Bepul boshlash
               </Link>
@@ -1039,7 +1039,7 @@ export default function HomePage() {
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
                 <span className="bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-xs font-bold shadow-lg">Eng ommabop</span>
               </div>
-              
+
               <div className="text-center mb-6">
                 <div className="inline-flex items-center justify-center w-12 h-12 bg-white/20 rounded-xl mb-3">
                   <Users className="h-6 w-6 text-white" />
@@ -1048,7 +1048,7 @@ export default function HomePage() {
                 <div className="text-3xl font-extrabold text-white mb-2">$9</div>
                 <p className="text-purple-100">oyiga</p>
               </div>
-              
+
               <ul className="space-y-3 mb-8">
                 {[
                   "Barcha Talaba funksiyalari",
@@ -1066,12 +1066,12 @@ export default function HomePage() {
                   </li>
                 ))}
               </ul>
-              
+
               <button className="w-full bg-white text-gray-900 rounded-full px-5 py-2.5 font-semibold hover:bg-gray-100 transition">
                 Sinovni boshlash
               </button>
             </div>
-            
+
             {/* University Plan */}
             <div className="rounded-2xl bg-white/90 backdrop-blur border border-gray-200/50 p-6 shadow-lg hover:shadow-xl transition-all duration-300 relative group hover:-translate-y-1">
               <div className="text-center mb-6">
@@ -1082,7 +1082,7 @@ export default function HomePage() {
                 <div className="text-3xl font-extrabold text-gray-900 mb-2">$49</div>
                 <p className="text-gray-600">oyiga</p>
               </div>
-              
+
               <ul className="space-y-3 mb-8">
                 {[
                   "Barcha O'qituvchi funksiyalari",
@@ -1100,7 +1100,7 @@ export default function HomePage() {
                   </li>
                 ))}
               </ul>
-              
+
               <button className="w-full bg-gray-900 text-white rounded-full px-5 py-2.5 font-semibold hover:bg-black transition">
                 Savdo bo'limiga murojaat
               </button>
@@ -1123,101 +1123,101 @@ export default function HomePage() {
             <p className="text-lg text-gray-600 max-w-2xl">Lernis haqida bilishingiz kerak bo'lgan hamma narsa</p>
           </div>
 
-           <div className="space-y-3">
-             {[
-               {
-                 question: "Lernis nima?",
-                 answer: "LERNIS — raqamli ta'lim platformasi bo'lib, hujjatlar, badge'lar, ilmiy ishlar va hamjamiyatni birlashtiradi. Har bir foydalanuvchi uchun to'liq portfolio, reyting va yutuqlar yaratadi."
-               },
-               {
-                 question: "Qanday foydalanuvchi rollari mavjud?",
-                 answer: "Platformada 4 ta asosiy rol bor: Talaba (hujjatlar saqlash, badge olish), O'qituvchi (badge berish, sertifikat yaratish), Universitet (admin panel, analytics), va HR (verification)."
-               },
-               {
-                 question: "Badge tizimi qanday ishlaydi?",
-                 answer: "O'qituvchilar talabalarga badge beradi, bu reytingga ta'sir qiladi. Badge'lar faollik, yutuqlar va ilmiy ishlar asosida beriladi va talaba profilida ko'rsatiladi."
-               },
-               {
-                 question: "Ilmiy ishlar moduli qanday?",
-                 answer: "Talabalar ilmiy ishlarni yuklaydi, keyin review jarayoni (plagiarism check, supervisor review, committee review) o'tkaziladi. Approval bo'lganda avtomatik sertifikat generatsiya qilinadi."
-               },
-               {
-                 question: "Community va Forum qanday ishlaydi?",
-                 answer: "Universitetlar uchun yopiq guruhlar, umumiy feed, blog yozish, like/comment/repost funksiyalari mavjud. Har bir postga faol foydalanuvchilar ball oladi."
-               },
-               {
-                 question: "Reyting tizimi qanday hisoblanadi?",
-                 answer: "Reyting GPA, badge'lar, ilmiy ishlar va faollik asosida hisoblanadi: TotalScore = (GPA * 10) + (Badges * 5) + (Approved Papers * 8) + (Activity * 2). Universitet, respublika va mintaqaviy reytinglar mavjud."
-               },
-               {
-                 question: "Qanchalik xavfsiz?",
-                 answer: "Zero-Knowledge model: client-side AES-256 shifrlash, privacy levels (Public/Private/Selective), one-time sharing linklar (24 soat), va audit izi. Hech kim ruxsatsiz o'zgartira olmaydi."
-               },
-               {
-                 question: "Qanday boshlayman?",
-                 answer: "Ro'yxatdan o'ting, rol tanlang (Talaba/O'qituvchi/Universitet), profilingizni to'ldiring va platforma imkoniyatlaridan foydalanishni boshlang."
-               }
-             ].map((faq, index) => (
-               <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                 <button
-                   onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
-                   className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-200"
-                 >
-                   <h3 className="text-lg font-semibold text-gray-900 pr-4">{faq.question}</h3>
-                   <div className={`flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center transition-transform duration-300 ${openFAQ === index ? 'rotate-180' : ''}`}>
-                     <svg 
-                       className="w-4 h-4 text-gray-600" 
-                       fill="none" 
-                       stroke="currentColor" 
-                       viewBox="0 0 24 24"
-                     >
-                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                     </svg>
-                   </div>
-                 </button>
-                 
-                 <div className={`transition-all duration-300 ease-in-out ${openFAQ === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-                   <div className="px-6 pb-6">
-                     <div className="border-t border-gray-200 pt-4">
-                       <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
-                     </div>
-                   </div>
-                 </div>
-               </div>
-             ))}
+          <div className="space-y-3">
+            {[
+              {
+                question: "Lernis nima?",
+                answer: "LERNIS — raqamli ta'lim platformasi bo'lib, hujjatlar, badge'lar, ilmiy ishlar va hamjamiyatni birlashtiradi. Har bir foydalanuvchi uchun to'liq portfolio, reyting va yutuqlar yaratadi."
+              },
+              {
+                question: "Qanday foydalanuvchi rollari mavjud?",
+                answer: "Platformada 4 ta asosiy rol bor: Talaba (hujjatlar saqlash, badge olish), O'qituvchi (badge berish, sertifikat yaratish), Universitet (admin panel, analytics), va HR (verification)."
+              },
+              {
+                question: "Badge tizimi qanday ishlaydi?",
+                answer: "O'qituvchilar talabalarga badge beradi, bu reytingga ta'sir qiladi. Badge'lar faollik, yutuqlar va ilmiy ishlar asosida beriladi va talaba profilida ko'rsatiladi."
+              },
+              {
+                question: "Ilmiy ishlar moduli qanday?",
+                answer: "Talabalar ilmiy ishlarni yuklaydi, keyin review jarayoni (plagiarism check, supervisor review, committee review) o'tkaziladi. Approval bo'lganda avtomatik sertifikat generatsiya qilinadi."
+              },
+              {
+                question: "Community va Forum qanday ishlaydi?",
+                answer: "Universitetlar uchun yopiq guruhlar, umumiy feed, blog yozish, like/comment/repost funksiyalari mavjud. Har bir postga faol foydalanuvchilar ball oladi."
+              },
+              {
+                question: "Reyting tizimi qanday hisoblanadi?",
+                answer: "Reyting GPA, badge'lar, ilmiy ishlar va faollik asosida hisoblanadi: TotalScore = (GPA * 10) + (Badges * 5) + (Approved Papers * 8) + (Activity * 2). Universitet, respublika va mintaqaviy reytinglar mavjud."
+              },
+              {
+                question: "Qanchalik xavfsiz?",
+                answer: "Zero-Knowledge model: client-side AES-256 shifrlash, privacy levels (Public/Private/Selective), one-time sharing linklar (24 soat), va audit izi. Hech kim ruxsatsiz o'zgartira olmaydi."
+              },
+              {
+                question: "Qanday boshlayman?",
+                answer: "Ro'yxatdan o'ting, rol tanlang (Talaba/O'qituvchi/Universitet), profilingizni to'ldiring va platforma imkoniyatlaridan foydalanishni boshlang."
+              }
+            ].map((faq, index) => (
+              <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                <button
+                  onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
+                  className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-200"
+                >
+                  <h3 className="text-lg font-semibold text-gray-900 pr-4">{faq.question}</h3>
+                  <div className={`flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center transition-transform duration-300 ${openFAQ === index ? 'rotate-180' : ''}`}>
+                    <svg
+                      className="w-4 h-4 text-gray-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </button>
+
+                <div className={`transition-all duration-300 ease-in-out ${openFAQ === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <div className="px-6 pb-6">
+                    <div className="border-t border-gray-200 pt-4">
+                      <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
 
-        {/* Get Started CTA Section */}
-        <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-extrabold text-white mb-4">
-              Tayyormisiz?
-            </h2>
-            <p className="text-xl text-blue-100 mb-8">
-              Lernis’dan foydalanayotgan minglab muassasalarga qo‘shiling. Bugun bepul sinovni boshlang.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                to="/auth/register"
-                className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-lg font-semibold bg-white text-gray-900 hover:bg-gray-100 transition"
-              >
-                <GraduationCap className="h-5 w-5" />
-                Bepul sinovni boshlash
-                <ArrowRight className="h-5 w-5" />
-              </Link>
-              <Link
-                to="/demo"
-                className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-lg font-semibold border-2 border-white text-white hover:bg-white hover:text-gray-900 transition"
-              >
-                <Play className="h-5 w-5" />
-                Demo namuni ko‘rish
-              </Link>
-            </div>
+      {/* Get Started CTA Section */}
+      <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-extrabold text-white mb-4">
+            Tayyormisiz?
+          </h2>
+          <p className="text-xl text-blue-100 mb-8">
+            Lernis’dan foydalanayotgan minglab muassasalarga qo‘shiling. Bugun bepul sinovni boshlang.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              to="/auth/register"
+              className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-lg font-semibold bg-white text-gray-900 hover:bg-gray-100 transition"
+            >
+              <GraduationCap className="h-5 w-5" />
+              Bepul sinovni boshlash
+              <ArrowRight className="h-5 w-5" />
+            </Link>
+            <Link
+              to="/demo"
+              className="inline-flex items-center gap-2 rounded-full px-8 py-4 text-lg font-semibold border-2 border-white text-white hover:bg-white hover:text-gray-900 transition"
+            >
+              <Play className="h-5 w-5" />
+              Demo namuni ko‘rish
+            </Link>
           </div>
-        </section>
+        </div>
+      </section>
 
       {/* Contact Section */}
       <section id="contact" className="py-16 relative">
@@ -1305,8 +1305,8 @@ export default function HomePage() {
                   {info.icon}
                 </div>
                 <h3 className="text-base font-bold text-gray-900 mb-2">{info.title}</h3>
-                <a 
-                  href={info.link} 
+                <a
+                  href={info.link}
                   className="text-gray-600 hover:text-blue-600 transition-colors"
                 >
                   {info.description}
@@ -1318,7 +1318,7 @@ export default function HomePage() {
           {/* Contact CTA */}
           <div className="text-center">
             <div className="rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 p-5 text-white">
-                <h3 className="text-xl font-extrabold mb-2">Boshlashda yordam kerakmi?</h3>
+              <h3 className="text-xl font-extrabold mb-2">Boshlashda yordam kerakmi?</h3>
               <p className="text-blue-100 mb-4">
                 Jamoamiz Lernis’ni muassasangizda joriy etishda yordam beradi
               </p>

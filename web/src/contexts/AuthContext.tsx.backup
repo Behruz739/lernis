@@ -1,4 +1,4 @@
-﻿import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import {
   createUserWithEmailAndPassword,
@@ -10,19 +10,24 @@ import {
   signInWithPopup
 } from 'firebase/auth';
 import type { User } from 'firebase/auth';
-import { doc, setDoc, getDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { doc, setDoc, getDoc } from 'firestore';
 import { auth, db } from '../firebase/config';
 
 // Numeric User ID generator with uniqueness check
 const generateNumericUserId = async (): Promise<string> => {
+  const { collection, getDocs, query, where } = await import('firebase/firestore');
+  const { db } = await import('../firebase/config');
+
   let userId: string = '';
   let isUnique = false;
 
   while (!isUnique) {
+    // Generate a random 8-digit number
     const min = 10000000;
     const max = 99999999;
     userId = Math.floor(Math.random() * (max - min + 1)) + min + '';
 
+    // Check if this userId already exists
     const usersRef = collection(db, 'users');
     const q = query(usersRef, where('userId', '==', userId));
     const querySnapshot = await getDocs(q);
@@ -39,7 +44,8 @@ interface UserData {
   uid: string;
   email: string;
   displayName: string;
-  role: 'user' | 'org_admin' | 'super_admin';
+  role: 'student' | 'teacher' | 'organization' | 'admin';
+  organization?: string;
   createdAt: string;
   userId?: string;
   nickname?: string;
@@ -50,7 +56,7 @@ interface UserData {
 interface AuthContextType {
   currentUser: User | null;
   userData: UserData | null;
-  signup: (email: string, password: string, displayName: string, role?: string) => Promise<void>;
+  signup: (email: string, password: string, displayName: string, role: string, organization?: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   loginWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
@@ -73,6 +79,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Foydalanuvchi ma'lumotlarini Firestore'dan olish (optimized)
   const fetchUserData = async (user: User) => {
     try {
       const userDoc = await getDoc(doc(db, 'users', user.uid));
@@ -81,21 +88,36 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setUserData(data);
         return data;
       } else {
+        // Agar foydalanuvchi ma'lumoti yo'q bo'lsa, default ma'lumotlar yaratish
         const userId = await generateNumericUserId();
+
+        // Avtomatik wallet yaratish (async, non-blocking)
+        const walletPromise = walletService.createWallet(userId);
 
         const defaultUserData: UserData = {
           uid: user.uid,
           email: user.email || '',
           displayName: user.displayName || '',
-          role: 'user',
+          role: 'student',
           createdAt: new Date().toISOString(),
           userId: userId,
           nickname: user.displayName?.split(' ')[0] || 'User',
-          bio: 'Learning enthusiast'
+          bio: 'Passionate learner and blockchain enthusiast.',
+          walletAddress: '', // Will be updated when wallet is ready
+          wallet: undefined
         };
 
+        // Set user data immediately, update wallet later
         await setDoc(doc(db, 'users', user.uid), defaultUserData);
         setUserData(defaultUserData);
+
+        // Update wallet data asynchronously
+        walletPromise.then(async (wallet) => {
+          const updatedData = { ...defaultUserData, walletAddress: wallet.address, wallet };
+          await setDoc(doc(db, 'users', user.uid), updatedData);
+          setUserData(updatedData);
+        });
+
         return defaultUserData;
       }
     } catch (error) {
@@ -104,27 +126,38 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  // Ro'yxatdan o'tish
   const signup = async (
     email: string,
     password: string,
     displayName: string,
-    role: string = 'user'
+    role: string,
+    organization?: string
   ) => {
     try {
       const { user } = await createUserWithEmailAndPassword(auth, email, password);
+
+      // Foydalanuvchi profilini yangilash
       await updateProfile(user, { displayName });
 
+      // Firestore'da foydalanuvchi ma'lumotlarini saqlash
       const userId = await generateNumericUserId();
+
+      // Avtomatik wallet yaratish
+      const wallet = await walletService.createWallet(userId);
 
       const userData: UserData = {
         uid: user.uid,
         email: user.email || '',
         displayName,
-        role: role as 'user' | 'org_admin' | 'super_admin',
+        role: role as 'student' | 'teacher' | 'organization' | 'admin',
+        organization,
         createdAt: new Date().toISOString(),
         userId: userId,
         nickname: displayName.split(' ')[0],
-        bio: 'Learning enthusiast'
+        bio: 'Passionate learner and blockchain enthusiast.',
+        walletAddress: wallet.address,
+        wallet: wallet
       };
 
       await setDoc(doc(db, 'users', user.uid), userData);
@@ -135,6 +168,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  // Kirish
   const login = async (email: string, password: string) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
@@ -144,24 +178,31 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  // Google orqali kirish
   const loginWithGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
       const { user } = await signInWithPopup(auth, provider);
 
+      // Agar foydalanuvchi yangi bo'lsa, ma'lumotlarini saqlash
       const userDoc = await getDoc(doc(db, 'users', user.uid));
       if (!userDoc.exists()) {
         const userId = await generateNumericUserId();
+
+        // Avtomatik wallet yaratish
+        const wallet = await walletService.createWallet(userId);
 
         const userData: UserData = {
           uid: user.uid,
           email: user.email || '',
           displayName: user.displayName || '',
-          role: 'user',
+          role: 'student',
           createdAt: new Date().toISOString(),
           userId: userId,
           nickname: user.displayName?.split(' ')[0] || 'User',
-          bio: 'Learning enthusiast'
+          bio: 'Passionate learner and blockchain enthusiast.',
+          walletAddress: wallet.address,
+          wallet: wallet
         };
         await setDoc(doc(db, 'users', user.uid), userData);
       }
@@ -171,6 +212,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  // Chiqish
   const logout = async () => {
     try {
       await signOut(auth);
@@ -181,8 +223,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  // Barcha user'larni olish
   const getAllUsers = async (): Promise<UserData[]> => {
     try {
+      const { collection, getDocs } = await import('firebase/firestore');
       const usersCollection = collection(db, 'users');
       const usersSnapshot = await getDocs(usersCollection);
       const users = usersSnapshot.docs.map(doc => ({
@@ -197,11 +241,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  // Auth holatini kuzatish (optimized)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
       if (user) {
-        await fetchUserData(user);
+        // Non-blocking user data fetch
+        fetchUserData(user).catch(console.error);
+
+        // Avtomatik Firebase sync
+        try {
+          const { autoFirebaseService } = await import('../services/autoFirebaseService');
+          await autoFirebaseService.autoSyncOnLogin(user.uid);
+          console.log('Auto-sync completed for user:', user.uid);
+        } catch (error) {
+          console.error('Auto-sync failed:', error);
+        }
       } else {
         setUserData(null);
       }

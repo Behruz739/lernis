@@ -10,12 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@types/qrcode": "^1.5.5",
-    "crypto-js": "^4.2.0",
-    "ethers": "^6.13.4",
     "firebase": "^12.3.0",
     "lucide-react": "^0.544.0",
-    "qrcode": "^1.5.4",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.1"
@@ -23,7 +19,6 @@
   "devDependencies": {
     "@eslint/js": "^9.36.0",
     "@tailwindcss/postcss": "^4.1.13",
-    "@types/crypto-js": "^4.2.2",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.3",

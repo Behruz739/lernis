@@ -75,7 +75,7 @@ export default function Login() {
             <div className="w-full max-w-6xl relative z-10">
                 <div className="bg-white/70 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/40 overflow-hidden flex flex-col md:flex-row">
                     {/* Left Side - Form */}
-                    <div className="w-full md:w-1/2 p-5 lg:p-4">
+                    <div className="w-full md:w-1/2 p-10 lg:p-12">
                         {/* Header */}
                         <div className="mb-4 lg:mb-3">
                             <Link

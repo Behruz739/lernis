@@ -90,40 +90,6 @@ export const certificatesService = {
         }
     },
 
-    // Get single certificate
-    getById: async (id: string): Promise<Certificate | null> => {
-        try {
-            const { data, error } = await supabase
-                .from('certificates')
-                .select('*')
-                .eq('id', id)
-                .single();
-
-            if (error) throw error;
-            if (!data) return null;
-
-            return {
-                id: data.id,
-                userId: data.user_id,
-                name: data.name,
-                issuer: data.issuer,
-                description: data.description,
-                date: data.date,
-                type: data.type,
-                image: data.image,
-                credentialId: data.credential_id,
-                credentialUrl: data.credential_url,
-                verified: data.verified,
-                createdAt: data.created_at,
-                updatedAt: data.updated_at
-            };
-        } catch (error) {
-            console.error('Error getting certificate:', error);
-            return null;
-        }
-    },
-
-    // Get certificate by ID
     // Get certificate by ID or Credential ID
     getById: async (idOrCredentialId: string): Promise<Certificate | null> => {
         try {

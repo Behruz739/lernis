@@ -344,7 +344,7 @@ export default function HomePage() {
       }
       return;
     }
-    window.location.href = `/verify/${searchId.trim()}`;
+    window.location.href = `/c/${searchId.trim()}`;
   };
 
   return (

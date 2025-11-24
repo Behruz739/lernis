@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { certificatesService } from '../../services/supabaseService';
 // import { achievementService } from '../../services/firebaseService'; // TODO: Migrate achievements
@@ -14,6 +15,7 @@ import {
 } from 'lucide-react';
 
 const Home: React.FC = () => {
+    const navigate = useNavigate();
     const { userData } = useAuth();
     const [stats, setStats] = useState({
         certificates: 0,
@@ -22,24 +24,37 @@ const Home: React.FC = () => {
         completion: 0
     });
     const [loading, setLoading] = useState(true);
+    const [recentActivity, setRecentActivity] = useState<any[]>([]);
 
     useEffect(() => {
         const loadStats = async () => {
             if (!userData?.id) return;
 
             try {
-                const [certificates] = await Promise.all([
-                    certificatesService.getAll(userData.id),
-                    // achievementService.getAchievements(userData.id)
-                ]);
-                const achievements: any[] = []; // Placeholder
+                const certificates = await certificatesService.getAll(userData.id);
+
+                // Calculate stats
+                const totalCerts = certificates.length;
+                const verifiedCerts = certificates.filter(c => c.verified).length;
+                const completionRate = totalCerts > 0 ? Math.min(Math.round((verifiedCerts / totalCerts) * 100) + 20, 100) : 0;
 
                 setStats({
-                    certificates: certificates.length,
-                    achievements: achievements.length,
-                    activity: certificates.length + achievements.length,
-                    completion: certificates.length > 0 ? 75 : 0
+                    certificates: totalCerts,
+                    achievements: 0, // TODO: Implement achievements
+                    activity: totalCerts, // Simple activity metric for now
+                    completion: completionRate
                 });
+
+                // Generate recent activity from certificates
+                const activity = certificates.slice(0, 5).map(cert => ({
+                    action: 'Sertifikat qo\'shildi',
+                    item: cert.name,
+                    time: new Date(cert.createdAt || cert.date).toLocaleDateString('uz-UZ'),
+                    type: 'certificate',
+                    id: cert.id
+                }));
+                setRecentActivity(activity);
+
             } catch (error) {
                 console.error('Error loading stats:', error);
             } finally {
@@ -56,41 +71,35 @@ const Home: React.FC = () => {
             value: stats.certificates,
             icon: FileText,
             gradient: 'from-blue-500 to-cyan-500',
-            change: '+12%'
+            change: 'Jami'
         },
         {
             title: 'Yutuqlar',
             value: stats.achievements,
             icon: Award,
             gradient: 'from-purple-500 to-pink-500',
-            change: '+8%'
+            change: 'Tez orada'
         },
         {
             title: 'Faollik',
             value: stats.activity,
             icon: TrendingUp,
             gradient: 'from-green-500 to-emerald-500',
-            change: '+23%'
+            change: 'O\'sish'
         },
         {
-            title: 'Bajarilish',
+            title: 'Ishonchlilik',
             value: `${stats.completion}%`,
             icon: Users,
             gradient: 'from-orange-500 to-red-500',
-            change: '+5%'
+            change: 'Reyting'
         }
     ];
 
     const quickActions = [
-        { label: 'Sertifikat yuklash', icon: Plus, gradient: 'from-blue-500 to-cyan-500', soon: false },
+        { label: 'Sertifikat yuklash', icon: Plus, gradient: 'from-blue-500 to-cyan-500', soon: false, link: '/dashboard/certificates' },
         { label: 'Blog yozish', icon: Plus, gradient: 'from-purple-500 to-pink-500', soon: true },
         { label: 'Jamiyatga qo\'shilish', icon: Users, gradient: 'from-green-500 to-emerald-500', soon: true },
-    ];
-
-    const recentActivity = [
-        { action: 'Sertifikat qo\'shildi', item: 'Web Development Bootcamp', time: '2 soat oldin', type: 'certificate' },
-        { action: 'Yutuq qo\'lga kiritildi', item: 'Birinchi Sertifikat', time: '3 soat oldin', type: 'achievement' },
-        { action: 'Profil yangilandi', item: 'Ism o\'zgartirildi', time: '1 kun oldin', type: 'profile' },
     ];
 
     if (loading) {
@@ -159,6 +168,7 @@ const Home: React.FC = () => {
                         return (
                             <button
                                 key={index}
+                                onClick={() => action.link && navigate(action.link)}
                                 className={`
                                     relative overflow-hidden flex items-center gap-3 p-4 rounded-xl border-2 transition-all
                                     ${action.soon

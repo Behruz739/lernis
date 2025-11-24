@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 const Landing = lazy(() => import("./pages/Landing"));
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
+const PublicCertificate = lazy(() => import("./pages/PublicCertificate"));
 
 // Dashboard components
 const DashboardLayout = lazy(() => import("./components/dashboard/DashboardLayout"));
@@ -15,6 +16,7 @@ const DashboardProfile = lazy(() => import("./pages/dashboard/Profile"));
 const DashboardSettings = lazy(() => import("./pages/dashboard/Settings"));
 const DashboardResearch = lazy(() => import("./pages/dashboard/Research"));
 const DashboardCertificates = lazy(() => import("./pages/dashboard/Certificates"));
+const DashboardCertificateDetail = lazy(() => import("./pages/dashboard/CertificateDetail"));
 
 export default function App() {
   return (
@@ -35,6 +37,7 @@ export default function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/auth/login" element={<Login />} />
             <Route path="/auth/register" element={<Register />} />
+            <Route path="/c/:id" element={<PublicCertificate />} />
 
             {/* Dashboard routes */}
             <Route path="/dashboard" element={
@@ -47,6 +50,7 @@ export default function App() {
               <Route path="settings" element={<DashboardSettings />} />
               <Route path="research" element={<DashboardResearch />} />
               <Route path="certificates" element={<DashboardCertificates />} />
+              <Route path="certificates/:id" element={<DashboardCertificateDetail />} />
             </Route>
           </Routes>
         </Suspense>

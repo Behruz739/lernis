@@ -1,0 +1,148 @@
+/* Professional CV Print Styles */
+@media print {
+
+    /* Hide all UI elements */
+    .print\\:hidden {
+        display: none !important;
+    }
+
+    /* Page setup */
+    @page {
+        size: A4;
+        margin: 2cm;
+    }
+
+    body {
+        background: white !important;
+        color: black !important;
+    }
+
+    /* Remove all backgrounds and borders */
+    * {
+        background: white !important;
+        border-color: #e5e7eb !important;
+        box-shadow: none !important;
+    }
+
+    /* Typography */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: #111827 !important;
+        page-break-after: avoid;
+    }
+
+    /* Profile Header */
+    .cv-header {
+        border-bottom: 2px solid #111827 !important;
+        padding-bottom: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .cv-header h1 {
+        font-size: 28pt;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .cv-header .contact-info {
+        font-size: 10pt;
+        color: #4b5563 !important;
+    }
+
+    /* Section Headers */
+    .cv-section {
+        page-break-inside: avoid;
+        margin-bottom: 1.5rem;
+    }
+
+    .cv-section-title {
+        font-size: 14pt;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid #111827 !important;
+        padding-bottom: 0.25rem;
+        margin-bottom: 0.75rem;
+        color: #111827 !important;
+    }
+
+    /* Experience & Education Items */
+    .cv-item {
+        margin-bottom: 1rem;
+        page-break-inside: avoid;
+    }
+
+    .cv-item-title {
+        font-size: 11pt;
+        font-weight: 700;
+        color: #111827 !important;
+    }
+
+    .cv-item-subtitle {
+        font-size: 10pt;
+        font-weight: 600;
+        color: #374151 !important;
+    }
+
+    .cv-item-meta {
+        font-size: 9pt;
+        color: #6b7280 !important;
+        font-style: italic;
+    }
+
+    .cv-item-description {
+        font-size: 9pt;
+        color: #374151 !important;
+        margin-top: 0.25rem;
+        line-height: 1.4;
+    }
+
+    /* Skills & Languages */
+    .cv-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .cv-tag {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border: 1px solid #d1d5db !important;
+        border-radius: 9999px;
+        font-size: 9pt;
+        color: #374151 !important;
+        background: white !important;
+    }
+
+    /* Remove gradients and colors */
+    .bg-gradient-to-br,
+    .bg-gradient-to-r,
+    .from-blue-500,
+    .to-purple-500,
+    .text-blue-600,
+    .text-purple-600,
+    .text-green-700,
+    .text-orange-700 {
+        background: white !important;
+        color: #111827 !important;
+    }
+
+    /* Spacing */
+    .space-y-6>*+* {
+        margin-top: 1.5rem;
+    }
+
+    .space-y-4>*+* {
+        margin-top: 1rem;
+    }
+
+    /* Ensure no page breaks in the middle of items */
+    .cv-item,
+    .cv-section {
+        page-break-inside: avoid;
+    }
+}

@@ -16,6 +16,46 @@ export interface Certificate {
     updatedAt: string;
 }
 
+export interface Experience {
+    id: string;
+    userId: string;
+    company: string;
+    position: string;
+    location?: string;
+    startDate: string;
+    endDate?: string;
+    current: boolean;
+    description?: string;
+    createdAt: string;
+}
+
+export interface Education {
+    id: string;
+    userId: string;
+    institution: string;
+    degree: string;
+    fieldOfStudy?: string;
+    startDate: string;
+    endDate?: string;
+    createdAt: string;
+}
+
+export interface Skill {
+    id: string;
+    userId: string;
+    skillName: string;
+    level: 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
+    createdAt: string;
+}
+
+export interface Language {
+    id: string;
+    userId: string;
+    language: string;
+    proficiency: 'Basic' | 'Conversational' | 'Fluent' | 'Native';
+    createdAt: string;
+}
+
 export const certificatesService = {
     // Get all certificates for a user
     getAll: async (userId: string): Promise<Certificate[]> => {
@@ -79,6 +119,47 @@ export const certificatesService = {
             };
         } catch (error) {
             console.error('Error getting certificate:', error);
+            return null;
+        }
+    },
+
+    // Get certificate by ID
+    // Get certificate by ID or Credential ID
+    getById: async (idOrCredentialId: string): Promise<Certificate | null> => {
+        try {
+            // Check if input is UUID
+            const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(idOrCredentialId);
+
+            let query = supabase.from('certificates').select('*');
+
+            if (isUuid) {
+                query = query.eq('id', idOrCredentialId);
+            } else {
+                query = query.eq('credential_id', idOrCredentialId);
+            }
+
+            const { data, error } = await query.single();
+
+            if (error) throw error;
+            if (!data) return null;
+
+            return {
+                id: data.id,
+                userId: data.user_id,
+                name: data.name,
+                issuer: data.issuer,
+                description: data.description,
+                date: data.date,
+                type: data.type,
+                image: data.image,
+                credentialId: data.credential_id,
+                credentialUrl: data.credential_url,
+                verified: data.verified,
+                createdAt: data.created_at,
+                updatedAt: data.updated_at
+            };
+        } catch (error) {
+            console.error('Error getting certificate by ID:', error);
             return null;
         }
     },
@@ -219,3 +300,307 @@ export const waitlistService = {
         }
     }
 };
+
+// Profile Services
+export const experienceService = {
+    getAll: async (userId: string): Promise<Experience[]> => {
+        try {
+            const { data, error } = await supabase
+                .from('user_experiences')
+                .select('*')
+                .eq('user_id', userId)
+                .order('start_date', { ascending: false });
+
+            if (error) throw error;
+
+            return (data || []).map(exp => ({
+                id: exp.id,
+                userId: exp.user_id,
+                company: exp.company,
+                position: exp.position,
+                location: exp.location,
+                startDate: exp.start_date,
+                endDate: exp.end_date,
+                current: exp.current,
+                description: exp.description,
+                createdAt: exp.created_at
+            }));
+        } catch (error) {
+            console.error('Error getting experiences:', error);
+            return [];
+        }
+    },
+
+    add: async (experience: Omit<Experience, 'id' | 'createdAt'>): Promise<string | null> => {
+        try {
+            const { data, error } = await supabase
+                .from('user_experiences')
+                .insert([{
+                    user_id: experience.userId,
+                    company: experience.company,
+                    position: experience.position,
+                    location: experience.location,
+                    start_date: experience.startDate,
+                    end_date: experience.endDate,
+                    current: experience.current,
+                    description: experience.description
+                }])
+                .select()
+                .single();
+
+            if (error) throw error;
+            return data.id;
+        } catch (error) {
+            console.error('Error adding experience:', error);
+            return null;
+        }
+    },
+
+    update: async (id: string, experience: Partial<Omit<Experience, 'id' | 'userId' | 'createdAt'>>): Promise<boolean> => {
+        try {
+            const updateData: any = {};
+            if (experience.company) updateData.company = experience.company;
+            if (experience.position) updateData.position = experience.position;
+            if (experience.location !== undefined) updateData.location = experience.location;
+            if (experience.startDate) updateData.start_date = experience.startDate;
+            if (experience.endDate !== undefined) updateData.end_date = experience.endDate;
+            if (experience.current !== undefined) updateData.current = experience.current;
+            if (experience.description !== undefined) updateData.description = experience.description;
+
+            const { error } = await supabase
+                .from('user_experiences')
+                .update(updateData)
+                .eq('id', id);
+
+            if (error) throw error;
+            return true;
+        } catch (error) {
+            console.error('Error updating experience:', error);
+            return false;
+        }
+    },
+
+    delete: async (id: string): Promise<boolean> => {
+        try {
+            const { error } = await supabase
+                .from('user_experiences')
+                .delete()
+                .eq('id', id);
+
+            if (error) throw error;
+            return true;
+        } catch (error) {
+            console.error('Error deleting experience:', error);
+            return false;
+        }
+    }
+};
+
+export const educationService = {
+    getAll: async (userId: string): Promise<Education[]> => {
+        try {
+            const { data, error } = await supabase
+                .from('user_educations')
+                .select('*')
+                .eq('user_id', userId)
+                .order('start_date', { ascending: false });
+
+            if (error) throw error;
+
+            return (data || []).map(edu => ({
+                id: edu.id,
+                userId: edu.user_id,
+                institution: edu.institution,
+                degree: edu.degree,
+                fieldOfStudy: edu.field_of_study,
+                startDate: edu.start_date,
+                endDate: edu.end_date,
+                createdAt: edu.created_at
+            }));
+        } catch (error) {
+            console.error('Error getting educations:', error);
+            return [];
+        }
+    },
+
+    add: async (education: Omit<Education, 'id' | 'createdAt'>): Promise<string | null> => {
+        try {
+            const { data, error } = await supabase
+                .from('user_educations')
+                .insert([{
+                    user_id: education.userId,
+                    institution: education.institution,
+                    degree: education.degree,
+                    field_of_study: education.fieldOfStudy,
+                    start_date: education.startDate,
+                    end_date: education.endDate
+                }])
+                .select()
+                .single();
+
+            if (error) throw error;
+            return data.id;
+        } catch (error) {
+            console.error('Error adding education:', error);
+            return null;
+        }
+    },
+
+    update: async (id: string, education: Partial<Omit<Education, 'id' | 'userId' | 'createdAt'>>): Promise<boolean> => {
+        try {
+            const updateData: any = {};
+            if (education.institution) updateData.institution = education.institution;
+            if (education.degree) updateData.degree = education.degree;
+            if (education.fieldOfStudy !== undefined) updateData.field_of_study = education.fieldOfStudy;
+            if (education.startDate) updateData.start_date = education.startDate;
+            if (education.endDate !== undefined) updateData.end_date = education.endDate;
+
+            const { error } = await supabase
+                .from('user_educations')
+                .update(updateData)
+                .eq('id', id);
+
+            if (error) throw error;
+            return true;
+        } catch (error) {
+            console.error('Error updating education:', error);
+            return false;
+        }
+    },
+
+    delete: async (id: string): Promise<boolean> => {
+        try {
+            const { error } = await supabase
+                .from('user_educations')
+                .delete()
+                .eq('id', id);
+
+            if (error) throw error;
+            return true;
+        } catch (error) {
+            console.error('Error deleting education:', error);
+            return false;
+        }
+    }
+};
+
+export const skillService = {
+    getAll: async (userId: string): Promise<Skill[]> => {
+        try {
+            const { data, error } = await supabase
+                .from('user_skills')
+                .select('*')
+                .eq('user_id', userId)
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+
+            return (data || []).map(skill => ({
+                id: skill.id,
+                userId: skill.user_id,
+                skillName: skill.skill_name,
+                level: skill.level,
+                createdAt: skill.created_at
+            }));
+        } catch (error) {
+            console.error('Error getting skills:', error);
+            return [];
+        }
+    },
+
+    add: async (skill: Omit<Skill, 'id' | 'createdAt'>): Promise<string | null> => {
+        try {
+            const { data, error } = await supabase
+                .from('user_skills')
+                .insert([{
+                    user_id: skill.userId,
+                    skill_name: skill.skillName,
+                    level: skill.level
+                }])
+                .select()
+                .single();
+
+            if (error) throw error;
+            return data.id;
+        } catch (error) {
+            console.error('Error adding skill:', error);
+            return null;
+        }
+    },
+
+    delete: async (id: string): Promise<boolean> => {
+        try {
+            const { error } = await supabase
+                .from('user_skills')
+                .delete()
+                .eq('id', id);
+
+            if (error) throw error;
+            return true;
+        } catch (error) {
+            console.error('Error deleting skill:', error);
+            return false;
+        }
+    }
+};
+
+export const languageService = {
+    getAll: async (userId: string): Promise<Language[]> => {
+        try {
+            const { data, error } = await supabase
+                .from('user_languages')
+                .select('*')
+                .eq('user_id', userId)
+                .order('created_at', { ascending: false });
+
+            if (error) throw error;
+
+            return (data || []).map(lang => ({
+                id: lang.id,
+                userId: lang.user_id,
+                language: lang.language,
+                proficiency: lang.proficiency,
+                createdAt: lang.created_at
+            }));
+        } catch (error) {
+            console.error('Error getting languages:', error);
+            return [];
+        }
+    },
+
+    add: async (language: Omit<Language, 'id' | 'createdAt'>): Promise<string | null> => {
+        try {
+            const { data, error } = await supabase
+                .from('user_languages')
+                .insert([{
+                    user_id: language.userId,
+                    language: language.language,
+                    proficiency: language.proficiency
+                }])
+                .select()
+                .single();
+
+            if (error) throw error;
+            return data.id;
+        } catch (error) {
+            console.error('Error adding language:', error);
+            return null;
+        }
+    },
+
+    delete: async (id: string): Promise<boolean> => {
+        try {
+            const { error } = await supabase
+                .from('user_languages')
+                .delete()
+                .eq('id', id);
+
+            if (error) throw error;
+            return true;
+        } catch (error) {
+            console.error('Error deleting language:', error);
+            return false;
+        }
+    }
+};
+

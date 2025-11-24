@@ -33,7 +33,7 @@ const Navbar = lazy(() => import('../components/Navbar'));
 const Footer = lazy(() => import('../components/Footer'));
 
 // Coming Soon Mode - Set to true to show coming soon page
-const COMING_SOON_MODE = true;
+const COMING_SOON_MODE = false;
 
 // Password for accessing full landing page (can be changed)
 const ACCESS_PASSWORD = 'lernis2026';
@@ -365,12 +365,12 @@ export default function HomePage() {
       </Suspense>
 
       {/* Split hero */}
-      <section className="relative pt-12 sm:pt-20 lg:pt-24 pb-20">
+      <section className="relative pt-20 sm:pt-24 lg:pt-28 pb-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-center">
             {/* Left copy */}
             <div className="relative z-20">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/60 backdrop-blur-md border border-blue-100 shadow-sm mb-4 hover:scale-105 transition-transform duration-300 cursor-default">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/60 backdrop-blur-md border border-blue-100 shadow-sm mb-6 hover:scale-105 transition-transform duration-300 cursor-default">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
@@ -378,22 +378,22 @@ export default function HomePage() {
                 <span className="text-xs font-bold text-blue-600 tracking-wide">RAQAMLI TA'LIM PLATFORMASI</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-gray-900 mb-4 leading-tight">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black tracking-tight text-gray-900 mb-3 leading-tight">
                 Ta'lim yutuqlaringiz <br className="hidden sm:block" />
                 <span className="text-blue-600">Raqamli Dunyoda</span>
               </h1>
 
-              <p className="mt-2 max-w-lg text-lg text-gray-600 leading-relaxed font-medium">
+              <p className="mt-2 max-w-lg text-base sm:text-lg text-gray-600 leading-relaxed font-medium">
                 Diplom, sertifikat va ilmiy ishlaringizni yagona ishonchli platformada saqlang va ulashing.
               </p>
 
-              <div className="mt-5 flex flex-col sm:flex-row items-center gap-3">
-                <Link to="/auth/register" className="group relative inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold text-white bg-gray-900 shadow-lg hover:bg-black hover:shadow-xl hover:scale-105 transition-all duration-300">
+              <div className="mt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+                <Link to="/auth/register" className="group relative inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold text-white bg-gray-900 shadow-lg hover:bg-black hover:shadow-xl hover:scale-105 transition-all duration-300">
                   <span className="relative z-10">Boshlash</span>
                   <ArrowRight className="relative z-10 h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" />
                 </Link>
 
-                <button type="button" className="group inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-bold text-gray-700 bg-white border border-gray-200 hover:border-gray-300 hover:bg-gray-50 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300">
+                <button type="button" className="group inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold text-gray-700 bg-white border border-gray-200 hover:border-gray-300 hover:bg-gray-50 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300">
                   <div className="w-6 h-6 rounded-full bg-blue-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                     <Play className="h-3 w-3 text-blue-600 ml-0.5" fill="currentColor" />
                   </div>
@@ -401,7 +401,7 @@ export default function HomePage() {
                 </button>
               </div>
 
-              <div className="mt-6 relative max-w-md">
+              <div className="mt-5 relative w-full max-w-md">
                 <form onSubmit={handleSearch} className="relative flex items-center bg-white rounded-2xl border border-gray-200 p-1.5 shadow-sm transition-all duration-300 hover:shadow-md hover:border-gray-300 group">
                   <div className="pl-3 pr-2 text-gray-400">
                     <Search className="h-5 w-5 group-focus-within:text-gray-600 transition-colors" />
@@ -423,7 +423,7 @@ export default function HomePage() {
               </div>
 
               {/* Trust Indicators - Minimalist */}
-              <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-gray-500 font-medium">
+              <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-gray-500 font-medium">
                 <div className="flex items-center gap-1.5">
                   <CheckCircle className="h-3.5 w-3.5 text-green-500" />
                   <span>Ro‘yxatdan o‘tish shart emas</span>
@@ -517,10 +517,10 @@ export default function HomePage() {
       <section className="py-16 relative">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-gray-900 mb-4">
               Ta'lim hamjamiyatining markazi
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
               Talabalar, o'qituvchilar va universitetlar bir platformada
             </p>
           </div>
@@ -561,7 +561,7 @@ export default function HomePage() {
                 <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${stat.color} text-white mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
                   {stat.icon}
                 </div>
-                <div className={`text-4xl font-extrabold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2`}>
+                <div className={`text-3xl md:text-4xl font-extrabold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-2`}>
                   {stat.number}
                 </div>
                 <div className="text-gray-600 font-medium">
@@ -581,8 +581,8 @@ export default function HomePage() {
               <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
               Qanday ishlaydi
             </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">Platforma qanday ishlaydi</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">Hujjatlar, badge'lar, ilmiy ishlar va hamjamiyat — barchasi bir joyda</p>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-gray-900 mb-4">Platforma qanday ishlaydi</h2>
+            <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">Hujjatlar, badge'lar, ilmiy ishlar va hamjamiyat — barchasi bir joyda</p>
           </div>
 
           {/* Steps Grid */}
@@ -654,8 +654,8 @@ export default function HomePage() {
               <Zap className="h-3 w-3" />
               Kuchli imkoniyatlar
             </div>
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4 tracking-tight">Platforma imkoniyatlari</h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto font-medium">Lernis — hujjatlar, badge'lar, ilmiy ishlar va hamjamiyatni birlashtiruvchi to'liq raqamli ta'lim ekotizimi.</p>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-gray-900 mb-4 tracking-tight">Platforma imkoniyatlari</h2>
+            <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto font-medium">Lernis — hujjatlar, badge'lar, ilmiy ishlar va hamjamiyatni birlashtiruvchi to'liq raqamli ta'lim ekotizimi.</p>
           </div>
 
           {/* Features Grid */}
@@ -667,8 +667,8 @@ export default function HomePage() {
                 <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-purple-600 mb-6 shadow-sm group-hover:scale-110 transition-transform duration-300">
                   <Database className="h-6 w-6" />
                 </div>
-                <h3 className="text-3xl font-black text-gray-900 mb-3 tracking-tight">Research Hub</h3>
-                <p className="text-gray-600 leading-relaxed font-medium max-w-md text-lg">
+                <h3 className="text-2xl md:text-3xl font-black text-gray-900 mb-3 tracking-tight">Research Hub</h3>
+                <p className="text-gray-600 leading-relaxed font-medium max-w-md text-base md:text-lg">
                   Ilmiy ishlaringizni xalqaro darajada chop eting, DOI oling va iqtiboslar to'plang. Global ilmiy bazaga ulaning.
                 </p>
 
@@ -695,7 +695,7 @@ export default function HomePage() {
                 <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-orange-600 mb-6 shadow-sm group-hover:scale-110 transition-transform duration-300">
                   <Award className="h-6 w-6" />
                 </div>
-                <h3 className="text-2xl font-black text-gray-900 mb-3 tracking-tight">Gamification</h3>
+                <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-3 tracking-tight">Gamification</h3>
                 <p className="text-gray-600 leading-relaxed font-medium mb-8">
                   O'qish jarayonini qiziqarli o'yinga aylantiring. Badge'lar to'plang.
                 </p>
@@ -722,8 +722,8 @@ export default function HomePage() {
                   <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-green-600 mb-6 shadow-sm group-hover:scale-110 transition-transform duration-300">
                     <Users className="h-6 w-6" />
                   </div>
-                  <h3 className="text-2xl font-black text-gray-900 mb-2 tracking-tight">Global Hamjamiyat</h3>
-                  <p className="text-gray-600 font-medium text-lg">
+                  <h3 className="text-xl md:text-2xl font-black text-gray-900 mb-2 tracking-tight">Global Hamjamiyat</h3>
+                  <p className="text-gray-600 font-medium text-base md:text-lg">
                     Dunyo bo'ylab talabalar va ekspertlar bilan fikr almashing.
                   </p>
                 </div>
@@ -907,7 +907,7 @@ export default function HomePage() {
                     </div>
 
                     {/* Right: Visual */}
-                    <div className={`bg-gradient-to-br ${role.bgGradient} p-8 flex items-center justify-center relative overflow-hidden`}>
+                    <div className={`hidden md:flex bg-gradient-to-br ${role.bgGradient} p-8 items-center justify-center relative overflow-hidden`}>
                       {/* Abstract Shapes */}
                       <div className="absolute top-0 right-0 w-40 h-40 bg-white/20 rounded-full blur-2xl transform translate-x-1/2 -translate-y-1/2"></div>
                       <div className="absolute bottom-0 left-0 w-40 h-40 bg-white/20 rounded-full blur-2xl transform -translate-x-1/2 translate-y-1/2"></div>
@@ -1186,9 +1186,9 @@ export default function HomePage() {
           </div>
 
           {/* Pricing Cards Container */}
-          <div className="relative min-h-[600px]">
+          <div className="relative min-h-0 md:min-h-[600px]">
             {/* Student Pricing */}
-            <div className={`absolute inset-0 transition-all duration-500 ${activePricingRole === 'student' ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+            <div className={`md:absolute md:inset-0 transition-all duration-500 ${activePricingRole === 'student' ? 'opacity-100 z-10' : 'hidden md:block opacity-0 z-0 pointer-events-none'
               }`}>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[
@@ -1220,7 +1220,7 @@ export default function HomePage() {
                     highlighted: false
                   }
                 ].map((plan, idx) => (
-                  <div key={idx} className={`relative rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 ${plan.highlighted
+                  <div key={idx} className={`relative rounded-2xl p-4 md:p-6 transition-all duration-300 hover:-translate-y-1 ${plan.highlighted
                     ? 'bg-gradient-to-br from-blue-600 to-cyan-600 shadow-2xl scale-105'
                     : 'bg-white/70 backdrop-blur-xl border border-white/40 shadow-sm hover:shadow-xl'
                     }`}>
@@ -1229,14 +1229,14 @@ export default function HomePage() {
                         <span className="bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-xs font-bold shadow-lg">Tavsiya etiladi</span>
                       </div>
                     )}
-                    <div className={`text-center mb-6 ${plan.highlighted ? 'text-white' : 'text-gray-900'}`}>
-                      <h3 className="text-xl font-black mb-2">{plan.name}</h3>
+                    <div className={`text-center mb-4 md:mb-6 ${plan.highlighted ? 'text-white' : 'text-gray-900'}`}>
+                      <h3 className="text-lg md:text-xl font-black mb-2">{plan.name}</h3>
                       <div className="mb-1">
                         {plan.price === "Bepul" || plan.price === "Maxsus" ? (
-                          <span className="text-4xl font-black">{plan.price}</span>
+                          <span className="text-3xl md:text-4xl font-black">{plan.price}</span>
                         ) : (
                           <>
-                            <span className="text-4xl font-black">{plan.price}</span>
+                            <span className="text-3xl md:text-4xl font-black">{plan.price}</span>
                             <span className="text-lg font-semibold ml-1">so'm</span>
                           </>
                         )}
@@ -1244,7 +1244,7 @@ export default function HomePage() {
                       <p className={`text-sm ${plan.highlighted ? 'text-blue-100' : 'text-gray-500'}`}>{plan.period}</p>
                       <p className={`text-xs mt-2 ${plan.highlighted ? 'text-blue-100' : 'text-gray-600'}`}>{plan.description}</p>
                     </div>
-                    <ul className="space-y-3 mb-6">
+                    <ul className="space-y-2 md:space-y-3 mb-4 md:mb-6">
                       {plan.features.map((feature, i) => (
                         <li key={i} className="flex items-center gap-2">
                           <CheckCircle className={`h-4 w-4 flex-shrink-0 ${plan.highlighted ? 'text-blue-200' : 'text-green-600'}`} />
@@ -1264,7 +1264,7 @@ export default function HomePage() {
             </div>
 
             {/* Teacher Pricing */}
-            <div className={`absolute inset-0 transition-all duration-500 ${activePricingRole === 'teacher' ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+            <div className={`md:absolute md:inset-0 transition-all duration-500 ${activePricingRole === 'teacher' ? 'opacity-100 z-10' : 'hidden md:block opacity-0 z-0 pointer-events-none'
               }`}>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[
@@ -1296,7 +1296,7 @@ export default function HomePage() {
                     highlighted: false
                   }
                 ].map((plan, idx) => (
-                  <div key={idx} className={`relative rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 ${plan.highlighted
+                  <div key={idx} className={`relative rounded-2xl p-4 md:p-6 transition-all duration-300 hover:-translate-y-1 ${plan.highlighted
                     ? 'bg-gradient-to-br from-purple-600 to-pink-600 shadow-2xl scale-105'
                     : 'bg-white/70 backdrop-blur-xl border border-white/40 shadow-sm hover:shadow-xl'
                     }`}>
@@ -1340,7 +1340,7 @@ export default function HomePage() {
             </div>
 
             {/* University Pricing */}
-            <div className={`absolute inset-0 transition-all duration-500 ${activePricingRole === 'university' ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+            <div className={`md:absolute md:inset-0 transition-all duration-500 ${activePricingRole === 'university' ? 'opacity-100 z-10' : 'hidden md:block opacity-0 z-0 pointer-events-none'
               }`}>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[
@@ -1372,7 +1372,7 @@ export default function HomePage() {
                     highlighted: false
                   }
                 ].map((plan, idx) => (
-                  <div key={idx} className={`relative rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 ${plan.highlighted
+                  <div key={idx} className={`relative rounded-2xl p-4 md:p-6 transition-all duration-300 hover:-translate-y-1 ${plan.highlighted
                     ? 'bg-gradient-to-br from-green-600 to-emerald-600 shadow-2xl scale-105'
                     : 'bg-white/70 backdrop-blur-xl border border-white/40 shadow-sm hover:shadow-xl'
                     }`}>
@@ -1416,7 +1416,7 @@ export default function HomePage() {
             </div>
 
             {/* HR Pricing */}
-            <div className={`absolute inset-0 transition-all duration-500 ${activePricingRole === 'hr' ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+            <div className={`md:absolute md:inset-0 transition-all duration-500 ${activePricingRole === 'hr' ? 'opacity-100 z-10' : 'hidden md:block opacity-0 z-0 pointer-events-none'
               }`}>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[
@@ -1448,7 +1448,7 @@ export default function HomePage() {
                     highlighted: false
                   }
                 ].map((plan, idx) => (
-                  <div key={idx} className={`relative rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 ${plan.highlighted
+                  <div key={idx} className={`relative rounded-2xl p-4 md:p-6 transition-all duration-300 hover:-translate-y-1 ${plan.highlighted
                     ? 'bg-gradient-to-br from-orange-600 to-red-600 shadow-2xl scale-105'
                     : 'bg-white/70 backdrop-blur-xl border border-white/40 shadow-sm hover:shadow-xl'
                     }`}>
@@ -1495,7 +1495,7 @@ export default function HomePage() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-12 relative">
+      <section id="faq" className="py-20 md:py-16 relative">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           {/* Header */}
           <div className="text-center mb-10">

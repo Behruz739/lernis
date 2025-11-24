@@ -14,6 +14,7 @@ const DashboardHome = lazy(() => import("./pages/dashboard/Home"));
 const DashboardProfile = lazy(() => import("./pages/dashboard/Profile"));
 const DashboardSettings = lazy(() => import("./pages/dashboard/Settings"));
 const DashboardResearch = lazy(() => import("./pages/dashboard/Research"));
+const DashboardCertificates = lazy(() => import("./pages/dashboard/Certificates"));
 
 export default function App() {
   return (
@@ -45,6 +46,7 @@ export default function App() {
               <Route path="profile" element={<DashboardProfile />} />
               <Route path="settings" element={<DashboardSettings />} />
               <Route path="research" element={<DashboardResearch />} />
+              <Route path="certificates" element={<DashboardCertificates />} />
             </Route>
           </Routes>
         </Suspense>

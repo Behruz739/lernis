@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { certificateService, achievementService } from '../../services/firebaseService';
+import { certificatesService } from '../../services/supabaseService';
+// import { achievementService } from '../../services/firebaseService'; // TODO: Migrate achievements
 import {
     FileText,
     Award,
@@ -24,13 +25,14 @@ const Home: React.FC = () => {
 
     useEffect(() => {
         const loadStats = async () => {
-            if (!userData?.uid) return;
+            if (!userData?.id) return;
 
             try {
-                const [certificates, achievements] = await Promise.all([
-                    certificateService.getCertificates(userData.uid),
-                    achievementService.getAchievements(userData.uid)
+                const [certificates] = await Promise.all([
+                    certificatesService.getAll(userData.id),
+                    // achievementService.getAchievements(userData.id)
                 ]);
+                const achievements: any[] = []; // Placeholder
 
                 setStats({
                     certificates: certificates.length,

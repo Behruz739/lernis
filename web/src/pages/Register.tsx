@@ -59,12 +59,13 @@ export default function Register() {
             const from = location.state?.from?.pathname || '/dashboard';
             navigate(from, { replace: true });
         } catch (err: any) {
-            if (err.code === 'auth/email-already-in-use') {
+            console.error('Signup error:', err);
+            if (err.message?.includes('already registered') || err.message?.includes('unique constraint')) {
                 setError('Bu email allaqachon ro\'yxatdan o\'tgan');
-            } else if (err.code === 'auth/invalid-email') {
+            } else if (err.message?.includes('valid email')) {
                 setError('Email manzil noto\'g\'ri');
-            } else if (err.code === 'auth/weak-password') {
-                setError('Parol juda zaif');
+            } else if (err.message?.includes('password')) {
+                setError('Parol talablarga javob bermaydi');
             } else {
                 setError('Ro\'yxatdan o\'tish amalga oshmadi. Qayta urinib ko\'ring');
             }

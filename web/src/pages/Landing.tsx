@@ -307,9 +307,10 @@ export default function HomePage() {
       setWaitlistSuccess(null);
       // Firebase'ga saqlash
       try {
-        const { waitlistService } = await import('../services/firebaseService');
-        const id = await waitlistService.addWaitlistEntry({ email: waitlistEmail.trim(), source: 'landing_waitlist' });
-        if (!id) throw new Error('Firebase save failed');
+        const { waitlistService } = await import("../services/supabaseService");
+
+        const id = await waitlistService.addWaitlistEntry({ email: waitlistEmail.trim() });
+        if (!id) throw new Error("Supabase save failed");
       } catch (fbErr) {
         // Fallback: localStorage
         const existing = JSON.parse(localStorage.getItem('lernis_waitlist') || '[]');

@@ -37,9 +37,10 @@ export default function Login() {
             const from = location.state?.from?.pathname || '/dashboard';
             navigate(from, { replace: true });
         } catch (err: any) {
-            if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
+            console.error('Login error:', err);
+            if (err.message === 'Invalid login credentials') {
                 setError('Email yoki parol noto\'g\'ri');
-            } else if (err.code === 'auth/too-many-requests') {
+            } else if (err.message?.includes('rate limit')) {
                 setError('Juda ko\'p urinishlar. Keyinroq qayta urinib ko\'ring');
             } else {
                 setError('Kirish amalga oshmadi. Qayta urinib ko\'ring');

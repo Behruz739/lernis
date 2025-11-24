@@ -11,6 +11,31 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Simple & Clean Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
 /* Preload critical fonts */
 @font-face {
   font-family: 'system-ui';
@@ -24,8 +49,15 @@ body {
 
 /* Enhanced Custom animations - Optimized for performance */
 @keyframes float {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(0, -10px, 0); }
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
 }
 
 .animate-float {
@@ -37,10 +69,23 @@ body {
 
 /* Gentle floating animation */
 @keyframes float-gentle {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-  25% { transform: translate3d(5px, -8px, 0) rotate(1deg); }
-  50% { transform: translate3d(0, -12px, 0) rotate(0deg); }
-  75% { transform: translate3d(-5px, -8px, 0) rotate(-1deg); }
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  25% {
+    transform: translate3d(5px, -8px, 0) rotate(1deg);
+  }
+
+  50% {
+    transform: translate3d(0, -12px, 0) rotate(0deg);
+  }
+
+  75% {
+    transform: translate3d(-5px, -8px, 0) rotate(-1deg);
+  }
 }
 
 .animate-float-gentle {
@@ -50,8 +95,15 @@ body {
 
 /* Slow bounce animation */
 @keyframes bounce-slow {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(0, -15px, 0); }
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -15px, 0);
+  }
 }
 
 .animate-bounce-slow {
@@ -61,8 +113,17 @@ body {
 
 /* Slow pulse animation */
 @keyframes pulse-slow {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(1.1); }
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
 }
 
 .animate-pulse-slow {
@@ -72,8 +133,13 @@ body {
 
 /* Slow spin animation */
 @keyframes spin-slow {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .animate-spin-slow {
@@ -83,9 +149,19 @@ body {
 
 /* Wiggle animation */
 @keyframes wiggle {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(2deg); }
-  75% { transform: rotate(-2deg); }
+
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(2deg);
+  }
+
+  75% {
+    transform: rotate(-2deg);
+  }
 }
 
 .animate-wiggle {
@@ -95,8 +171,17 @@ body {
 
 /* Optimized pulse animation */
 @keyframes pulse-optimized {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 0.8; transform: scale(1.05); }
+
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
 }
 
 .animate-pulse-optimized {
@@ -129,6 +214,7 @@ body {
 
 /* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
+
   .animate-float,
   .animate-float-gentle,
   .animate-bounce-slow,

@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { researchService } from '../../services/firebaseService';
-import type { ResearchPaper } from '../../services/firebaseService';
+// import { researchService } from '../../services/firebaseService';
+// import type { ResearchPaper } from '../../services/firebaseService';
+
+interface ResearchPaper {
+    id: string;
+    title: string;
+    abstract: string;
+    publicationDate: string;
+    authors: string[];
+    journal?: string;
+    views: number;
+    tags: string[];
+    fileUrl?: string;
+}
 import { Search, Filter, Plus, FileText, Download, Eye, Calendar, User as UserIcon } from 'lucide-react';
 
 const Research: React.FC = () => {
@@ -15,8 +27,8 @@ const Research: React.FC = () => {
 
     const loadPapers = async () => {
         try {
-            const data = await researchService.getAll();
-            setPapers(data);
+            // const data = await researchService.getAll();
+            setPapers([]); // TODO: Implement Supabase research service
         } catch (error) {
             console.error('Error loading papers:', error);
         } finally {

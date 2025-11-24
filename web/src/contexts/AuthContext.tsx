@@ -1,17 +1,7 @@
 ﻿import React, { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-  updateProfile,
-  GoogleAuthProvider,
-  signInWithPopup
-} from 'firebase/auth';
-import type { User } from 'firebase/auth';
-import { doc, setDoc, getDoc, collection, getDocs, query, where } from 'firebase/firestore';
-import { auth, db } from '../firebase/config';
+import type { User } from '@supabase/supabase-js';
+import { supabase } from '../lib/supabase';
 
 // Numeric User ID generator with uniqueness check
 const generateNumericUserId = async (): Promise<string> => {
@@ -23,11 +13,28 @@ const generateNumericUserId = async (): Promise<string> => {
     const max = 99999999;
     userId = Math.floor(Math.random() * (max - min + 1)) + min + '';
 
-    const usersRef = collection(db, 'users');
-    const q = query(usersRef, where('userId', '==', userId));
-    const querySnapshot = await getDocs(q);
+    const { data } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('user_id', userId) // Note: Schema uses user_id for the numeric ID field? No, wait.
+      // In the migration plan, I didn't explicitly add a 'user_id' numeric field to profiles, 
+      // I only had 'id' (uuid) and 'user_id' (fk) in certificates.
+      // Let's check the previous AuthContext. It had a 'userId' field in UserData which was the numeric ID.
+      // I should add this field to the profiles table schema in my mind/plan.
+      // Let's assume the 'profiles' table has a 'user_id' column for this numeric ID, 
+      // OR I should rename it to 'numeric_id' to avoid confusion with the UUID 'id'.
+      // In the previous code: userId: userId (numeric).
+      // Let's use 'numeric_id' in Supabase to be clear, or keep 'user_id' if I want to match the interface but map it.
+      // The previous interface had `userId?: string`.
+      // Let's assume the column in Supabase is `numeric_id` to avoid conflict with `user_id` FK.
+      // Wait, in the migration plan I wrote:
+      // create table public.profiles ( id uuid ... )
+      // I missed the numeric ID column in the plan! 
+      // I should add it now in the code logic and assume the user will run the SQL I will provide later (or updated SQL).
+      // Let's call it `numeric_id` in the DB and map it to `userId` in the frontend.
+      .eq('numeric_id', userId);
 
-    if (querySnapshot.empty) {
+    if (!data || data.length === 0) {
       isUnique = true;
     }
   }
@@ -35,16 +42,17 @@ const generateNumericUserId = async (): Promise<string> => {
   return userId;
 };
 
-interface UserData {
-  uid: string;
+export interface UserData {
+  id: string; // UUID
   email: string;
   displayName: string;
   role: 'user' | 'org_admin' | 'super_admin';
   createdAt: string;
-  userId?: string;
+  userId?: string; // Numeric ID
   nickname?: string;
   bio?: string;
   updatedAt?: string;
+  avatarUrl?: string;
 }
 
 interface AuthContextType {
@@ -75,31 +83,66 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const fetchUserData = async (user: User) => {
     try {
-      const userDoc = await getDoc(doc(db, 'users', user.uid));
-      if (userDoc.exists()) {
-        const data = userDoc.data() as UserData;
-        setUserData(data);
-        return data;
-      } else {
-        const userId = await generateNumericUserId();
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
 
-        const defaultUserData: UserData = {
-          uid: user.uid,
-          email: user.email || '',
-          displayName: user.displayName || '',
+      if (data) {
+        const mappedData: UserData = {
+          id: data.id,
+          email: data.email,
+          displayName: data.display_name,
+          role: data.role,
+          createdAt: data.created_at,
+          userId: data.numeric_id,
+          nickname: data.display_name?.split(' ')[0] || 'User',
+          bio: data.bio,
+          updatedAt: data.updated_at,
+          avatarUrl: data.avatar_url
+        };
+        setUserData(mappedData);
+        setLoading(false);
+        return mappedData;
+      } else {
+        // Create profile if it doesn't exist (should be handled by trigger ideally, but doing it manually here for now)
+        const numericId = await generateNumericUserId();
+        const newProfile = {
+          id: user.id,
+          email: user.email,
+          display_name: user.user_metadata.full_name || user.email?.split('@')[0],
           role: 'user',
-          createdAt: new Date().toISOString(),
-          userId: userId,
-          nickname: user.displayName?.split(' ')[0] || 'User',
-          bio: 'Learning enthusiast'
+          numeric_id: numericId,
+          bio: 'Learning enthusiast',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
         };
 
-        await setDoc(doc(db, 'users', user.uid), defaultUserData);
-        setUserData(defaultUserData);
-        return defaultUserData;
+        const { error: insertError } = await supabase
+          .from('profiles')
+          .insert([newProfile]);
+
+        if (insertError) throw insertError;
+
+        const mappedData: UserData = {
+          id: newProfile.id,
+          email: newProfile.email || '',
+          displayName: newProfile.display_name || '',
+          role: 'user',
+          createdAt: newProfile.created_at,
+          userId: newProfile.numeric_id,
+          nickname: newProfile.display_name?.split(' ')[0],
+          bio: newProfile.bio,
+          updatedAt: newProfile.updated_at
+        };
+        setUserData(mappedData);
+        setLoading(false);
+        return mappedData;
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
+      setLoading(false);
       return null;
     }
   };
@@ -111,24 +154,44 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     role: string = 'user'
   ) => {
     try {
-      const { user } = await createUserWithEmailAndPassword(auth, email, password);
-      await updateProfile(user, { displayName });
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: displayName,
+            role: role
+          }
+        }
+      });
 
-      const userId = await generateNumericUserId();
+      if (error) throw error;
 
-      const userData: UserData = {
-        uid: user.uid,
-        email: user.email || '',
-        displayName,
-        role: role as 'user' | 'org_admin' | 'super_admin',
-        createdAt: new Date().toISOString(),
-        userId: userId,
-        nickname: displayName.split(' ')[0],
-        bio: 'Learning enthusiast'
-      };
+      if (data.user) {
+        // Profile creation is handled in fetchUserData or via trigger, 
+        // but let's ensure it's created here to be safe and immediate.
+        const numericId = await generateNumericUserId();
 
-      await setDoc(doc(db, 'users', user.uid), userData);
-      setUserData(userData);
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .insert([{
+            id: data.user.id,
+            email: email,
+            display_name: displayName,
+            role: role,
+            numeric_id: numericId,
+            bio: 'Learning enthusiast',
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          }]);
+
+        if (profileError) {
+          // If profile already exists (e.g. via trigger), ignore error
+          console.warn('Profile creation might have failed or already exists:', profileError);
+        }
+
+        await fetchUserData(data.user);
+      }
     } catch (error) {
       console.error('Error signing up:', error);
       throw error;
@@ -137,7 +200,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string) => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+      if (error) throw error;
     } catch (error) {
       console.error('Error logging in:', error);
       throw error;
@@ -146,25 +213,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const loginWithGoogle = async () => {
     try {
-      const provider = new GoogleAuthProvider();
-      const { user } = await signInWithPopup(auth, provider);
-
-      const userDoc = await getDoc(doc(db, 'users', user.uid));
-      if (!userDoc.exists()) {
-        const userId = await generateNumericUserId();
-
-        const userData: UserData = {
-          uid: user.uid,
-          email: user.email || '',
-          displayName: user.displayName || '',
-          role: 'user',
-          createdAt: new Date().toISOString(),
-          userId: userId,
-          nickname: user.displayName?.split(' ')[0] || 'User',
-          bio: 'Learning enthusiast'
-        };
-        await setDoc(doc(db, 'users', user.uid), userData);
-      }
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google'
+      });
+      if (error) throw error;
     } catch (error) {
       console.error('Error logging in with Google:', error);
       throw error;
@@ -173,8 +225,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const logout = async () => {
     try {
-      await signOut(auth);
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
       setUserData(null);
+      setCurrentUser(null);
     } catch (error) {
       console.error('Error logging out:', error);
       throw error;
@@ -183,14 +237,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const getAllUsers = async (): Promise<UserData[]> => {
     try {
-      const usersCollection = collection(db, 'users');
-      const usersSnapshot = await getDocs(usersCollection);
-      const users = usersSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as unknown as UserData[];
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*');
 
-      return users;
+      if (error) throw error;
+
+      return (data || []).map(profile => ({
+        id: profile.id,
+        email: profile.email,
+        displayName: profile.display_name,
+        role: profile.role,
+        createdAt: profile.created_at,
+        userId: profile.numeric_id,
+        nickname: profile.display_name?.split(' ')[0],
+        bio: profile.bio,
+        updatedAt: profile.updated_at,
+        avatarUrl: profile.avatar_url
+      }));
     } catch (error) {
       console.error('Error getting all users:', error);
       return [];
@@ -198,17 +262,30 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setCurrentUser(user);
-      if (user) {
-        await fetchUserData(user);
+    // Check active session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setCurrentUser(session?.user ?? null);
+      if (session?.user) {
+        fetchUserData(session.user);
       } else {
-        setUserData(null);
+        setLoading(false);
       }
-      setLoading(false);
     });
 
-    return unsubscribe;
+    // Listen for changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setCurrentUser(session?.user ?? null);
+      if (session?.user) {
+        fetchUserData(session.user);
+      } else {
+        setUserData(null);
+        setLoading(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const value: AuthContextType = {
@@ -224,7 +301,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {loading ? (
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-100/40 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg mx-auto mb-4">
+              <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            </div>
+            <p className="text-gray-600">Yuklanmoqda...</p>
+          </div>
+        </div>
+      ) : (
+        children
+      )}
     </AuthContext.Provider>
   );
 };

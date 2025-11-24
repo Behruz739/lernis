@@ -129,12 +129,12 @@ const Home: React.FC = () => {
                     const Icon = stat.icon;
 
                     return (
-                        <div key={index} className="group relative overflow-hidden rounded-2xl bg-white/70 backdrop-blur-xl border border-white/40 p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                            <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-white/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div key={index} className="group relative overflow-hidden rounded-2xl bg-white/70 backdrop-blur-xl border border-white/40 p-6 shadow-sm hover:shadow-md transition-shadow">
+                            <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-white/50 opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
                             <div className="relative z-10">
                                 <div className="flex items-center justify-between mb-4">
-                                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center text-white shadow-md group-hover:scale-110 transition-transform duration-300`}>
+                                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${stat.gradient} flex items-center justify-center text-white shadow-md`}>
                                         <Icon className="h-6 w-6" />
                                     </div>
                                     <span className="text-sm font-bold text-green-600">{stat.change}</span>
@@ -158,10 +158,10 @@ const Home: React.FC = () => {
                             <button
                                 key={index}
                                 className={`
-                                    relative overflow-hidden flex items-center gap-3 p-4 rounded-xl border-2 transition-all duration-300
+                                    relative overflow-hidden flex items-center gap-3 p-4 rounded-xl border-2 transition-all
                                     ${action.soon
                                         ? 'border-gray-200 bg-gray-50 cursor-not-allowed opacity-50'
-                                        : 'border-gray-200 hover:border-blue-400 hover:bg-blue-50 hover:shadow-md hover:-translate-y-1'
+                                        : 'border-gray-200 hover:border-blue-400 hover:bg-blue-50'
                                     }
                                 `}
                                 disabled={action.soon}

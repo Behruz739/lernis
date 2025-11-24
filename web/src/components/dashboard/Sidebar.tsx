@@ -72,7 +72,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                 {/* Header */}
                 <div className="h-16 flex items-center justify-between px-6 border-b border-white/40">
                     <Link to="/" className="flex items-center gap-2 group">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-lg">
                             <GraduationCap className="h-6 w-6 text-white" />
                         </div>
                         <span className="text-xl font-black text-gray-900 tracking-tight">Lernis</span>
@@ -114,10 +114,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                                 to={item.path}
                                 onClick={onClose}
                                 className={`
-                                    flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300
+                                    flex items-center gap-3 px-4 py-3 rounded-xl transition-all
                                     ${active
-                                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white font-black shadow-lg shadow-blue-500/30 scale-105'
-                                        : 'text-gray-700 hover:bg-gray-50 hover:scale-105 font-semibold'
+                                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white font-black shadow-lg shadow-blue-500/30'
+                                        : 'text-gray-700 hover:bg-gray-50 font-semibold'
                                     }
                                     ${item.soon ? 'opacity-50 cursor-not-allowed' : ''}
                                 `}
@@ -144,7 +144,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                 <div className="p-4 border-t border-white/40">
                     <button
                         onClick={handleLogout}
-                        className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl transition-all duration-300 font-bold hover:scale-105"
+                        className="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl transition-all font-bold"
                     >
                         <LogOut className="h-5 w-5" />
                         <span>Chiqish</span>

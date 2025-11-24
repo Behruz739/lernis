@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, FileText, Loader2 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { certificatesService } from '../../services/supabaseService';

@@ -249,7 +249,7 @@ const Profile: React.FC = () => {
                         <div className="absolute left-7 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 to-cyan-500"></div>
 
                         <div className="space-y-8">
-                            {experiences.map((exp, index) => (
+                            {experiences.map((exp) => (
                                 <div key={exp.id} className="relative pl-16 group">
                                     {/* Timeline Dot */}
                                     <div className="absolute left-0 top-0 w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">

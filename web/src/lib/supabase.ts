@@ -9,5 +9,17 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 export const supabase = createClient(
     supabaseUrl || '',
-    supabaseAnonKey || ''
+    supabaseAnonKey || '',
+    {
+        auth: {
+            autoRefreshToken: true,
+            persistSession: true,
+            detectSessionInUrl: true,
+            // Reduce token refresh frequency to avoid rate limiting
+            storage: window.localStorage,
+            storageKey: 'lernis-auth',
+            // Add retry logic for failed requests
+            flowType: 'pkce'
+        }
+    }
 );

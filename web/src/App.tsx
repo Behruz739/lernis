@@ -18,6 +18,12 @@ const DashboardResearch = lazy(() => import("./pages/dashboard/Research"));
 const DashboardCertificates = lazy(() => import("./pages/dashboard/Certificates"));
 const DashboardCertificateDetail = lazy(() => import("./pages/dashboard/CertificateDetail"));
 
+// Admin components
+const AdminLayout = lazy(() => import("./components/admin/AdminLayout"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const AdminUsers = lazy(() => import("./pages/admin/UsersManagement"));
+const AdminCertificates = lazy(() => import("./pages/admin/CertificatesManagement"));
+
 export default function App() {
   return (
     <AuthProvider>
@@ -51,6 +57,17 @@ export default function App() {
               <Route path="research" element={<DashboardResearch />} />
               <Route path="certificates" element={<DashboardCertificates />} />
               <Route path="certificates/:id" element={<DashboardCertificateDetail />} />
+            </Route>
+
+            {/* Admin routes */}
+            <Route path="/admin" element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }>
+              <Route index element={<AdminDashboard />} />
+              <Route path="users" element={<AdminUsers />} />
+              <Route path="certificates" element={<AdminCertificates />} />
             </Route>
           </Routes>
         </Suspense>

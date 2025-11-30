@@ -168,34 +168,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (error) throw error;
 
       if (data.user) {
-        // Check if profile already exists (might be created by trigger)
-        const { data: existingProfile } = await supabase
+        // Profile creation is handled in fetchUserData or via trigger, 
+        // but let's ensure it's created here to be safe and immediate.
+        const numericId = await generateNumericUserId();
+
+        const { error: profileError } = await supabase
           .from('profiles')
-          .select('id')
-          .eq('id', data.user.id)
-          .maybeSingle();
+          .insert([{
+            id: data.user.id,
+            email: email,
+            display_name: displayName,
+            role: role,
+            numeric_id: numericId,
+            bio: 'Learning enthusiast',
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          }]);
 
-        // Only create profile if it doesn't exist
-        if (!existingProfile) {
-          const numericId = await generateNumericUserId();
-
-          const { error: profileError } = await supabase
-            .from('profiles')
-            .insert([{
-              id: data.user.id,
-              email: email,
-              display_name: displayName,
-              role: role,
-              numeric_id: numericId,
-              bio: 'Learning enthusiast',
-              created_at: new Date().toISOString(),
-              updated_at: new Date().toISOString()
-            }]);
-
-          if (profileError) {
-            console.error('Profile creation error:', profileError);
-            // Don't throw - profile might have been created by trigger
-          }
+        if (profileError) {
+          // If profile already exists (e.g. via trigger), ignore error
+          console.warn('Profile creation might have failed or already exists:', profileError);
         }
 
         await fetchUserData(data.user);

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Menu, Bell, Search, X } from 'lucide-react';
+import { Menu, Bell, Search, X, Settings, LogOut, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
 interface HeaderProps {
@@ -8,23 +9,40 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ onMenuClick, title = 'Boshqaruv paneli' }) => {
-    const { userData } = useAuth();
+    const { userData, logout } = useAuth();
+    const navigate = useNavigate();
     const [searchOpen, setSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const [notificationsOpen, setNotificationsOpen] = useState(false);
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+    const userMenuRef = React.useRef<HTMLDivElement>(null);
 
-    const notifications = [
-        { id: 1, title: 'Yangi sertifikat', message: 'Web Development sertifikatini qo\'shdingiz', time: '2 soat oldin', unread: true },
-        { id: 2, title: 'Yutuq qo\'lga kiritildi', message: 'Birinchi Sertifikat yutuqini oldingiz', time: '3 soat oldin', unread: true },
-        { id: 3, title: 'Profil yangilandi', message: 'Profilingiz muvaffaqiyatli yangilandi', time: '1 kun oldin', unread: false },
-    ];
+    // Close dropdown when clicking outside
+    React.useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+                setIsUserMenuOpen(false);
+            }
+        };
 
-    const unreadCount = notifications.filter(n => n.unread).length;
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         console.log('Qidiruv:', searchQuery);
         // TODO: Implement search functionality
+    };
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+            navigate('/login');
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
     };
 
     return (
@@ -64,64 +82,65 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick, title = 'Boshqaruv paneli'
                     <Search className="h-5 w-5 text-gray-600" />
                 </button>
 
-                {/* Notifications */}
-                <div className="relative">
-                    <button
-                        onClick={() => setNotificationsOpen(!notificationsOpen)}
-                        className="relative p-2 hover:bg-gray-100 rounded-xl transition-all duration-300 hover:scale-110"
-                    >
+                {/* Notifications (Disabled) */}
+                {/* <div className="relative">
+                    <button className="relative p-2 hover:bg-gray-100 rounded-xl transition-all duration-300 hover:scale-110">
                         <Bell className="h-5 w-5 text-gray-600" />
-                        {unreadCount > 0 && (
-                            <span className="absolute top-1 right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold animate-pulse">
-                                {unreadCount}
-                            </span>
-                        )}
+                    </button>
+                </div> */}
+
+                {/* User Menu */}
+                <div className="relative" ref={userMenuRef}>
+                    <button
+                        onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                        className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center shadow-md hover:scale-110 transition-transform duration-300 cursor-pointer outline-none focus:ring-2 focus:ring-blue-500/20"
+                    >
+                        <span className="text-white text-sm font-black">
+                            {userData?.displayName?.charAt(0).toUpperCase() || 'U'}
+                        </span>
                     </button>
 
-                    {/* Notifications Dropdown */}
-                    {notificationsOpen && (
-                        <>
-                            <div
-                                className="fixed inset-0 z-40"
-                                onClick={() => setNotificationsOpen(false)}
-                            />
-                            <div className="absolute right-0 mt-2 w-80 bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/40 overflow-hidden z-50">
-                                <div className="p-4 border-b border-gray-200">
-                                    <h3 className="text-lg font-black text-gray-900">Bildirishnomalar</h3>
-                                </div>
-                                <div className="max-h-96 overflow-y-auto">
-                                    {notifications.map((notification) => (
-                                        <div
-                                            key={notification.id}
-                                            className={`p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer ${notification.unread ? 'bg-blue-50/50' : ''
-                                                }`}
-                                        >
-                                            <div className="flex items-start gap-3">
-                                                <div className={`w-2 h-2 rounded-full mt-2 ${notification.unread ? 'bg-blue-500' : 'bg-gray-300'}`} />
-                                                <div className="flex-1">
-                                                    <p className="text-sm font-bold text-gray-900">{notification.title}</p>
-                                                    <p className="text-sm text-gray-600 mt-1">{notification.message}</p>
-                                                    <p className="text-xs text-gray-500 mt-1 font-semibold">{notification.time}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className="p-3 border-t border-gray-200 bg-gray-50">
-                                    <button className="w-full text-center text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors">
-                                        Barchasini ko'rish
-                                    </button>
-                                </div>
+                    {/* Dropdown Menu */}
+                    {isUserMenuOpen && (
+                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                            <div className="px-4 py-2 border-b border-gray-100 mb-2">
+                                <p className="text-sm font-bold text-gray-900">{userData?.displayName || 'Foydalanuvchi'}</p>
+                                <p className="text-xs text-gray-500 truncate">{userData?.email}</p>
                             </div>
-                        </>
-                    )}
-                </div>
 
-                {/* User Avatar */}
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center shadow-md hover:scale-110 transition-transform duration-300 cursor-pointer">
-                    <span className="text-white text-sm font-black">
-                        {userData?.displayName?.charAt(0).toUpperCase() || 'U'}
-                    </span>
+                            <button
+                                onClick={() => {
+                                    navigate('/dashboard/profile');
+                                    setIsUserMenuOpen(false);
+                                }}
+                                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                            >
+                                <User className="h-4 w-4" />
+                                Profil
+                            </button>
+
+                            <button
+                                onClick={() => {
+                                    navigate('/dashboard/settings');
+                                    setIsUserMenuOpen(false);
+                                }}
+                                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                            >
+                                <Settings className="h-4 w-4" />
+                                Sozlamalar
+                            </button>
+
+                            <div className="h-px bg-gray-100 my-1"></div>
+
+                            <button
+                                onClick={handleLogout}
+                                className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+                            >
+                                <LogOut className="h-4 w-4" />
+                                Chiqish
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
 

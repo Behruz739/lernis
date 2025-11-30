@@ -11,7 +11,8 @@ import {
     PenTool,
     LogOut,
     X,
-    GraduationCap
+    GraduationCap,
+    Shield
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -36,8 +37,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     const navItems = [
         { path: '/dashboard', icon: Home, label: 'Bosh sahifa', exact: true },
         { path: '/dashboard/profile', icon: User, label: 'Profil' },
-        { path: '/dashboard/certificates', icon: FileText, label: 'Sertifikatlar', badge: '3' },
-        { path: '/dashboard/research', icon: BookOpen, label: 'Tadqiqotlar' },
+        { path: '/dashboard/certificates', icon: FileText, label: 'Sertifikatlar' },
+        { path: '/dashboard/research', icon: BookOpen, label: 'Tadqiqotlar', soon: true },
         { path: '/dashboard/blog', icon: PenTool, label: 'Blog', soon: true },
         { path: '/dashboard/community', icon: Users, label: 'Jamiyat', soon: true },
         { path: '/dashboard/settings', icon: Settings, label: 'Sozlamalar' },
@@ -125,11 +126,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                             >
                                 <Icon className={`h-5 w-5 ${active ? 'text-white' : 'text-gray-500'}`} />
                                 <span className="flex-1">{item.label}</span>
-                                {item.badge && (
-                                    <span className={`px-2 py-0.5 text-xs font-bold rounded-full ${active ? 'bg-white/20 text-white' : 'bg-blue-100 text-blue-600'}`}>
-                                        {item.badge}
-                                    </span>
-                                )}
+
                                 {item.soon && (
                                     <span className="px-2 py-0.5 text-xs font-semibold bg-gray-100 text-gray-500 rounded-full">
                                         Tez kunda
@@ -139,6 +136,19 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                         );
                     })}
                 </nav>
+
+                {/* Admin Panel Link */}
+                {(userData?.role === 'super_admin' || userData?.role === 'org_admin') && (
+                    <div className="px-4 py-2">
+                        <Link
+                            to="/admin/dashboard"
+                            className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-xl font-bold shadow-lg hover:shadow-xl transition-all"
+                        >
+                            <Shield className="h-5 w-5" />
+                            <span>Admin Panel</span>
+                        </Link>
+                    </div>
+                )}
 
                 {/* Logout Button */}
                 <div className="p-4 border-t border-white/40">

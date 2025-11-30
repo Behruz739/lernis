@@ -18,6 +18,15 @@ const DashboardResearch = lazy(() => import("./pages/dashboard/Research"));
 const DashboardCertificates = lazy(() => import("./pages/dashboard/Certificates"));
 const DashboardCertificateDetail = lazy(() => import("./pages/dashboard/CertificateDetail"));
 
+// Admin components
+const AdminLayout = lazy(() => import("./components/admin/AdminLayout"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const Statistics = lazy(() => import("./pages/admin/Statistics"));
+const UsersManagement = lazy(() => import("./pages/admin/UsersManagement"));
+const CertificatesManagement = lazy(() => import("./pages/admin/CertificatesManagement"));
+const AdminLogs = lazy(() => import("./pages/admin/AdminLogs"));
+const SystemSettings = lazy(() => import("./pages/admin/SystemSettings"));
+
 export default function App() {
   return (
     <AuthProvider>
@@ -51,6 +60,21 @@ export default function App() {
               <Route path="research" element={<DashboardResearch />} />
               <Route path="certificates" element={<DashboardCertificates />} />
               <Route path="certificates/:id" element={<DashboardCertificateDetail />} />
+            </Route>
+
+            {/* Admin routes */}
+            <Route path="/admin" element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }>
+              <Route index element={<AdminDashboard />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="statistics" element={<Statistics />} />
+              <Route path="users" element={<UsersManagement />} />
+              <Route path="certificates" element={<CertificatesManagement />} />
+              <Route path="logs" element={<AdminLogs />} />
+              <Route path="settings" element={<SystemSettings />} />
             </Route>
           </Routes>
         </Suspense>
